@@ -143,6 +143,10 @@ public class BridgeSetup : MonoBehaviour {
 
 		//LevelStage = eLevelStage.SetupStage;
 	}
+	public bool IsRoadBeam = false;
+	public bool IsBeamCount = false;
+
+	BridgeBuilderGUI.beamType beamType;
 
 	void Update () {
 		if (eLevelStage.SetupStage == levelStage) {
@@ -152,7 +156,19 @@ public class BridgeSetup : MonoBehaviour {
 					DestroyBeam (objClicked);
 				} else if (null != objClicked) {
 					if (bridgeCost+100 <= bridgeBudget) {
-						CreateBeam (objClicked);
+						IsRoadBeam = _levelData.roadCounter > currentRoadsCount;
+						IsBeamCount = _levelData.beamsCounter > currentBeamsCount;
+						beamType = Camera.main.GetComponent<BridgeBuilderGUI> ()._beamType;
+
+						if (IsRoadBeam && beamType == BridgeBuilderGUI.beamType.road) {
+
+							CreateBeam (objClicked);
+						} else if (IsBeamCount && beamType == BridgeBuilderGUI.beamType.beam) {
+							CreateBeam (objClicked);
+						}
+
+						else if(beamType == BridgeBuilderGUI.beamType.rope)
+							CreateBeam (objClicked);
 					} else {
 						Camera.main.GetComponent<BridgeBuilderGUI>().DisplayOverBudgetError();
 					}

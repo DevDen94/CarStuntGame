@@ -24,7 +24,20 @@ public class BridgeBuilderGUI : MonoBehaviour {
 
 
 	public int currentLevel = 1;
-	void Start ()
+
+    public enum beamType
+    {
+        road = 0, beam = 1, rope = 2
+    };
+
+    public beamType _beamType;
+
+    public void changeBeamState(int index)
+    {
+        _beamType = (beamType)index;
+    }
+
+    void Start ()
 	{
 		GameObject currentLevelPrefab = Resources.Load<GameObject> ("Levels/level" + currentLevel);
 		GameObject Temp = Instantiate (currentLevelPrefab);
