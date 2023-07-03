@@ -17,12 +17,22 @@ public class TitleScreenGUI : MonoBehaviour {
 	
 	void Start() {
 		if (!levelsLoaded) {
-			levels = new Level[5];
-			levels[0] = LoadLevel ("level1");
-			levels[1] = LoadLevel ("level2");
-			levels[2] = LoadLevel ("level3");
-			levels[3] = LoadLevel ("level4");
-			levels[4] = LoadLevel ("level5");
+			levels = new Level[15];
+			levels[0] = LoadLevel ("Level1");
+			levels[1] = LoadLevel ("Level2");
+			levels[2] = LoadLevel ("Level3");
+			levels[3] = LoadLevel ("Level4");
+			levels[4] = LoadLevel ("Level5");
+			levels[5] = LoadLevel ("Level6");
+			levels[6] = LoadLevel ("Level7");
+			levels[7] = LoadLevel ("Level8");
+			levels[8] = LoadLevel ("Level9");
+			levels[9] = LoadLevel ("Level10");
+			levels[10] = LoadLevel ("Level11");
+			levels[11] = LoadLevel ("Level12");
+			levels[12] = LoadLevel ("Level13");
+			levels[13] = LoadLevel ("Level14");
+			levels[14] = LoadLevel ("Level15");
 			
 			levelsLoaded = true;
 		}
@@ -30,6 +40,7 @@ public class TitleScreenGUI : MonoBehaviour {
 	}
 	
 	private Level LoadLevel(string fileName) {
+
 		TextAsset tx = Resources.Load (fileName) as TextAsset;
 		var N = JSON.Parse(tx.text);
 		

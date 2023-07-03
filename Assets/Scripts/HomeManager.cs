@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public class HomeManager : MonoBehaviour
+public class Homemanager : MonoBehaviour
 {
     public GameObject SettingPanel, ExitPanel;
     public GameObject mainScenePanel, ModeSelectionPanel, StuntModePanel, FullBridgePanel;
@@ -43,4 +43,11 @@ public class HomeManager : MonoBehaviour
         mainScenePanel.SetActive(true);
         ModeSelectionPanel.SetActive(false);
     }
+
+
+    public static string _category;
+    public void ModeSelect(string category)
+	{
+        _category = category;
+	}
 }

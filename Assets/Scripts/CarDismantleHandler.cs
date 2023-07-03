@@ -8,7 +8,7 @@ public class CarDismantleHandler : MonoBehaviour
 	void OnCollisionEnter (Collision collision)
 	{
 		Debug.Log (collision.gameObject.tag);
-		if (collision.gameObject.tag == "death") {
+		if (collision.gameObject.tag == "Death") {
 			_dismantler.enabled = true;
 		}
 	}

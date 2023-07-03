@@ -3,7 +3,7 @@ using System.Collections;
 
 public class TrainController : MonoBehaviour {
 
-	private Vector3 trainDirection = new Vector3(12.0f, 0.0f, 0.0f);
+	private Vector3 trainDirection = new Vector3(6.0f, 0.0f, 0.0f);
 
 	private ResetPhysics[] trainWagon;
 
@@ -33,6 +33,7 @@ public class TrainController : MonoBehaviour {
 		//	wheel3.motorTorque = 10;
 		//	wheel4.motorTorque = 10;
 			trainHead.GetComponent<Rigidbody>().AddForce(trainDirection, ForceMode.Acceleration);
+			Debug.Log("XXXXXXXXXXXXXXXXXXXXXX" + ForceMode.Acceleration.ToString());
 		}
 	}
 
@@ -45,12 +46,12 @@ public class TrainController : MonoBehaviour {
 	//	transform.GetChild (0).GetComponent<CarDriver> ().SetInputs (1, 0);
 	}
 
-	public void StopTrain ()
-	{
-		trainWorking = false;
-	//	transform.GetChild (0).GetComponent<CarDriver> ().SetInputs (0, 0);
+	////////public void StopTrain ()
+	////////{
+	////////	trainWorking = false;
+	//////////	transform.GetChild (0).GetComponent<CarDriver> ().SetInputs (0, 0);
 
-	}
+	////////}
 
 	public void ResetTrain() {
 		trainWorking = false;

@@ -83,11 +83,15 @@ public class BridgeSetup : MonoBehaviour {
 	private float trainGoal;
 	
 	public bool finishedLevel;
+	public List<BridgeBeam> allCreatedBeams;
+	//private BridgeBeam lastCreatedBeam;
 
 
 
 
 	void Start () {
+
+		allCreatedBeams = new List<BridgeBeam>();
 		transform.position = Vector3.zero;
 		_levelData = transform.parent.GetComponent<NewLevelData> ();
 		finishedLevel = false;
@@ -148,11 +152,12 @@ public class BridgeSetup : MonoBehaviour {
 
 	BridgeBuilderGUI.beamType beamType;
 
+	public bool DrawBeam = true;
 	void Update () {
 		if (eLevelStage.SetupStage == levelStage) {
 			if (Input.GetMouseButtonDown (0) && !BridgeBuilderGUI.ClickedOnGUI ()) {
 				GameObject objClicked = GetSnapPointClicked ();
-				if (Input.GetKey (KeyCode.LeftControl) || Input.GetKey (KeyCode.RightControl)) {
+				if (!DrawBeam) {
 					DestroyBeam (objClicked);
 				} else if (null != objClicked) {
 					if (bridgeCost+100 <= bridgeBudget) {
@@ -204,15 +209,16 @@ public class BridgeSetup : MonoBehaviour {
 		int api = FindAnchorPointIndex(Mathf.FloorToInt(pointEndSnapPoint.x), Mathf.FloorToInt(pointEndSnapPoint.y));
 		SnapPoint sp = null;
 		sp = GetNewSnapPoint (pointEnd);
-		Debug.LogError (api);
+//		Debug.LogError (api);
 		
 		if (sp!=null) {
 
 			//sp = GetSnapPoint(anchorPointLocations[api]._1, anchorPointLocations[api]._2);
-		Debug.LogError(sp);
+		//Debug.LogError(sp);
 		} else {
+			//Debug.LogError (pointEnd, pointEnd.gameObject);
 			sp = GetSnapPointFromBridgeBeams(pointEnd);
-			
+			Debug.LogError(sp);
 			if (sp == null) {
 				return null;
 			}
@@ -245,10 +251,10 @@ public class BridgeSetup : MonoBehaviour {
 		}
 	}
 
-	public void stopTrain ()
-	{
-		trainController.StopTrain ();
-	}
+	//////////public void stopTrain ()
+	//////////{
+	//////////	trainController.StopTrain ();
+	//////////}
 
 	public bool IsTrainStarted {
 		get { return trainController.IsTrainStarted; }
@@ -284,13 +290,19 @@ public class BridgeSetup : MonoBehaviour {
 	//private
 
 	private BridgeBeam CreateBeam(GameObject snapPoint) {
+
+
 		GameObject go = Instantiate(BridgeBeamPrefab, snapPoint.transform.position, new Quaternion()) as GameObject;
+		Debug.Log(":::::::::::::1234");
 		BridgeBeam bb = go.GetComponent<BridgeBeam>();
 		bb.bridgeSetupParent = this;
 		Vector3 newPos = new Vector3(snapPoint.transform.position.x, snapPoint.transform.position.y, gridOrigin.z);
 		bb.StartLayout(newPos, snapPoint, this);
 		bb.transform.parent = bridgeBeams.transform;
-		
+        if (allCreatedBeams.Contains(bb) is false)
+        {
+			allCreatedBeams.Add(bb);
+        }
 		return bb;
 	}
 
@@ -303,6 +315,11 @@ public class BridgeSetup : MonoBehaviour {
 			{
 				bb.bridgeSetupParent.currentRoadsCount--;
 			}
+			else
+            {
+				bb.bridgeSetupParent.currentBeamsCount--;
+            }
+			
 			if (bb != null)
 			{
 				Destroy(bb.gameObject);
@@ -399,14 +416,22 @@ public class BridgeSetup : MonoBehaviour {
 		return null;
 	}
 
+	public SnapPoint [] bbSnapPoints;
 	private SnapPoint GetSnapPointFromBridgeBeams(GameObject point) {
-		SnapPoint[] bbSnapPoints = GetBridgeBeamSnapPoints();
+		 bbSnapPoints = GetBridgeBeamSnapPoints();
 		Vector3 pos = point.transform.position;
 
 		foreach (SnapPoint sp in bbSnapPoints) {
-			if (sp.gameObject != point && (sp.gameObject.transform.position - pos).magnitude < Mathf.Epsilon) {
+//			Debug.LogError (Mathf.Epsilon);
+//			Debug.LogError((sp.gameObject.transform.position - pos).magnitude);
+			if (sp.gameObject != point&& (sp.gameObject.transform.position - pos).magnitude <0.1f)
+				{
 				return sp;
 			}
+			Debug.LogError (sp.gameObject.name, sp.gameObject);
+			Debug.LogError(point,point.gameObject);
+			Debug.LogError(((sp.gameObject.transform.position - pos).magnitude < Mathf.Epsilon)+"_"+ (sp.gameObject != point && (sp.gameObject.transform.position - pos).magnitude < Mathf.Epsilon));
+
 		}
 		return null;
 	}

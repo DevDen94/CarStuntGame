@@ -47,6 +47,8 @@ public class BridgeBeam : MonoBehaviour {
 	private static Plane beamPlane = new Plane(Vector3.forward, new Vector3(0.0f, 0.0f, 0.0f));
 	private const float MAX_BEAM_DISTANCE = 4.0f;
 
+
+
 	public GameObject PointStart {
 		get { return pointStart; }
 	}
@@ -63,6 +65,7 @@ public class BridgeBeam : MonoBehaviour {
 
     private void Start()
     {
+	
 		bridgeBuilderGUI = Camera.main.GetComponent<BridgeBuilderGUI>();
     }
     public void StartLayout(Vector3 clickPosition, GameObject hingePoint, BridgeSetup bs) {
@@ -102,7 +105,7 @@ public class BridgeBeam : MonoBehaviour {
 				DestroyIfSamePosition();
 
 				anchorEnd = bridgeSetupParent.GetOtherEndPoint(pointEnd);
-
+				Debug.Log (anchorEnd);
 			}
 
 			//Position beam according to the layout
@@ -137,7 +140,7 @@ public class BridgeBeam : MonoBehaviour {
 				{
 					PositionBeam ();
 					//rope.SetActive(true);
-					Debug.LogError (rope.name);
+//					Debug.LogError (rope.name);
 					//for (int i = 0; i < 2; i++)
 					//{
 					////	rope.transform.GetChild(i).GetComponent<ResetPhysics>().UpdatePosition();
@@ -241,8 +244,9 @@ public class BridgeBeam : MonoBehaviour {
             //startJoint.connectedAnchor = new Vector3(0.0f, 0.0f, 0.0f);
             startJoint.connectedBody = anchorStart.GetComponent<Rigidbody>();
             startJoint.axis = Vector3.forward;
-            	startJoint.breakForce = terrainAnchor? 1000.0f: 500.0f;
-          ///////  startJoint.breakForce = bridgeSetupParent._levelData.breakForce;
+			//startJoint.breakForce = terrainAnchor? 1000.0f: 500.0f;
+		//	startJoint.breakForce =  bridgeSetupParent._levelData.breakForce;
+			startJoint.breakForce = terrainAnchor? bridgeSetupParent._levelData.breakForce: bridgeSetupParent._levelData.breakForce/2f;
         }
 
 		if (anchorEnd) {
@@ -253,8 +257,10 @@ public class BridgeBeam : MonoBehaviour {
             //endJoint.connectedAnchor = new Vector3(1.0f, 0.0f, 0.0f);
             endJoint.connectedBody = anchorEnd.GetComponent<Rigidbody>();
             endJoint.axis = Vector3.forward;
-           	endJoint.breakForce = terrainAnchor? 1000.0f: 500.0f;
-           /////////// endJoint.breakForce = bridgeSetupParent._levelData.breakForce;
+			//	endJoint.breakForce = terrainAnchor? 1000.0f: 500.0f;
+		//	endJoint.breakForce = bridgeSetupParent._levelData.breakForce;
+            float breakForce = bridgeSetupParent._levelData.breakForce * bridgeSetupParent._levelData.EndbreakForceMultiplier;
+            endJoint.breakForce = terrainAnchor ? breakForce : breakForce / 2f;
         }
 
 
@@ -276,7 +282,7 @@ public class BridgeBeam : MonoBehaviour {
 		}
 		else if (beamType == BridgeBuilderGUI.beamType.rope)
 		{
-			Debug.LogError ("yoooo");
+//			Debug.LogError ("yoooo");
 			//for (int i = 0; i < 2; i++)
 			//{
 			//	GameObject rope = this.rope.transform.GetChild(i).gameObject;

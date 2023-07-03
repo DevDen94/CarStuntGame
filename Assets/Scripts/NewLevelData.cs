@@ -12,4 +12,5 @@ public class NewLevelData : MonoBehaviour
 	public int roadCounter = 0;
 	public int beamsCounter = 0;
 	public float breakForce = 100;
+	public float EndbreakForceMultiplier = 10;
 }
