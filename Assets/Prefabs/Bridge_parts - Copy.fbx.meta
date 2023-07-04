@@ -5,10 +5,25 @@ ModelImporter:
   internalIDToNameTable: []
   externalObjects:
   - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Joint
+    second: {fileID: 2100000, guid: 136675e010b31a141869d9aa31af5cbf, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: MAT_MAIN
+    second: {fileID: 2100000, guid: 8559a8df03e8c1c42b2939ee504821fc, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Metal
+    second: {fileID: 2100000, guid: 16e226ca0d8483742ab3def94ac4458f, type: 2}
+  - first:
       type: UnityEngine:Texture2D
       assembly: UnityEngine.CoreModule
       name: Main
-    second: {fileID: 2800000, guid: b2bb7eca80e2c4549af53657b77fd276, type: 3}
+    second: {fileID: 2800000, guid: a108b659d283ccf4eb6e3a841720318c, type: 3}
   materials:
     materialImportMode: 2
     materialName: 0

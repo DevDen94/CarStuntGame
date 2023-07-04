@@ -3,20 +3,22 @@ using System.Collections;
 
 public class TrainController : MonoBehaviour {
 
-	private Vector3 trainDirection = new Vector3(6.0f, 0.0f, 0.0f);
+	public Vector3 trainDirection = new Vector3(8.0f, 0.0f, 0.0f);
 
 	private ResetPhysics[] trainWagon;
 
 	public GameObject trainHead;
-	private bool trainWorking = false;
-
+	public bool trainWorking = false;
+	public static TrainController instance;
 	// Use this for initialization
 	void Start () {
+
+		instance = this;
 		trainWagon = GetComponentsInChildren<ResetPhysics>();
 		trainHead = GameObject.FindGameObjectWithTag("TrainHead");
 		trainWorking = false;
 	}
-
+	
 	// Update is called once per frame
 	//	void Update () {
 	//	
