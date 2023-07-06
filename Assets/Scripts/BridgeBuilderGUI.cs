@@ -8,6 +8,9 @@ public class BridgeBuilderGUI : MonoBehaviour {
 
 	bool DrawBeams = true;
 	public BridgeSetup bridgeSetup;
+	public Text beamText;
+	public Text roadText;
+
 
 	public static bool ClickedOnGUI() {
 		Vector3 mousePos = Input.mousePosition;
@@ -43,7 +46,7 @@ public class BridgeBuilderGUI : MonoBehaviour {
 
     void Start ()
 	{
-		GameObject currentLevelPrefab = Resources.Load<GameObject> ("Levels/level" + currentLevel);
+		GameObject currentLevelPrefab = Resources.Load<GameObject> ("Levels/"+Homemanager._category+"/" + Homemanager.selectedLevel);
 		GameObject Temp = Instantiate (currentLevelPrefab);
 		bridgeSetup = Temp.GetComponentInChildren<BridgeSetup> ();
 	}
@@ -92,6 +95,7 @@ public class BridgeBuilderGUI : MonoBehaviour {
             else
             {
 				Temp.bridgeSetupParent.currentBeamsCount--;
+
 			}
 			DestroyImmediate(Temp.gameObject,true);
 

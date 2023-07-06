@@ -129,23 +129,10 @@ public class BridgeSetup : MonoBehaviour {
 		gridOrigin.z = snapPointOffset.z;
 
 		trainGoal = gridOrigin.x + dims.x;
-		
-		//for (int j = 0; j != h; j++) {
-		//	for (int i = 0; i != w; i++) {
-		//		bool foundAnchor = FindAnchorPointIndex(i, j) != -1;
-		//		Vector3 pos = FromSnapToSpace(new Vector3(i, j, gridOrigin.z));
-		//		GameObject go = Instantiate((foundAnchor? AnchorPointPrefab: SnapPointPrefab), pos, new Quaternion()) as GameObject;
-		//		go.name = foundAnchor ? "Anchor" : "Snap";
-		//		go.transform.parent = snapPoints.transform;
-		//		go.layer = 8;
-		//		go.GetComponent<SnapPoint>().position = Tuple<int, int>.Of(i, j);
-		//		go.GetComponent<SnapPoint>().isBase = foundAnchor;
-		//		go.GetComponent<SnapPoint>().isBaseTerrain = foundAnchor;
-		//		go.GetComponent<SnapPoint>().bridgeSetupParent = this;
-	//		}
-		//}
+		Camera.main.GetComponent<BridgeBuilderGUI> ().beamText.text = (_levelData.beamsCounter - currentBeamsCount).ToString ();
+		Camera.main.GetComponent<BridgeBuilderGUI> ().roadText.text = (_levelData.roadCounter - currentRoadsCount).ToString ();
 
-		//LevelStage = eLevelStage.SetupStage;
+
 	}
 	public bool IsRoadBeam = false;
 	public bool IsBeamCount = false;
@@ -163,6 +150,8 @@ public class BridgeSetup : MonoBehaviour {
 					if (bridgeCost+100 <= bridgeBudget) {
 						IsRoadBeam = _levelData.roadCounter > currentRoadsCount;
 						IsBeamCount = _levelData.beamsCounter > currentBeamsCount;
+						Camera.main.GetComponent<BridgeBuilderGUI> ().beamText.text = (_levelData.beamsCounter - currentBeamsCount-1).ToString();
+						Camera.main.GetComponent<BridgeBuilderGUI> ().roadText.text = (_levelData.roadCounter - currentRoadsCount-1).ToString ();
 						beamType = Camera.main.GetComponent<BridgeBuilderGUI> ()._beamType;
 
 						if (IsRoadBeam && beamType == BridgeBuilderGUI.beamType.road) {
@@ -381,8 +370,10 @@ public class BridgeSetup : MonoBehaviour {
 
 	private void SetBeamsToPlay() {
 		BridgeBeam[] bb = bridgeBeams.GetComponentsInChildren<BridgeBeam>();
-		
+
 		foreach (BridgeBeam b in bb) {
+			
+		Debug.LogError ((b==null) + "_______________");	
 			b.SetToPlay();
 		}
 	}

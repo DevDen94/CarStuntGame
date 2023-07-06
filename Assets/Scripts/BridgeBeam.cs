@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections.Generic;
-using Obi;
+//using Obi;
 using System;
 
 public class BridgeBeam : MonoBehaviour {
@@ -37,10 +37,10 @@ public class BridgeBeam : MonoBehaviour {
 	private FixedJoint beamStartJoint;
 	private FixedJoint beamEndJoint;
 
-	private GameObject anchorStart;
+	public GameObject anchorStart;
 	private GameObject pointStart;
 	private GameObject pointEnd;
-	private GameObject anchorEnd;
+	public GameObject anchorEnd;
 
 	private Color originalColor;
 
@@ -161,13 +161,20 @@ public class BridgeBeam : MonoBehaviour {
 
 				if (IsRoadBeam && beamType == BridgeBuilderGUI.beamType.road) {
 					bridgeSetupParent.currentRoadsCount++;
+					bridgeBuilderGUI.roadText.text = (bridgeSetupParent._levelData.roadCounter - bridgeSetupParent.currentRoadsCount ).ToString ();
 					Debug.LogError (bridgeSetupParent.currentRoadsCount);
+					addCollider ();
 				} else if (IsBeamCount && beamType == BridgeBuilderGUI.beamType.beam) {
 					bridgeSetupParent.currentBeamsCount++;
+					bridgeBuilderGUI.beamText.text = (bridgeSetupParent._levelData.beamsCounter - bridgeSetupParent.currentBeamsCount ).ToString ();
+
 					Debug.LogError (bridgeSetupParent.currentBeamsCount);
-				} //else if (IsBeamCount && beamType == BridgeBuilderGUI.beamType.rope) {
+					addCollider ();
+				}
+				else if (IsBeamCount && beamType == BridgeBuilderGUI.beamType.rope) {
 					//SetUpRope ();
-				//}
+					addCollider ();
+				}
 
 			}
 
@@ -179,7 +186,39 @@ public class BridgeBeam : MonoBehaviour {
 		ColorBeam();
 	}
 
+	void OnDestroy ()
+	{
+		if (beamType == BridgeBuilderGUI.beamType.road) {
+			bridgeSetupParent.currentRoadsCount--;
+			bridgeBuilderGUI.roadText.text = (bridgeSetupParent._levelData.roadCounter - bridgeSetupParent.currentRoadsCount).ToString ();
+			Debug.LogError (bridgeSetupParent.currentRoadsCount);
+		} else if (beamType == BridgeBuilderGUI.beamType.beam) {
+			bridgeSetupParent.currentBeamsCount--;
+			Debug.LogError (bridgeSetupParent.currentBeamsCount);
+		} //else if (IsBeamCount && beamType == BridgeBuilderGUI.beamType.rope) {
+	}
 
+	void addCollider ()
+	{
+
+		// Create collider for beam
+		MeshCollider cc = null;
+		if (beamType == BridgeBuilderGUI.beamType.road) {
+			cc = road.AddComponent<MeshCollider> ();
+			cc.sharedMesh = cc.GetComponent<MeshFilter> ().mesh;   //4.0f
+
+		} else if(beamType == BridgeBuilderGUI.beamType.beam)
+			{
+			cc = beam.AddComponent<MeshCollider> ();
+			cc.sharedMesh = cc.GetComponent<MeshFilter> ().mesh;   //4.0f
+
+		} else if(beamType == BridgeBuilderGUI.beamType.rope) {
+			cc = rope.transform.GetChild (0).GetChild (1).gameObject.AddComponent<MeshCollider> ();
+		}
+								       //	cc.radius = .25f; /////0.25f
+		cc.material = beamMaterial;
+		cc.convex = true;
+	}
 
 
 	List<GameObject> subRopes = new List<GameObject> ();
@@ -217,88 +256,68 @@ public class BridgeBeam : MonoBehaviour {
 
 
 
-	public void SetToPlay() {
+	public void SetToPlay ()
+	{
 		Vector3 beamVector = pointEnd.transform.position - pointStart.transform.position;
 
 
-		// Create collider for beam
-		MeshCollider cc = null;
-		if (IsRoadBeam) {
-			cc = road.AddComponent<MeshCollider>();
-		} else {
-			cc = beam.AddComponent<MeshCollider> ();
-
-		}
-		cc.sharedMesh = cc.GetComponent<MeshFilter>().mesh;   //4.0f
-		//	cc.radius = .25f; /////0.25f
-		cc.material = beamMaterial;
-		cc.convex = true;
 		//	cc.center.ma = -3.36f;
-		
+
 		//Create fixed joints for beam and points
-		if (anchorStart) {
-			bool terrainAnchor = anchorStart.GetComponent<SnapPoint>().isBaseTerrain;
+
+		try { Debug.LogError (anchorStart); } catch { anchorStart = null; }
+
+		if (anchorStart!=null) {
+			bool terrainAnchor = anchorStart.GetComponent<SnapPoint> ().isBaseTerrain;
 			startJoint = pointStart.AddComponent<HingeJoint> ();
-            startJoint.anchor = Vector3.zero;
-            startJoint.autoConfigureConnectedAnchor = true;
-            //startJoint.connectedAnchor = new Vector3(0.0f, 0.0f, 0.0f);
-            startJoint.connectedBody = anchorStart.GetComponent<Rigidbody>();
-            startJoint.axis = Vector3.forward;
+			startJoint.anchor = Vector3.zero;
+			startJoint.autoConfigureConnectedAnchor = true;
+		//Debug.LogError (anchorStart.GetComponent<SnapPoint> (), anchorStart.gameObject);
+			//startJoint.connectedAnchor = new Vector3(0.0f, 0.0f, 0.0f);
+			startJoint.connectedBody = anchorStart.GetComponent<Rigidbody> ();
+			startJoint.axis = Vector3.forward;
 			//startJoint.breakForce = terrainAnchor? 1000.0f: 500.0f;
-		//	startJoint.breakForce =  bridgeSetupParent._levelData.breakForce;
-			startJoint.breakForce = terrainAnchor? bridgeSetupParent._levelData.breakForce: bridgeSetupParent._levelData.breakForce/2f;
-        }
-
-		if (anchorEnd) {
-			bool terrainAnchor = anchorStart.GetComponent<SnapPoint>().isBaseTerrain;
+			//	startJoint.breakForce =  bridgeSetupParent._levelData.breakForce;
+			startJoint.breakForce = terrainAnchor ? bridgeSetupParent._levelData.breakForce : bridgeSetupParent._levelData.breakForce / 2f;
+		}
+		if (anchorEnd!=null) {
+			bool terrainAnchor = anchorEnd.GetComponent<SnapPoint> ().isBaseTerrain;
 			endJoint = pointEnd.AddComponent<HingeJoint> ();
-            endJoint.anchor = Vector3.zero;
-            endJoint.autoConfigureConnectedAnchor = true;
-            //endJoint.connectedAnchor = new Vector3(1.0f, 0.0f, 0.0f);
-            endJoint.connectedBody = anchorEnd.GetComponent<Rigidbody>();
-            endJoint.axis = Vector3.forward;
+			endJoint.anchor = Vector3.zero;
+			endJoint.autoConfigureConnectedAnchor = true;
+			//endJoint.connectedAnchor = new Vector3(1.0f, 0.0f, 0.0f);
+			endJoint.connectedBody = anchorEnd.GetComponent<Rigidbody> ();
+			endJoint.axis = Vector3.forward;
 			//	endJoint.breakForce = terrainAnchor? 1000.0f: 500.0f;
-		//	endJoint.breakForce = bridgeSetupParent._levelData.breakForce;
-            float breakForce = bridgeSetupParent._levelData.breakForce * bridgeSetupParent._levelData.EndbreakForceMultiplier;
-            endJoint.breakForce = terrainAnchor ? breakForce : breakForce / 2f;
-        }
+			//	endJoint.breakForce = bridgeSetupParent._levelData.breakForce;
+			float breakForce = bridgeSetupParent._levelData.breakForce * bridgeSetupParent._levelData.EndbreakForceMultiplier;
+			endJoint.breakForce = terrainAnchor ? breakForce : breakForce / 2f;
+		}
 
-
-		if  (IsRoadBeam && beamType == BridgeBuilderGUI.beamType.road)
-		{
-		beamStartJoint = road.AddComponent<FixedJoint> ();
-		road.GetComponent<Rigidbody>().isKinematic = false;
-		road.GetComponent<Rigidbody>().WakeUp();
+		Debug.LogError (("yesssss"));
+		if (IsRoadBeam && beamType == BridgeBuilderGUI.beamType.road) {
+			beamStartJoint = road.AddComponent<FixedJoint> ();
+			road.GetComponent<Rigidbody> ().isKinematic = false;
+			road.GetComponent<Rigidbody> ().WakeUp ();
 
 			beamEndJoint = road.AddComponent<FixedJoint> ();
 
-		} else if (IsBeamCount && beamType == BridgeBuilderGUI.beamType.beam)
-        {
+		} else if (IsBeamCount && beamType == BridgeBuilderGUI.beamType.beam) {
 			beamStartJoint = beam.AddComponent<FixedJoint> ();
 			beam.GetComponent<Rigidbody> ().isKinematic = false;
 			beam.GetComponent<Rigidbody> ().WakeUp ();
 			beamEndJoint = beam.AddComponent<FixedJoint> ();
 
-		}
-		else if (beamType == BridgeBuilderGUI.beamType.rope)
-		{
-//			Debug.LogError ("yoooo");
-			//for (int i = 0; i < 2; i++)
-			//{
-			//	GameObject rope = this.rope.transform.GetChild(i).gameObject;
-			//	beamStartJoint = rope.AddComponent<FixedJoint>();
-			//	rope.GetComponent<Rigidbody>().isKinematic = false;
-			//	rope.GetComponent<Rigidbody>().WakeUp();
-			//	beamEndJoint = rope.AddComponent<FixedJoint>();
-			//}
+		} else if (beamType == BridgeBuilderGUI.beamType.rope) {
+
 
 			GameObject rope = this.rope.transform.GetChild (0).gameObject;
-				beamStartJoint = rope.AddComponent<FixedJoint>();
-				rope.GetComponent<Rigidbody>().isKinematic = false;
-				rope.GetComponent<Rigidbody>().WakeUp();
-				beamEndJoint = rope.AddComponent<FixedJoint>();
+			beamStartJoint = rope.AddComponent<FixedJoint> ();
+			rope.GetComponent<Rigidbody> ().isKinematic = false;
+			rope.GetComponent<Rigidbody> ().WakeUp ();
+			beamEndJoint = rope.AddComponent<FixedJoint> ();
 
-			
+
 			//startJoint.connectedBody = subRopes [0].GetComponent<Rigidbody> ();
 			//endJoint.connectedBody = subRopes [subRopes.Count - 1].GetComponent<Rigidbody> ();
 
@@ -306,20 +325,20 @@ public class BridgeBeam : MonoBehaviour {
 		}
 
 		beamStartJoint.autoConfigureConnectedAnchor = true;
-		beamStartJoint.connectedBody = pointStart.GetComponent<Rigidbody>();
+		beamStartJoint.connectedBody = pointStart.GetComponent<Rigidbody> ();
 
-		Debug.Log("fixedJoint",beamEndJoint.gameObject);
+		Debug.Log ("fixedJoint", beamEndJoint.gameObject);
 
 
 
 		beamEndJoint.autoConfigureConnectedAnchor = true;
-		beamEndJoint.connectedBody = pointEnd.GetComponent<Rigidbody>();
+		beamEndJoint.connectedBody = pointEnd.GetComponent<Rigidbody> ();
 
-		pointStart.GetComponent<Rigidbody>().isKinematic = false;
-		pointEnd.GetComponent<Rigidbody>().isKinematic = false;
-		
-		pointStart.GetComponent<Rigidbody>().WakeUp();
-		pointEnd.GetComponent<Rigidbody>().WakeUp();
+		pointStart.GetComponent<Rigidbody> ().isKinematic = false;
+		pointEnd.GetComponent<Rigidbody> ().isKinematic = false;
+
+		pointStart.GetComponent<Rigidbody> ().WakeUp ();
+		pointEnd.GetComponent<Rigidbody> ().WakeUp ();
 
 	}
 
@@ -353,14 +372,14 @@ public class BridgeBeam : MonoBehaviour {
 			_reset = road.GetComponent<ResetPhysics> ();
 			_mesh = road.GetComponent<MeshCollider> ();
 			_rb = road.GetComponent<Rigidbody> ();
-			_renderer = road.GetComponent<Renderer> ();
+			//_renderer = road.GetComponent<Renderer> ();
 
 			SetBrodgeComponentProperties (_reset, _mesh, _rb, _renderer);
 		} else if (IsBeamCount && beamType == BridgeBuilderGUI.beamType.beam) {
 			_reset = beam.GetComponent<ResetPhysics> ();
 			_mesh = beam.GetComponent<MeshCollider> ();
 			_rb = beam.GetComponent<Rigidbody> ();
-			_renderer = beam.GetComponent<Renderer> ();
+			//_renderer = beam.GetComponent<Renderer> ();
 
 			SetBrodgeComponentProperties (_reset, _mesh, _rb, _renderer);
 		} else if (beamType == BridgeBuilderGUI.beamType.rope) {
@@ -403,7 +422,7 @@ public class BridgeBeam : MonoBehaviour {
 		}
 		Destroy(beamStartJoint);
 		Destroy(beamEndJoint);
-		Destroy(_mesh);
+		//Destroy(_mesh);
 		_rb.isKinematic = true;
 		pointStart.GetComponent<Rigidbody>().isKinematic = true;
 		pointEnd.GetComponent<Rigidbody>().isKinematic = true;
@@ -601,7 +620,7 @@ public class BridgeBeam : MonoBehaviour {
 		}
 		if (beamType == BridgeBuilderGUI.beamType.road)
 		{
-			road.GetComponent<Renderer>().material.color = c;
+			//road.GetComponent<Renderer>().material.color = c;
 
 		}
 		else if (beamType == BridgeBuilderGUI.beamType.beam)
