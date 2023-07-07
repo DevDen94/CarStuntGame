@@ -10,6 +10,7 @@ public class BridgeSetup : MonoBehaviour {
 	public NewLevelData _levelData;
 	public int currentRoadsCount = 0;
 	public int currentBeamsCount = 0;
+	public int currentRopeCount = 0;
 
 
 
@@ -97,7 +98,7 @@ public class BridgeSetup : MonoBehaviour {
 		finishedLevel = false;
 
 	
-
+		
 		if (GetLevel () != null) {
 			//terrainGenerator.CreateTerrain(GetLevel ().heights);
 			anchorPointLocations = GetLevel ().anchorPointLocations;
@@ -131,13 +132,17 @@ public class BridgeSetup : MonoBehaviour {
 		trainGoal = gridOrigin.x + dims.x;
 		Camera.main.GetComponent<BridgeBuilderGUI> ().beamText.text = (_levelData.beamsCounter - currentBeamsCount).ToString ();
 		Camera.main.GetComponent<BridgeBuilderGUI> ().roadText.text = (_levelData.roadCounter - currentRoadsCount).ToString ();
+		Camera.main.GetComponent<BridgeBuilderGUI> ().ropeText.text = (_levelData.ropeCounter - currentRopeCount).ToString ();
 
+		Camera.main.GetComponent<BridgeBuilderGUI> ().AllowRopeDrawing ();
 
 	}
 	public bool IsRoadBeam = false;
 	public bool IsBeamCount = false;
+	public bool isRope = false;
 
 	BridgeBuilderGUI.beamType beamType;
+	//BridgeBeam
 
 	public bool DrawBeam = true;
 	void Update () {
@@ -150,8 +155,7 @@ public class BridgeSetup : MonoBehaviour {
 					if (bridgeCost+100 <= bridgeBudget) {
 						IsRoadBeam = _levelData.roadCounter > currentRoadsCount;
 						IsBeamCount = _levelData.beamsCounter > currentBeamsCount;
-						Camera.main.GetComponent<BridgeBuilderGUI> ().beamText.text = (_levelData.beamsCounter - currentBeamsCount-1).ToString();
-						Camera.main.GetComponent<BridgeBuilderGUI> ().roadText.text = (_levelData.roadCounter - currentRoadsCount-1).ToString ();
+						isRope = _levelData.ropeCounter > currentRopeCount;
 						beamType = Camera.main.GetComponent<BridgeBuilderGUI> ()._beamType;
 
 						if (IsRoadBeam && beamType == BridgeBuilderGUI.beamType.road) {
@@ -161,7 +165,7 @@ public class BridgeSetup : MonoBehaviour {
 							CreateBeam (objClicked);
 						}
 
-						else if(beamType == BridgeBuilderGUI.beamType.rope)
+						else if(isRope&&beamType == BridgeBuilderGUI.beamType.rope)
 							CreateBeam (objClicked);
 					} else {
 						Camera.main.GetComponent<BridgeBuilderGUI>().DisplayOverBudgetError();
@@ -295,34 +299,26 @@ public class BridgeSetup : MonoBehaviour {
 		return bb;
 	}
 
-	private void DestroyBeam(GameObject snapPoint) {
+	private void DestroyBeam (GameObject snapPoint) {
 
-		if (null != snapPoint)
-		{
-			BridgeBeam bb = snapPoint.GetComponent<SnapPoint>().bridgeBeamParent;
-			if (bb.IsRoadBeam)
-			{
+		if (null != snapPoint) {
+			BridgeBeam bb = snapPoint.GetComponent<SnapPoint> ().bridgeBeamParent;
+			if (bb.IsRoadBeam) {
 				bb.bridgeSetupParent.currentRoadsCount--;
-			}
-			else
-            {
+			} else {
 				bb.bridgeSetupParent.currentBeamsCount--;
-            }
-			
-			if (bb != null)
-			{
-				Destroy(bb.gameObject);
+			}
+
+			if (bb != null) {
+				Destroy (bb.gameObject);
 
 			}
-		}
-		else
-		{
-			Ray r = Camera.main.ScreenPointToRay(Input.mousePosition);
-			RaycastHit rh = new RaycastHit();
+		} else {
+			Ray r = Camera.main.ScreenPointToRay (Input.mousePosition);
+			RaycastHit rh = new RaycastHit ();
 
-			if (Physics.Raycast(r, out rh, Mathf.Infinity, 1 << 9 | 1 << 10))
-			{
-				Destroy(rh.collider.transform.parent.gameObject);
+			if (Physics.Raycast (r, out rh, Mathf.Infinity, 1 << 9 | 1 << 10)) {
+				Destroy (rh.collider.transform.parent.gameObject);
 			}
 		}
 	}

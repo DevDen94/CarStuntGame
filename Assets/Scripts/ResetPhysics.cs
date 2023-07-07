@@ -49,6 +49,7 @@ public class ResetPhysics : MonoBehaviour {
 					temp.position = pos;
 					temp.parent = null;
 					temp.localScale = Vector3.one;
+					b.decreaseCounter ();
 					DestroyImmediate (b.gameObject);
 				}
 			} else {

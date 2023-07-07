@@ -25,6 +25,7 @@ public class BridgeBeam : MonoBehaviour {
 	public BridgeSetup bridgeSetupParent = null;
 	public bool isRoadLevel = false;
 	public bool IsRoadBeam = false;
+	public bool isRope = false;
 	public bool IsBeamCount = false;
 	public eBeamState BeamState = eBeamState.LayoutMode;
 	public eBeamAppereanceState BeamAppereanceState = eBeamAppereanceState.NormalMode;
@@ -119,6 +120,7 @@ public class BridgeBeam : MonoBehaviour {
 				pointEnd.GetComponent<ResetPhysics>().UpdatePosition();
 				IsRoadBeam = bridgeSetupParent._levelData.roadCounter > bridgeSetupParent.currentRoadsCount;
 				IsBeamCount = bridgeSetupParent._levelData.beamsCounter > bridgeSetupParent.currentBeamsCount;
+				isRope = bridgeSetupParent._levelData.ropeCounter > bridgeSetupParent.currentRopeCount;
 
 				beamType = bridgeBuilderGUI._beamType;
 
@@ -159,22 +161,35 @@ public class BridgeBeam : MonoBehaviour {
 
 			if (Input.GetMouseButtonUp (0)) {
 
+				Vector3 beamVector = pointEnd.transform.position - pointStart.transform.position;
+				Debug.LogError (beamVector.magnitude);
 				if (IsRoadBeam && beamType == BridgeBuilderGUI.beamType.road) {
 					bridgeSetupParent.currentRoadsCount++;
-					bridgeBuilderGUI.roadText.text = (bridgeSetupParent._levelData.roadCounter - bridgeSetupParent.currentRoadsCount ).ToString ();
 					Debug.LogError (bridgeSetupParent.currentRoadsCount);
 					addCollider ();
+					if (beamVector.magnitude < .1f) {
+						decreaseCounter ();
+						Destroy (gameObject);
+					}
+
 				} else if (IsBeamCount && beamType == BridgeBuilderGUI.beamType.beam) {
 					bridgeSetupParent.currentBeamsCount++;
-					bridgeBuilderGUI.beamText.text = (bridgeSetupParent._levelData.beamsCounter - bridgeSetupParent.currentBeamsCount ).ToString ();
 
 					Debug.LogError (bridgeSetupParent.currentBeamsCount);
 					addCollider ();
-				}
-				else if (IsBeamCount && beamType == BridgeBuilderGUI.beamType.rope) {
+					if (beamVector.magnitude < .1f) {
+						decreaseCounter ();
+
+						Destroy (gameObject);
+					}
+				} else if (isRope && beamType == BridgeBuilderGUI.beamType.rope) {
 					//SetUpRope ();
+					bridgeSetupParent.currentRopeCount++;
 					addCollider ();
 				}
+				bridgeBuilderGUI.roadText.text = (bridgeSetupParent._levelData.roadCounter - bridgeSetupParent.currentRoadsCount).ToString ();
+				bridgeBuilderGUI.beamText.text = (bridgeSetupParent._levelData.beamsCounter - bridgeSetupParent.currentBeamsCount).ToString ();
+				bridgeBuilderGUI.ropeText.text = (bridgeSetupParent._levelData.ropeCounter - bridgeSetupParent.currentRopeCount).ToString ();
 
 			}
 
@@ -188,14 +203,23 @@ public class BridgeBeam : MonoBehaviour {
 
 	void OnDestroy ()
 	{
+		
+	}
+
+	public void decreaseCounter ()
+	{
 		if (beamType == BridgeBuilderGUI.beamType.road) {
 			bridgeSetupParent.currentRoadsCount--;
 			bridgeBuilderGUI.roadText.text = (bridgeSetupParent._levelData.roadCounter - bridgeSetupParent.currentRoadsCount).ToString ();
 			Debug.LogError (bridgeSetupParent.currentRoadsCount);
 		} else if (beamType == BridgeBuilderGUI.beamType.beam) {
 			bridgeSetupParent.currentBeamsCount--;
+			bridgeBuilderGUI.beamText.text = (bridgeSetupParent._levelData.beamsCounter - bridgeSetupParent.currentBeamsCount).ToString ();
 			Debug.LogError (bridgeSetupParent.currentBeamsCount);
-		} //else if (IsBeamCount && beamType == BridgeBuilderGUI.beamType.rope) {
+		} else if (IsBeamCount && beamType == BridgeBuilderGUI.beamType.rope) {
+			bridgeSetupParent.currentRopeCount--;
+			bridgeBuilderGUI.ropeText.text = (bridgeSetupParent._levelData.ropeCounter - bridgeSetupParent.currentRopeCount).ToString ();
+		}
 	}
 
 	void addCollider ()
@@ -461,6 +485,8 @@ public class BridgeBeam : MonoBehaviour {
 		if (IsRoadBeam && beamType == BridgeBuilderGUI.beamType.road) {
 			Vector3 beamVector = pointEnd.transform.position - pointStart.transform.position;
 
+			if (beamVector.magnitude < .1f)
+				return;
 			//beam.transform.position = pointStart.transform.position + beamVector / 2.0f;
 			Vector3 beamScale = new Vector3 (beamVector.magnitude * 33.3f, road.transform.localScale.y, road.transform.localScale.z);
 			road.transform.localScale = beamScale;
@@ -479,7 +505,7 @@ public class BridgeBeam : MonoBehaviour {
 			Vector3 beamVector = pointEnd.transform.position - pointStart.transform.position;
 
 			//beam.transform.position = pointStart.transform.position + beamVector / 2.0f;
-			Vector3 beamScale = new Vector3 (beamVector.magnitude * 50f, beam.transform.localScale.y, beamVector.magnitude * 50f);
+			Vector3 beamScale = new Vector3 (300, beam.transform.localScale.y, beamVector.magnitude * 50f);
 			beam.transform.localScale = beamScale;
 
 			Vector3 euAngles = beam.transform.parent.eulerAngles;

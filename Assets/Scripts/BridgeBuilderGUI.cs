@@ -10,6 +10,7 @@ public class BridgeBuilderGUI : MonoBehaviour {
 	public BridgeSetup bridgeSetup;
 	public Text beamText;
 	public Text roadText;
+	public Text ropeText;
 
 
 	public static bool ClickedOnGUI() {
@@ -49,6 +50,7 @@ public class BridgeBuilderGUI : MonoBehaviour {
 		GameObject currentLevelPrefab = Resources.Load<GameObject> ("Levels/"+Homemanager._category+"/" + Homemanager.selectedLevel);
 		GameObject Temp = Instantiate (currentLevelPrefab);
 		bridgeSetup = Temp.GetComponentInChildren<BridgeSetup> ();
+		//AllowRopeDrawing ();
 	}
 
 	////////////public Text _levelNo;
@@ -57,7 +59,14 @@ public class BridgeBuilderGUI : MonoBehaviour {
 	////////////public GameObject _testBridge, _run, _backToDraw; 
 
 	
-
+	public void AllowRopeDrawing ()
+	{
+		if (!bridgeSetup._levelData.AllowRopeInLevel) {
+			ropeText.transform.parent.gameObject.SetActive (false);
+		} else {
+			ropeText.transform.parent.gameObject.SetActive (true);
+		}
+	}
 
 	public void DisplayOverBudgetError() {
 		displayOverBudgetError = true;
@@ -200,98 +209,127 @@ public class BridgeBuilderGUI : MonoBehaviour {
 
 	public void ResetLevel ()
 	{
-		SceneManager.LoadScene (2);
+
+		SceneManager.LoadScene (SceneManager.GetActiveScene ().name);
+	}
+
+	public void goToMainMenu ()
+	{
+		SceneManager.LoadScene (0);
+	}
+
+	//////////   private void Start()
+	//////////   {
+	//////////       if (!bridgeSetup.finishedLevel)
+	//////////       {
+	//////////		_levelNo.text =	bridgeSetup.GetLevelName().ToString();
+	//////////		_Instructions.text = "Click - Add. Ctrl-Click - Delete.".ToString();
+	//////////		_Cost.text = "Cost: " + bridgeSetup.GetBridgeCost() + "£ / Budget: " + bridgeSetup.GetBridgeBudget() + "£".ToString();
+
+	//////////		if (BridgeSetup.eLevelStage.PlayStage == bridgeSetup.LevelStage)
+	//////////		{
+
+
+	//////////			 _testBridge.SetActive(false);
+	//////////			 _run.SetActive(true);
+	//////////			 _backToDraw.SetActive(true);
+	//////////			GUI.enabled = !bridgeSetup.IsTrainStarted;
+	//////////			bridgeSetup.StartTrain();
+
+
+
+	//////////			if (GUI.Toggle(new Rect(532, 18, 100, 20), timeToggle, "Slow Time"))
+	//////////			{
+	//////////				Time.timeScale = 0.25f;
+	//////////				timeToggle = true;
+	//////////			}
+	//////////			else
+	//////////			{
+	//////////				Time.timeScale = 1.0f;
+	//////////				timeToggle = false;
+	//////////			}
+	//////////		}
+	//////////		else if (BridgeSetup.eLevelStage.SetupStage == bridgeSetup.LevelStage)
+	//////////		{
+	//////////			_testBridge.SetActive(true);
+	//////////			_run.SetActive(false);
+	//////////			_backToDraw.SetActive(false);
+	//////////		}
+
+	//////////		if (displayOverBudgetError)
+	//////////		{
+	//////////			Rect r = new Rect(Screen.width / 2.0f - 100.0f, Screen.height / 2.0f - 30.0f, 200.0f, 40.0f);
+	//////////			GUI.Box(r, "You can't go over the budget!");
+	//////////			timer--;
+	//////////			if (timer <= 0)
+	//////////			{
+	//////////				displayOverBudgetError = false;
+	//////////			}
+	//////////		}
+	//////////	}
+
+	//////////	else
+	//////////	{
+	//////////		GUI.Box(winningRect, "");
+
+	//////////		GUI.Label(winningLabelRect, "You Win!");
+	//////////		if (GUI.Button(new Rect(winningLabelRect.x - 100, winningLabelRect.y + 40, 300, 30), "Back to Title Screen"))
+	//////////		{
+	//////////			Application.LoadLevel("Title");
+	//////////		}
+	//////////	}
+
+
+	//////////}
+
+
+	//////////public void backToDraw()
+	//////////   {
+	//////////	bridgeSetup.LevelStage = BridgeSetup.eLevelStage.SetupStage;
+	//////////	_run.SetActive(false);
+	//////////	_backToDraw.SetActive(false);
+	//////////	_testBridge.SetActive(true);
+
+	//////////}
+	//////////public void Run()
+	//////////{
+	//////////      bridgeSetup.StartTrain();
+
+
+	//////////}
+	//////////public void TestBridge()
+	//////////   {
+	//////////	bridgeSetup.LevelStage = BridgeSetup.eLevelStage.PlayStage;
+	//////////	_testBridge.SetActive(false);
+	//////////	_run.SetActive(true);
+	//////////	_backToDraw.SetActive(true);
+
+	//////////}
+	///
+
+	public GameObject LevelCompletePanel;
+	public GameObject nextLevelButton;
+	public void LevelComplete ()
+	{
+		LevelCompletePanel.SetActive (true);
+		int currentLevelIndex = int.Parse (Homemanager.selectedLevel [5].ToString ());
+		if (currentLevel >= 10) {
+
+			nextLevelButton.SetActive (false);
+		}
 	}
 
 
-    //////////   private void Start()
-    //////////   {
-    //////////       if (!bridgeSetup.finishedLevel)
-    //////////       {
-    //////////		_levelNo.text =	bridgeSetup.GetLevelName().ToString();
-    //////////		_Instructions.text = "Click - Add. Ctrl-Click - Delete.".ToString();
-    //////////		_Cost.text = "Cost: " + bridgeSetup.GetBridgeCost() + "£ / Budget: " + bridgeSetup.GetBridgeBudget() + "£".ToString();
-
-    //////////		if (BridgeSetup.eLevelStage.PlayStage == bridgeSetup.LevelStage)
-    //////////		{
-
-
-    //////////			 _testBridge.SetActive(false);
-    //////////			 _run.SetActive(true);
-    //////////			 _backToDraw.SetActive(true);
-    //////////			GUI.enabled = !bridgeSetup.IsTrainStarted;
-    //////////			bridgeSetup.StartTrain();
-
-
-
-    //////////			if (GUI.Toggle(new Rect(532, 18, 100, 20), timeToggle, "Slow Time"))
-    //////////			{
-    //////////				Time.timeScale = 0.25f;
-    //////////				timeToggle = true;
-    //////////			}
-    //////////			else
-    //////////			{
-    //////////				Time.timeScale = 1.0f;
-    //////////				timeToggle = false;
-    //////////			}
-    //////////		}
-    //////////		else if (BridgeSetup.eLevelStage.SetupStage == bridgeSetup.LevelStage)
-    //////////		{
-    //////////			_testBridge.SetActive(true);
-    //////////			_run.SetActive(false);
-    //////////			_backToDraw.SetActive(false);
-    //////////		}
-
-    //////////		if (displayOverBudgetError)
-    //////////		{
-    //////////			Rect r = new Rect(Screen.width / 2.0f - 100.0f, Screen.height / 2.0f - 30.0f, 200.0f, 40.0f);
-    //////////			GUI.Box(r, "You can't go over the budget!");
-    //////////			timer--;
-    //////////			if (timer <= 0)
-    //////////			{
-    //////////				displayOverBudgetError = false;
-    //////////			}
-    //////////		}
-    //////////	}
-
-    //////////	else
-    //////////	{
-    //////////		GUI.Box(winningRect, "");
-
-    //////////		GUI.Label(winningLabelRect, "You Win!");
-    //////////		if (GUI.Button(new Rect(winningLabelRect.x - 100, winningLabelRect.y + 40, 300, 30), "Back to Title Screen"))
-    //////////		{
-    //////////			Application.LoadLevel("Title");
-    //////////		}
-    //////////	}
-
-
-    //////////}
-
-
-    //////////public void backToDraw()
-    //////////   {
-    //////////	bridgeSetup.LevelStage = BridgeSetup.eLevelStage.SetupStage;
-    //////////	_run.SetActive(false);
-    //////////	_backToDraw.SetActive(false);
-    //////////	_testBridge.SetActive(true);
-
-    //////////}
-    //////////public void Run()
-    //////////{
-    //////////      bridgeSetup.StartTrain();
-
-
-    //////////}
-    //////////public void TestBridge()
-    //////////   {
-    //////////	bridgeSetup.LevelStage = BridgeSetup.eLevelStage.PlayStage;
-    //////////	_testBridge.SetActive(false);
-    //////////	_run.SetActive(true);
-    //////////	_backToDraw.SetActive(true);
-
-    //////////}
-    ///
+	public void loadNextLevel ()
+	{
+		int currentLevelIndex = int.Parse (Homemanager.selectedLevel [5].ToString ());
+		if(currentLevel< 10) {
+			currentLevel++;
+			Homemanager.selectedLevel = "Level" + currentLevel;
+			ResetLevel ();
+		}
+		
+	}
 
 	public void RunTrain ()
 	{
