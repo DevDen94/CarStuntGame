@@ -29,7 +29,7 @@ public class ResetPhysics : MonoBehaviour {
 	void OnMouseDown ()
 	{
 
-		deleteBeam ();
+		//deleteBeam ();
 	}
 
 	public void deleteBeam ()

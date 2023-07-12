@@ -22,12 +22,15 @@ public class SnapPoint : MonoBehaviour {
 		highlightColor = new Color (1.0f, 1.0f, 1.0f, 1.0f);
 	}
 
+
+
 	void OnMouseOver() {
 		if (isBase && (bridgeSetupParent != null && BridgeSetup.eLevelStage.SetupStage == bridgeSetupParent.LevelStage)
 		     || (bridgeBeamParent != null && bridgeBeamParent.BeamState == BridgeBeam.eBeamState.BuiltMode)) {
 			transform.localScale = originalScale*1.5f;
 			GetComponent<Renderer>().material.color = highlightColor;
 		}
+		Debug.LogError ("OverMouse");
 	}
 
 	void OnMouseExit() {

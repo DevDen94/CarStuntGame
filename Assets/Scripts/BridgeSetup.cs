@@ -25,46 +25,43 @@ public class BridgeSetup : MonoBehaviour {
 
 	private eLevelStage levelStage = eLevelStage.SetupStage;
 
-	public eLevelStage LevelStage
-	{
-		get
-		{
+	public eLevelStage LevelStage {
+		get {
 			return this.levelStage;
 		}
 
-		set
-		{
+		set {
 			levelStage = value;
 			if (eLevelStage.SetupStage == levelStage) {
 				Time.timeScale = 0.0f;
-				SetSnapPointsVisible(true);
-				trainController.SetVisible(false);
-				SetBeamsToSetup();
+				//SetSnapPointsVisible (true);
+				trainController.SetVisible (false);
+				SetBeamsToSetup ();
 			} else if (eLevelStage.PlayStage == levelStage) {
-				SetSnapPointsVisible(false);
-				SetBeamsToPlay();
-				trainController.SetVisible(true);
-				trainController.ResetTrain();
+				//SetSnapPointsVisible (false);
+				SetBeamsToPlay ();
+				trainController.SetVisible (true);
+				trainController.ResetTrain ();
 				Time.timeScale = 0.0f;
 
 			}
 		}
 	}
-	
+
 	/** Level information
 	 *  - TerrainGen, in charge of generating the terrain and its collider.
 	 *  - anchorPointLocations, where the bridge beams spawn
 	 *  - roadLevel, the y coordinate (in Snap Point space) where all horizontal beams are roads. The rest support the bridge but are not roads.
 	 */
 	public TerrainGenerator terrainGenerator;
-	public Tuple<int, int>[] anchorPointLocations = new Tuple<int, int>[] {
+	public Tuple<int, int> [] anchorPointLocations = new Tuple<int, int> [] {
 		Tuple<int, int>.Of(12, 18),
 		Tuple<int, int>.Of(28, 18)
 	};
 	public int roadLevel;
 	public int bridgeBudget;
 
- 	/** Internal game information
+	/** Internal game information
  	 *  - snapPoints, contains all snap points when in Setup Stage.
  	 *  - bridgeBeams, contains all references to bridge beams.
  	 *  - trainControl, allows to move train and reset position when in Play Stage.
@@ -72,33 +69,69 @@ public class BridgeSetup : MonoBehaviour {
 	public GameObject snapPoints;
 	public GameObject bridgeBeams;
 	public TrainController trainController;
+	public GameObject m_GridPrefab;
 
 	private int bridgeCost = 0;
 
 	private Tuple<int, int> snapPositionsDimensions = Tuple<int, int>.Of (40, 30);
-	private Vector3 snapPointSeparations = new Vector3(1, 1, 0);
-	private Vector3 snapPointOffset = new Vector3(-0.5f, -0.5f, 1.0f);
+	private Vector3 snapPointSeparations = new Vector3 (1, 1, 0);
+	private Vector3 snapPointOffset = new Vector3 (-0.5f, -0.5f, 1.0f);
 
 	private Vector3 gridOrigin = Vector3.zero;
 
 	private float trainGoal;
-	
+
 	public bool finishedLevel;
 	public List<BridgeBeam> allCreatedBeams;
 	//private BridgeBeam lastCreatedBeam;
 
 
+	void GenerateGrid ()
+	{
+		float minX, minY, maxX, maxY;
+		minX = maxX = snapPoints.transform.GetChild (0).localPosition.x;
+		minY = maxY = snapPoints.transform.GetChild (0).localPosition.y;
+		Transform grid = Instantiate (m_GridPrefab, snapPoints.transform).transform;
+		for (int i = 0; i < snapPoints.transform.childCount; i++) {
+			Transform snapPoint = snapPoints.transform.GetChild (i);
+			if (snapPoint.localPosition.x < minX) {
+				minX = snapPoint.localPosition.x;
+			}
+			if (snapPoint.localPosition.x > maxX) {
+				maxX = snapPoint.localPosition.x;
+			}
+			if (snapPoint.localPosition.y < minY) {
+				minY = snapPoint.localPosition.y;
+			}
+			if (snapPoint.localPosition.y > maxY) {
+				maxY = snapPoint.localPosition.y;
+			}
+			if (snapPoint.name == "Snap") {
+				snapPoint.GetComponent<MeshRenderer> ().enabled = false;
+			}
+		}
 
+		var xScale = Mathf.Abs (minX) + Mathf.Abs (maxX);
+		var yScale = Mathf.Abs (minY) + Mathf.Abs (maxY);
 
-	void Start () {
-
-		allCreatedBeams = new List<BridgeBeam>();
+		grid.localScale = new Vector3 (xScale / 10f, 1, yScale / 10f);
+		grid.localPosition = new Vector3 (2, grid.localPosition.y, grid.localPosition.z);
+		grid.name = "Grid";
+		grid.gameObject.layer = 12;
+		grid.GetComponent<MeshRenderer> ().material.SetTextureScale ("_MainTex", new Vector2 ((xScale / 2)/*/4*/, (yScale / 2) /*/ 4*/));
+	}
+	BridgeBuilderGUI gui;
+	void Start ()
+	{
+		gui = Camera.main.GetComponent<BridgeBuilderGUI> ();
+		GenerateGrid ();
+		allCreatedBeams = new List<BridgeBeam> ();
 		transform.position = Vector3.zero;
 		_levelData = transform.parent.GetComponent<NewLevelData> ();
 		finishedLevel = false;
 
-	
-		
+
+
 		if (GetLevel () != null) {
 			//terrainGenerator.CreateTerrain(GetLevel ().heights);
 			anchorPointLocations = GetLevel ().anchorPointLocations;
@@ -106,16 +139,16 @@ public class BridgeSetup : MonoBehaviour {
 			roadLevel = _levelData.roadLevel;
 			bridgeBudget = _levelData.Budget;
 		} else {
-//			terrainGenerator.CreateTerrain();
+			//			terrainGenerator.CreateTerrain();
 			bridgeBudget = 100000;
-			
+
 		}
 
 		//snapPoints = new GameObject();
 		//snapPoints.name = "SnapPointsContainer";
 		//bridgeBeams = new GameObject();
 		//bridgeBeams.name = "BridgeBeamsContainer";
-//			Debug.LogError (anchorPointLocations.Length);
+		//			Debug.LogError (anchorPointLocations.Length);
 
 		//bridgeCost = 0;
 
@@ -123,18 +156,18 @@ public class BridgeSetup : MonoBehaviour {
 
 		int w = snapPositionsDimensions._1;
 		int h = snapPositionsDimensions._2;
-		Vector3 dims = new Vector3(w*snapPointSeparations.x, h*snapPointSeparations.y, 0);
+		Vector3 dims = new Vector3 (w * snapPointSeparations.x, h * snapPointSeparations.y, 0);
 
-		gridOrigin.x = -dims.x/2.0f+snapPointOffset.x;
-		gridOrigin.y = -dims.y/2.0f+snapPointOffset.y;
+		gridOrigin.x = -dims.x / 2.0f + snapPointOffset.x;
+		gridOrigin.y = -dims.y / 2.0f + snapPointOffset.y;
 		gridOrigin.z = snapPointOffset.z;
 
 		trainGoal = gridOrigin.x + dims.x;
-		Camera.main.GetComponent<BridgeBuilderGUI> ().beamText.text = (_levelData.beamsCounter - currentBeamsCount).ToString ();
-		Camera.main.GetComponent<BridgeBuilderGUI> ().roadText.text = (_levelData.roadCounter - currentRoadsCount).ToString ();
-		Camera.main.GetComponent<BridgeBuilderGUI> ().ropeText.text = (_levelData.ropeCounter - currentRopeCount).ToString ();
+		gui.beamText.text = (_levelData.beamsCounter - currentBeamsCount).ToString ();
+		gui.roadText.text = (_levelData.roadCounter - currentRoadsCount).ToString ();
+		gui.ropeText.text = (_levelData.ropeCounter - currentRopeCount).ToString ();
 
-		Camera.main.GetComponent<BridgeBuilderGUI> ().AllowRopeDrawing ();
+		gui.AllowRopeDrawing ();
 
 	}
 	public bool IsRoadBeam = false;
@@ -145,34 +178,40 @@ public class BridgeSetup : MonoBehaviour {
 	//BridgeBeam
 
 	public bool DrawBeam = true;
-	void Update () {
+	void Update ()
+	{
 		if (eLevelStage.SetupStage == levelStage) {
 			if (Input.GetMouseButtonDown (0) && !BridgeBuilderGUI.ClickedOnGUI ()) {
 				GameObject objClicked = GetSnapPointClicked ();
 				if (!DrawBeam) {
 					DestroyBeam (objClicked);
 				} else if (null != objClicked) {
-					if (bridgeCost+100 <= bridgeBudget) {
+					if (bridgeCost + 100 <= bridgeBudget) {
 						IsRoadBeam = _levelData.roadCounter > currentRoadsCount;
 						IsBeamCount = _levelData.beamsCounter > currentBeamsCount;
 						isRope = _levelData.ropeCounter > currentRopeCount;
-						beamType = Camera.main.GetComponent<BridgeBuilderGUI> ()._beamType;
+						beamType = gui._beamType;
 
 						if (IsRoadBeam && beamType == BridgeBuilderGUI.beamType.road) {
 
-							CreateBeam (objClicked);
+							CreateBeam(objClicked);
 						} else if (IsBeamCount && beamType == BridgeBuilderGUI.beamType.beam) {
-							CreateBeam (objClicked);
-						}
-
-						else if(isRope&&beamType == BridgeBuilderGUI.beamType.rope)
+							CreateBeam(objClicked);
+						} else if (_levelData.AllowRopeInLevel&&isRope && beamType == BridgeBuilderGUI.beamType.rope)
 							CreateBeam (objClicked);
 					} else {
-						Camera.main.GetComponent<BridgeBuilderGUI>().DisplayOverBudgetError();
+						gui.DisplayOverBudgetError ();
 					}
 				}
+				RaycastHit hit;
+				if (Physics.Raycast (Camera.main.ScreenPointToRay (Input.mousePosition), out hit, 222)) {
+					if(hit.collider.gameObject.TryGetComponent(out ResetPhysics _reset)) {
+						_reset.deleteBeam ();
+					}
+				} 
+
 			}
-			RecalculateCost();
+			RecalculateCost ();
 		} else if (eLevelStage.PlayStage == levelStage) {
 			if (trainController.trainHead.transform.position.x >= trainGoal) {
 				finishedLevel = true;
@@ -182,36 +221,39 @@ public class BridgeSetup : MonoBehaviour {
 
 	//public interface
 
-	public Vector3 GetSnapPointFromPosition(Vector3 pos, Vector3 start, float maxDistance) {
+	public Vector3 GetSnapPointFromPosition (Vector3 pos, Vector3 start, float maxDistance)
+	{
 		Vector3 diff = pos - start;
 		if (diff.magnitude >= maxDistance) {
 			//If distance larger than maximum put it in same vector
 			Vector3 direction = diff.normalized;
-			return SetPointToSnapPoint(start, start + maxDistance*direction);
+			return SetPointToSnapPoint (start, start + maxDistance * direction);
 		}
-		
-		return SetPointToSnapPoint(start, pos);
+
+		return SetPointToSnapPoint (start, pos);
 	}
 
-	public bool IsInRoadLevel(Vector3 a, Vector3 b) {
-		return Mathf.FloorToInt(FromSpaceToSnap(a).y) == roadLevel && Mathf.FloorToInt(FromSpaceToSnap(b).y) == roadLevel;
+	public bool IsInRoadLevel (Vector3 a, Vector3 b)
+	{
+		return Mathf.FloorToInt (FromSpaceToSnap (a).y) == roadLevel && Mathf.FloorToInt (FromSpaceToSnap (b).y) == roadLevel;
 	}
 
-	public GameObject GetOtherEndPoint(GameObject pointEnd) {
-		Vector3 pointEndSnapPoint = FromSpaceToSnap(pointEnd.transform.position);
-		int api = FindAnchorPointIndex(Mathf.FloorToInt(pointEndSnapPoint.x), Mathf.FloorToInt(pointEndSnapPoint.y));
+	public GameObject GetOtherEndPoint (GameObject pointEnd)
+	{
+		Vector3 pointEndSnapPoint = FromSpaceToSnap (pointEnd.transform.position);
+		int api = FindAnchorPointIndex (Mathf.FloorToInt (pointEndSnapPoint.x), Mathf.FloorToInt (pointEndSnapPoint.y));
 		SnapPoint sp = null;
 		sp = GetNewSnapPoint (pointEnd);
-//		Debug.LogError (api);
-		
-		if (sp!=null) {
+		//		Debug.LogError (api);
+
+		if (sp != null) {
 
 			//sp = GetSnapPoint(anchorPointLocations[api]._1, anchorPointLocations[api]._2);
-		//Debug.LogError(sp);
+			//Debug.LogError(sp);
 		} else {
 			//Debug.LogError (pointEnd, pointEnd.gameObject);
-			sp = GetSnapPointFromBridgeBeams(pointEnd);
-			Debug.LogError(sp);
+			sp = GetSnapPointFromBridgeBeams (pointEnd);
+			//Debug.LogError(sp);
 			if (sp == null) {
 				return null;
 			}
@@ -230,76 +272,83 @@ public class BridgeSetup : MonoBehaviour {
 		for (int i = 0; i < _levelData.anchorPoints.Length; i++) {
 			Vector3 pointEndSnapPoint = FromSpaceToSnap (endPoint.transform.position);
 			Vector3 curr = FromSpaceToSnap (_levelData.anchorPoints [i].transform.position);
-			if (pointEndSnapPoint==curr) {
-				Debug.LogError ("yyes");
+			if (pointEndSnapPoint == curr) {
+				//Debug.LogError ("yyes");
 				return _levelData.anchorPoints [i];
 			}
 		}
 		return null;
 	}
 
-	public void StartTrain() {
+	public void StartTrain ()
+	{
 		if (!trainController.IsTrainStarted) {
-			trainController.StartTrain();
+			trainController.StartTrain ();
 		}
 	}
 
-	//////////public void stopTrain ()
-	//////////{
-	//////////	trainController.StopTrain ();
-	//////////}
+	public void stopTrain ()
+	{
+		trainController.StopTrain ();
+	}
 
 	public bool IsTrainStarted {
 		get { return trainController.IsTrainStarted; }
 	}
 
-	public int GetBridgeCost() {
+	public int GetBridgeCost ()
+	{
 		return bridgeCost;
 	}
-	
-	public int GetBridgeBudget() {
+
+	public int GetBridgeBudget ()
+	{
 		return bridgeBudget;
 	}
 
-	public void SetBeamsToShowForce(bool value) {
-		BridgeBeam[] bb = bridgeBeams.GetComponentsInChildren<BridgeBeam>();
-		
+	public void SetBeamsToShowForce (bool value)
+	{
+		BridgeBeam [] bb = bridgeBeams.GetComponentsInChildren<BridgeBeam> ();
+
 		foreach (BridgeBeam b in bb) {
-			b.BeamAppereanceState = value? BridgeBeam.eBeamAppereanceState.ForceMode: BridgeBeam.eBeamAppereanceState.NormalMode;
+			b.BeamAppereanceState = value ? BridgeBeam.eBeamAppereanceState.ForceMode : BridgeBeam.eBeamAppereanceState.NormalMode;
 		}
 	}
-	
-	public string GetLevelName() {
-	    if (GetLevel() == null) {
-	    	return "Default level";
-	    }
-		return GetLevel().name;
+
+	public string GetLevelName ()
+	{
+		if (GetLevel () == null) {
+			return "Default level";
+		}
+		return GetLevel ().name;
 	}
 
-	public Level GetLevel() {
+	public Level GetLevel ()
+	{
 		return TitleScreenGUI.currentLevel;
 	}
 
 	//private
 
-	private BridgeBeam CreateBeam(GameObject snapPoint) {
+	private BridgeBeam CreateBeam (GameObject snapPoint)
+	{
 
 
-		GameObject go = Instantiate(BridgeBeamPrefab, snapPoint.transform.position, new Quaternion()) as GameObject;
-		Debug.Log(":::::::::::::1234");
-		BridgeBeam bb = go.GetComponent<BridgeBeam>();
+		GameObject go = Instantiate (BridgeBeamPrefab, snapPoint.transform.position, new Quaternion ()) as GameObject;
+		Debug.Log (":::::::::::::1234");
+		BridgeBeam bb = go.GetComponent<BridgeBeam> ();
 		bb.bridgeSetupParent = this;
-		Vector3 newPos = new Vector3(snapPoint.transform.position.x, snapPoint.transform.position.y, gridOrigin.z);
-		bb.StartLayout(newPos, snapPoint, this);
+		Vector3 newPos = new Vector3 (snapPoint.transform.position.x, snapPoint.transform.position.y, gridOrigin.z);
+		bb.StartLayout (newPos, snapPoint, this);
 		bb.transform.parent = bridgeBeams.transform;
-        if (allCreatedBeams.Contains(bb) is false)
-        {
-			allCreatedBeams.Add(bb);
-        }
+		if (allCreatedBeams.Contains (bb) is false) {
+			allCreatedBeams.Add (bb);
+		}
 		return bb;
 	}
 
-	private void DestroyBeam (GameObject snapPoint) {
+	private void DestroyBeam (GameObject snapPoint)
+	{
 
 		if (null != snapPoint) {
 			BridgeBeam bb = snapPoint.GetComponent<SnapPoint> ().bridgeBeamParent;
@@ -322,41 +371,47 @@ public class BridgeSetup : MonoBehaviour {
 			}
 		}
 	}
-	
-	private void RecalculateCost() {
-		bridgeCost = bridgeBeams.transform.childCount*100;
+
+	private void RecalculateCost ()
+	{
+		bridgeCost = bridgeBeams.transform.childCount * 100;
 	}
 
-	private Vector3 SetPointToSnapPoint(Vector3 a, Vector3 b) {
-		return FromSnapToSpace(FromSpaceToSnap(b));
+	private Vector3 SetPointToSnapPoint (Vector3 a, Vector3 b)
+	{
+		return FromSnapToSpace (FromSpaceToSnap (b));
 	}
 
-	private Vector3 FromSpaceToSnap(Vector3 a) {
-		return new Vector3(Mathf.Round((a.x-gridOrigin.x)/snapPointSeparations.x),
-				           Mathf.Round((a.y-gridOrigin.y)/snapPointSeparations.y),
-		                   a.z);
+	private Vector3 FromSpaceToSnap (Vector3 a)
+	{
+		return new Vector3 (Mathf.Round ((a.x - gridOrigin.x) / snapPointSeparations.x),
+					   Mathf.Round ((a.y - gridOrigin.y) / snapPointSeparations.y),
+				   a.z);
 	}
 
-	private Vector3 FromSnapToSpace(Vector3 a) {
-		return new Vector3(a.x*snapPointSeparations.x+gridOrigin.x, a.y*snapPointSeparations.y+gridOrigin.y, gridOrigin.z);
+	private Vector3 FromSnapToSpace (Vector3 a)
+	{
+		return new Vector3 (a.x * snapPointSeparations.x + gridOrigin.x, a.y * snapPointSeparations.y + gridOrigin.y, gridOrigin.z);
 	}
 
 
-	private void SetSnapPointsVisible(bool value) {
+	private void SetSnapPointsVisible (bool value)
+	{
 
-		Renderer[] rs = snapPoints.GetComponentsInChildren<Renderer>();
+		Renderer [] rs = snapPoints.GetComponentsInChildren<Renderer> ();
 
 		foreach (Renderer r in rs) {
 			r.enabled = value;
 		}
 	}
 
-	private GameObject GetSnapPointClicked() {
-		Ray r = Camera.main.ScreenPointToRay(Input.mousePosition);
-		RaycastHit rh = new RaycastHit();
+	private GameObject GetSnapPointClicked ()
+	{
+		Ray r = Camera.main.ScreenPointToRay (Input.mousePosition);
+		RaycastHit rh = new RaycastHit ();
 
-		if (Physics.Raycast(r, out rh, Mathf.Infinity, 1 << 8)) {
-			if (rh.collider.GetComponent<SnapPoint>().isBase) {
+		if (Physics.Raycast (r, out rh, Mathf.Infinity, 1 << 8)) {
+			if (rh.collider.GetComponent<SnapPoint> ().isBase) {
 				return rh.collider.gameObject;
 			}
 		}
@@ -364,35 +419,39 @@ public class BridgeSetup : MonoBehaviour {
 		return null;
 	}
 
-	private void SetBeamsToPlay() {
-		BridgeBeam[] bb = bridgeBeams.GetComponentsInChildren<BridgeBeam>();
+	private void SetBeamsToPlay ()
+	{
+		BridgeBeam [] bb = bridgeBeams.GetComponentsInChildren<BridgeBeam> ();
 
 		foreach (BridgeBeam b in bb) {
-			
-		Debug.LogError ((b==null) + "_______________");	
-			b.SetToPlay();
+
+			//Debug.LogError ((b == null) + "_______________");
+			b.SetToPlay ();
 		}
 	}
 
-	private void SetBeamsToSetup() {
-		BridgeBeam[] bb = bridgeBeams.GetComponentsInChildren<BridgeBeam>();
-		
+	private void SetBeamsToSetup ()
+	{
+		BridgeBeam [] bb = bridgeBeams.GetComponentsInChildren<BridgeBeam> ();
+
 		foreach (BridgeBeam b in bb) {
-			b.ResetToSetup();
+			b.ResetToSetup ();
 		}
 	}
 
-	private int FindAnchorPointIndex(int i, int j) {
+	private int FindAnchorPointIndex (int i, int j)
+	{
 		for (int k = 0; k != anchorPointLocations.Length; k++) {
-			if (anchorPointLocations[k]._1 == i && anchorPointLocations[k]._2 == j) {
+			if (anchorPointLocations [k]._1 == i && anchorPointLocations [k]._2 == j) {
 				return k;
 			}
 		}
 		return -1;
 	}
 
-	private SnapPoint GetSnapPoint(int i, int j) {
-		SnapPoint[] snps = snapPoints.GetComponentsInChildren<SnapPoint>();
+	private SnapPoint GetSnapPoint (int i, int j)
+	{
+		SnapPoint [] snps = snapPoints.GetComponentsInChildren<SnapPoint> ();
 
 		foreach (SnapPoint sp in snps) {
 			if (sp.position._1 == i && sp.position._2 == j) {
@@ -404,35 +463,36 @@ public class BridgeSetup : MonoBehaviour {
 	}
 
 	public SnapPoint [] bbSnapPoints;
-	private SnapPoint GetSnapPointFromBridgeBeams(GameObject point) {
-		 bbSnapPoints = GetBridgeBeamSnapPoints();
+	private SnapPoint GetSnapPointFromBridgeBeams (GameObject point)
+	{
+		bbSnapPoints = GetBridgeBeamSnapPoints ();
 		Vector3 pos = point.transform.position;
 
 		foreach (SnapPoint sp in bbSnapPoints) {
-//			Debug.LogError (Mathf.Epsilon);
-//			Debug.LogError((sp.gameObject.transform.position - pos).magnitude);
-			if (sp.gameObject != point&& (sp.gameObject.transform.position - pos).magnitude <0.1f)
-				{
+			//			Debug.LogError (Mathf.Epsilon);
+			//			Debug.LogError((sp.gameObject.transform.position - pos).magnitude);
+			if (sp.gameObject != point && (sp.gameObject.transform.position - pos).magnitude < 0.1f) {
 				return sp;
 			}
-			Debug.LogError (sp.gameObject.name, sp.gameObject);
-			Debug.LogError(point,point.gameObject);
-			Debug.LogError(((sp.gameObject.transform.position - pos).magnitude < Mathf.Epsilon)+"_"+ (sp.gameObject != point && (sp.gameObject.transform.position - pos).magnitude < Mathf.Epsilon));
+			//Debug.LogError (sp.gameObject.name, sp.gameObject);
+			//	Debug.LogError(point,point.gameObject);
+			//Debug.LogError(((sp.gameObject.transform.position - pos).magnitude < Mathf.Epsilon)+"_"+ (sp.gameObject != point && (sp.gameObject.transform.position - pos).magnitude < Mathf.Epsilon));
 
 		}
 		return null;
 	}
 
-	private SnapPoint[] GetBridgeBeamSnapPoints() {
-		BridgeBeam[] bbs = bridgeBeams.GetComponentsInChildren<BridgeBeam>();
-		List<SnapPoint> snps = new List<SnapPoint>();
+	private SnapPoint [] GetBridgeBeamSnapPoints ()
+	{
+		BridgeBeam [] bbs = bridgeBeams.GetComponentsInChildren<BridgeBeam> ();
+		List<SnapPoint> snps = new List<SnapPoint> ();
 
 		foreach (BridgeBeam bb in bbs) {
-			snps.Add(bb.PointStart.GetComponent<SnapPoint>());
-			snps.Add(bb.PointEnd.GetComponent<SnapPoint>());
+			snps.Add (bb.PointStart.GetComponent<SnapPoint> ());
+			snps.Add (bb.PointEnd.GetComponent<SnapPoint> ());
 		}
 
-		return snps.ToArray();
-//		BridgeBuilderGUI
+		return snps.ToArray ();
+		//		BridgeBuilderGUI
 	}
 }

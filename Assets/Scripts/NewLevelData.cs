@@ -14,6 +14,6 @@ public class NewLevelData : MonoBehaviour
 	public int ropeCounter = 2;
 	public float breakForce = 100;
 	public float EndbreakForceMultiplier = 10;
-
+	public Transform m_Grid;
 	public bool AllowRopeInLevel = false;
 }

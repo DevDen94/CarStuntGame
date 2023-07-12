@@ -12,20 +12,24 @@ public class BridgeBuilderGUI : MonoBehaviour {
 	public Text roadText;
 	public Text ropeText;
 
+	public GameObject InsideCarCamera;
+	public GameObject snapPointCamera;
 
-	public static bool ClickedOnGUI() {
+
+	public static bool ClickedOnGUI ()
+	{
 		Vector3 mousePos = Input.mousePosition;
 		mousePos.y = Screen.height - mousePos.y;
-		return Input.GetMouseButtonDown(0) && windowRect.Contains(mousePos);
+		return Input.GetMouseButtonDown (0) && windowRect.Contains (mousePos);
 	}
 
-	private static Rect windowRect = new Rect(10, 10, Screen.width-20, 66);
-	private static Rect winningRect = new Rect(10, Screen.height-200, Screen.width-20, 150);
-	private static Rect winningLabelRect = new Rect(winningRect.center.x-50, winningRect.center.y-9, 100, 18);
+	private static Rect windowRect = new Rect (10, 10, Screen.width - 20, 66);
+	private static Rect winningRect = new Rect (10, Screen.height - 200, Screen.width - 20, 150);
+	private static Rect winningLabelRect = new Rect (winningRect.center.x - 50, winningRect.center.y - 9, 100, 18);
 
 	private bool timeToggle = true;
 	//private bool showForce = false;
-	
+
 	private bool displayOverBudgetError = false;
 	private readonly int timerToDisplay = 120;
 	private int timer = 0;
@@ -33,32 +37,32 @@ public class BridgeBuilderGUI : MonoBehaviour {
 
 	public int currentLevel = 1;
 
-    public enum beamType
-    {
-        road = 0, beam = 1, rope = 2
-    };
+	public GameObject EnvirnmentCamera;
+	public Transform envrinmentCamPosition;
 
-    public beamType _beamType;
+	public enum beamType {
+		road = 0, beam = 1, rope = 2
+	};
 
-    public void changeBeamState(int index)
-    {
-        _beamType = (beamType)index;
-    }
+	public beamType _beamType;
 
-    void Start ()
+	public void changeBeamState (int index)
 	{
-		GameObject currentLevelPrefab = Resources.Load<GameObject> ("Levels/"+Homemanager._category+"/" + Homemanager.selectedLevel);
+		_beamType = (beamType)index;
+	}
+
+	void Start ()
+	{
+		iTween.MoveTo (EnvirnmentCamera, iTween.Hash ("position", envrinmentCamPosition.position, "time", .5f, "easetype", iTween.EaseType.linear));
+		iTween.RotateTo (EnvirnmentCamera, iTween.Hash ("rotation", Vector3.zero, "time", .5f, "easetype", iTween.EaseType.linear));
+		GameObject currentLevelPrefab = Resources.Load<GameObject> ("Levels/" + Homemanager._category + "/" + Homemanager.selectedLevel);
 		GameObject Temp = Instantiate (currentLevelPrefab);
 		bridgeSetup = Temp.GetComponentInChildren<BridgeSetup> ();
 		//AllowRopeDrawing ();
 	}
 
-	////////////public Text _levelNo;
-	////////////public Text _Instructions;
-	////////////public Text _Cost;
-	////////////public GameObject _testBridge, _run, _backToDraw; 
 
-	
+
 	public void AllowRopeDrawing ()
 	{
 		if (!bridgeSetup._levelData.AllowRopeInLevel) {
@@ -68,7 +72,8 @@ public class BridgeBuilderGUI : MonoBehaviour {
 		}
 	}
 
-	public void DisplayOverBudgetError() {
+	public void DisplayOverBudgetError ()
+	{
 		displayOverBudgetError = true;
 		//timer = timerToDisplay;
 	}
@@ -79,34 +84,30 @@ public class BridgeBuilderGUI : MonoBehaviour {
 
 		//Invoke ("setInteractable", 0.1f);
 		StartCoroutine (setInteractable ());
-		if (BridgeSetup.eLevelStage.PlayStage == bridgeSetup.LevelStage)
-		{
+		if (BridgeSetup.eLevelStage.PlayStage == bridgeSetup.LevelStage) {
 			bridgeSetup.LevelStage = BridgeSetup.eLevelStage.SetupStage;
-		
-		}
-		else if (BridgeSetup.eLevelStage.SetupStage == bridgeSetup.LevelStage)
-		{
+			snapPointCamera.SetActive (true);
+			InsideCarCamera.SetActive (false);
+		} else if (BridgeSetup.eLevelStage.SetupStage == bridgeSetup.LevelStage) {
 			bridgeSetup.LevelStage = BridgeSetup.eLevelStage.PlayStage;
+			snapPointCamera.SetActive(false);
+			InsideCarCamera.SetActive (isInsideCar);
 			
 		}
 	}
 
-	public void undo()
-    {
-        if (bridgeSetup.allCreatedBeams.Count>0)
-        {
-			BridgeBeam Temp = bridgeSetup.allCreatedBeams[bridgeSetup.allCreatedBeams.Count - 1];
-			bridgeSetup.allCreatedBeams.Remove(Temp);
-            if (Temp.IsRoadBeam)
-            {
+	public void undo ()
+	{
+		if (bridgeSetup.allCreatedBeams.Count > 0) {
+			BridgeBeam Temp = bridgeSetup.allCreatedBeams [bridgeSetup.allCreatedBeams.Count - 1];
+			bridgeSetup.allCreatedBeams.Remove (Temp);
+			if (Temp.IsRoadBeam) {
 				Temp.bridgeSetupParent.currentRoadsCount--;
-			}
-            else
-            {
+			} else {
 				Temp.bridgeSetupParent.currentBeamsCount--;
 
 			}
-			DestroyImmediate(Temp.gameObject,true);
+			DestroyImmediate (Temp.gameObject, true);
 
 		}
 	}
@@ -122,64 +123,25 @@ public class BridgeBuilderGUI : MonoBehaviour {
 		}
 	}
 
-	void OnGUI () {
+	void OnGUI ()
+	{
 		if (!bridgeSetup.finishedLevel) {
-			/////////GUI.Box(windowRect, "");
-	
-			////GUI.Label(new Rect(18, 18, 300, 20), bridgeSetup.GetLevelName());
-			////GUI.Label(new Rect(18, 36, 300, 20), "Click - Add. Ctrl-Click - Delete.");
-			////GUI.Label(new Rect(18, 54, 300, 20), "Cost: "+bridgeSetup.GetBridgeCost()+"£ / Budget: "+bridgeSetup.GetBridgeBudget()+"£");
-	
-			if (BridgeSetup.eLevelStage.PlayStage == bridgeSetup.LevelStage) {
-				//if (GUI.Button (new Rect (318,18,100,50), "Back to Draw")) {
-				//	bridgeSetup.LevelStage = BridgeSetup.eLevelStage.SetupStage;
-				//}
-				//GUI.enabled = !bridgeSetup.IsTrainStarted;
-				//if (GUI.Button (new Rect (425,18,100,50), "Run Train")) {
-					//bridgeSetup.StartTrain();
-			//	}
-			//	GUI.enabled = true;
-
-                //////if (GUI.Toggle(new Rect(532, 18, 100, 20), timeToggle, "Slow Time"))
-                //////{
-                ////////    Time.timeScale = 0.25f;
-                //////  //  timeToggle = true;
-                //////}
-                //////else
-                //////{
-                //////    //Time.timeScale = 1.0f;
-                //////    //timeToggle = false;
-                //////}
-                /*
-				if (GUI.Toggle (new Rect (532,40,100,20), showForce, "Show Force")) {
-					showForce = true;
-					bridgeSetup.SetBeamsToShowForce(showForce);
-				} else {
-					showForce = false;
-					bridgeSetup.SetBeamsToShowForce(showForce);
-				}
-				*/
-            }
-    ////        else if (BridgeSetup.eLevelStage.SetupStage == bridgeSetup.LevelStage) {
-				////if (GUI.Button (new Rect (318,18,100,50), "Test Bridge")) {
-				////	bridgeSetup.LevelStage = BridgeSetup.eLevelStage.PlayStage;
-				////}
-		//	}
 			
+			if (BridgeSetup.eLevelStage.PlayStage == bridgeSetup.LevelStage) {
+				
+			}
+			
+
 			if (displayOverBudgetError) {
-				Rect r = new Rect(Screen.width/2.0f - 100.0f, Screen.height/2.0f - 30.0f, 200.0f, 40.0f);
+				Rect r = new Rect (Screen.width / 2.0f - 100.0f, Screen.height / 2.0f - 30.0f, 200.0f, 40.0f);
 				GUI.Box (r, "You can't go over the budget!");
 				timer--;
-				//if (timer <= 0) {
-				//	displayOverBudgetError = false;
-				//}
+				
 			}
 		} else {
-		//	GUI.Box(winningRect, "");
 			
-		//	GUI.Label(winningLabelRect, "You Win!");
-			if (GUI.Button(new Rect(winningLabelRect.x-100, winningLabelRect.y+40, 300, 30), "YouWin")) {
-				Application.LoadLevel("Title");
+			if (GUI.Button (new Rect (winningLabelRect.x - 100, winningLabelRect.y + 40, 300, 30), "YouWin")) {
+				
 			}
 		}
 		//timeToggle.
@@ -218,94 +180,7 @@ public class BridgeBuilderGUI : MonoBehaviour {
 		SceneManager.LoadScene (0);
 	}
 
-	//////////   private void Start()
-	//////////   {
-	//////////       if (!bridgeSetup.finishedLevel)
-	//////////       {
-	//////////		_levelNo.text =	bridgeSetup.GetLevelName().ToString();
-	//////////		_Instructions.text = "Click - Add. Ctrl-Click - Delete.".ToString();
-	//////////		_Cost.text = "Cost: " + bridgeSetup.GetBridgeCost() + "£ / Budget: " + bridgeSetup.GetBridgeBudget() + "£".ToString();
-
-	//////////		if (BridgeSetup.eLevelStage.PlayStage == bridgeSetup.LevelStage)
-	//////////		{
-
-
-	//////////			 _testBridge.SetActive(false);
-	//////////			 _run.SetActive(true);
-	//////////			 _backToDraw.SetActive(true);
-	//////////			GUI.enabled = !bridgeSetup.IsTrainStarted;
-	//////////			bridgeSetup.StartTrain();
-
-
-
-	//////////			if (GUI.Toggle(new Rect(532, 18, 100, 20), timeToggle, "Slow Time"))
-	//////////			{
-	//////////				Time.timeScale = 0.25f;
-	//////////				timeToggle = true;
-	//////////			}
-	//////////			else
-	//////////			{
-	//////////				Time.timeScale = 1.0f;
-	//////////				timeToggle = false;
-	//////////			}
-	//////////		}
-	//////////		else if (BridgeSetup.eLevelStage.SetupStage == bridgeSetup.LevelStage)
-	//////////		{
-	//////////			_testBridge.SetActive(true);
-	//////////			_run.SetActive(false);
-	//////////			_backToDraw.SetActive(false);
-	//////////		}
-
-	//////////		if (displayOverBudgetError)
-	//////////		{
-	//////////			Rect r = new Rect(Screen.width / 2.0f - 100.0f, Screen.height / 2.0f - 30.0f, 200.0f, 40.0f);
-	//////////			GUI.Box(r, "You can't go over the budget!");
-	//////////			timer--;
-	//////////			if (timer <= 0)
-	//////////			{
-	//////////				displayOverBudgetError = false;
-	//////////			}
-	//////////		}
-	//////////	}
-
-	//////////	else
-	//////////	{
-	//////////		GUI.Box(winningRect, "");
-
-	//////////		GUI.Label(winningLabelRect, "You Win!");
-	//////////		if (GUI.Button(new Rect(winningLabelRect.x - 100, winningLabelRect.y + 40, 300, 30), "Back to Title Screen"))
-	//////////		{
-	//////////			Application.LoadLevel("Title");
-	//////////		}
-	//////////	}
-
-
-	//////////}
-
-
-	//////////public void backToDraw()
-	//////////   {
-	//////////	bridgeSetup.LevelStage = BridgeSetup.eLevelStage.SetupStage;
-	//////////	_run.SetActive(false);
-	//////////	_backToDraw.SetActive(false);
-	//////////	_testBridge.SetActive(true);
-
-	//////////}
-	//////////public void Run()
-	//////////{
-	//////////      bridgeSetup.StartTrain();
-
-
-	//////////}
-	//////////public void TestBridge()
-	//////////   {
-	//////////	bridgeSetup.LevelStage = BridgeSetup.eLevelStage.PlayStage;
-	//////////	_testBridge.SetActive(false);
-	//////////	_run.SetActive(true);
-	//////////	_backToDraw.SetActive(true);
-
-	//////////}
-	///
+	
 
 	public GameObject LevelCompletePanel;
 	public GameObject nextLevelButton;
@@ -313,7 +188,7 @@ public class BridgeBuilderGUI : MonoBehaviour {
 	{
 		LevelCompletePanel.SetActive (true);
 		int currentLevelIndex = int.Parse (Homemanager.selectedLevel [5].ToString ());
-		if (currentLevel >= 10) {
+		if (currentLevelIndex >= 10) {
 
 			nextLevelButton.SetActive (false);
 		}
@@ -323,12 +198,12 @@ public class BridgeBuilderGUI : MonoBehaviour {
 	public void loadNextLevel ()
 	{
 		int currentLevelIndex = int.Parse (Homemanager.selectedLevel [5].ToString ());
-		if(currentLevel< 10) {
-			currentLevel++;
-			Homemanager.selectedLevel = "Level" + currentLevel;
+		if (currentLevelIndex < 10) {
+			currentLevelIndex++;
+			Homemanager.selectedLevel = "Level" + currentLevelIndex;
 			ResetLevel ();
 		}
-		
+
 	}
 
 	public void RunTrain ()
@@ -336,8 +211,22 @@ public class BridgeBuilderGUI : MonoBehaviour {
 		bridgeSetup.StartTrain ();
 	}
 
-	////public void StopTrain ()
-	////{
-	////	bridgeSetup.stopTrain ();
-	////}
+	public void StopTrain ()
+	{
+		bridgeSetup.stopTrain ();
+	}
+
+	public void InsideCarCamSwitcher ()
+	{
+		if (BridgeSetup.eLevelStage.PlayStage == bridgeSetup.LevelStage) {
+
+			if (!InsideCarCamera.activeInHierarchy)
+				InsideCarCamera.SetActive (true);
+			else
+				InsideCarCamera.SetActive (false);
+
+			isInsideCar = InsideCarCamera.activeInHierarchy;
+		}
+	}
+	bool isInsideCar = false;
 }

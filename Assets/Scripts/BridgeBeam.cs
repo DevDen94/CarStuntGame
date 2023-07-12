@@ -68,6 +68,8 @@ public class BridgeBeam : MonoBehaviour {
     {
 	
 		bridgeBuilderGUI = Camera.main.GetComponent<BridgeBuilderGUI>();
+
+
     }
     public void StartLayout(Vector3 clickPosition, GameObject hingePoint, BridgeSetup bs) {
 		transform.position = clickPosition;
@@ -138,7 +140,7 @@ public class BridgeBeam : MonoBehaviour {
 					beam.GetComponent<ResetPhysics>().UpdatePosition();
 					PositionBeam ();
 				}
-				else if (beamType == BridgeBuilderGUI.beamType.rope)
+				else if (beamType == BridgeBuilderGUI.beamType.rope && bridgeSetupParent.isRope)
 				{
 					PositionBeam ();
 					//rope.SetActive(true);
@@ -162,10 +164,10 @@ public class BridgeBeam : MonoBehaviour {
 			if (Input.GetMouseButtonUp (0)) {
 
 				Vector3 beamVector = pointEnd.transform.position - pointStart.transform.position;
-				Debug.LogError (beamVector.magnitude);
+//				Debug.LogError (beamVector.magnitude);
 				if (IsRoadBeam && beamType == BridgeBuilderGUI.beamType.road) {
 					bridgeSetupParent.currentRoadsCount++;
-					Debug.LogError (bridgeSetupParent.currentRoadsCount);
+//					Debug.LogError (bridgeSetupParent.currentRoadsCount);
 					addCollider ();
 					if (beamVector.magnitude < .1f) {
 						decreaseCounter ();
@@ -175,7 +177,7 @@ public class BridgeBeam : MonoBehaviour {
 				} else if (IsBeamCount && beamType == BridgeBuilderGUI.beamType.beam) {
 					bridgeSetupParent.currentBeamsCount++;
 
-					Debug.LogError (bridgeSetupParent.currentBeamsCount);
+				//	Debug.LogError (bridgeSetupParent.currentBeamsCount);
 					addCollider ();
 					if (beamVector.magnitude < .1f) {
 						decreaseCounter ();
@@ -454,8 +456,8 @@ public class BridgeBeam : MonoBehaviour {
 		PositionBeam();
 
 		//_renderer.enabled = true;
-		pointStart.GetComponent<Renderer>().enabled = false;
-		pointEnd.GetComponent<Renderer>().enabled = false;
+		pointStart.GetComponent<Renderer>().enabled = true;
+		pointEnd.GetComponent<Renderer>().enabled = true;
 
 		BeamAppereanceState = eBeamAppereanceState.NormalMode;
 		BeamState = eBeamState.BuiltMode;
@@ -473,7 +475,7 @@ public class BridgeBeam : MonoBehaviour {
 	}
 
 	private void DestroyIfSamePosition() {
-		if ((pointStart.transform.position - pointEnd.transform.position).magnitude < Mathf.Epsilon) {
+		if (((pointStart.transform.position - pointEnd.transform.position).magnitude <0.1f)||(!bridgeSetupParent._levelData.AllowRopeInLevel&&rope.gameObject.activeInHierarchy)) {
 			Destroy(gameObject);
 		}
 	}

@@ -8,7 +8,12 @@ public class LevelCompleteTriggerScript : MonoBehaviour
 	{
 		if (other.tag == "TrainHead") {
 				Camera.main.GetComponent<BridgeBuilderGUI> ().LevelComplete ();
-			TrainController.instance.trainDirection = new Vector3(0.0f, 0.0f, 0.0f);
+			other.transform.parent.GetComponent<TrainController> ().trainWorking = false;
+			other.transform.parent.GetComponent<TrainController> ().trainDirection = Vector3.zero;
+			Camera.main.GetComponent<BridgeBuilderGUI> ().StopTrain ();
+			other.transform.parent.GetComponent<TrainController> ();
+			//TrainController.instance.trainWorking = false;
+			//TrainController.instance.trainDirection = new Vector3(0.0f, 0.0f, 0.0f);
 
 		}
 	}

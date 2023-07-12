@@ -10,6 +10,8 @@ public class TrainController : MonoBehaviour {
 	public GameObject trainHead;
 	public bool trainWorking = false;
 	public static TrainController instance;
+
+	public GameObject insidewCamera;
 	// Use this for initialization
 	void Start () {
 
@@ -17,6 +19,7 @@ public class TrainController : MonoBehaviour {
 		trainWagon = GetComponentsInChildren<ResetPhysics>();
 		trainHead = GameObject.FindGameObjectWithTag("TrainHead");
 		trainWorking = false;
+		Camera.main.GetComponent<BridgeBuilderGUI> ().InsideCarCamera = insidewCamera;
 	}
 	
 	// Update is called once per frame
@@ -48,12 +51,14 @@ public class TrainController : MonoBehaviour {
 	//	transform.GetChild (0).GetComponent<CarDriver> ().SetInputs (1, 0);
 	}
 
-	////////public void StopTrain ()
-	////////{
-	////////	trainWorking = false;
-	//////////	transform.GetChild (0).GetComponent<CarDriver> ().SetInputs (0, 0);
+public void StopTrain ()
+	{
+		trainWorking = false;
+		trainHead.GetComponent<Rigidbody> ().AddForce (Vector3.zero);
+		trainHead.GetComponent<Rigidbody> ().velocity = Vector3.zero;
+		//transform.GetChild (0).GetComponent<CarDriver> ().SetInputs (0, 0);
 
-	////////}
+	}
 
 	public void ResetTrain() {
 		trainWorking = false;
