@@ -114,11 +114,11 @@ public class BridgeSetup : MonoBehaviour {
 		var xScale = Mathf.Abs (minX) + Mathf.Abs (maxX);
 		var yScale = Mathf.Abs (minY) + Mathf.Abs (maxY);
 
-		grid.localScale = new Vector3 (xScale / 10f, 1, yScale / 10f);
-		grid.localPosition = new Vector3 (2, grid.localPosition.y, grid.localPosition.z);
+//		grid.localScale = new Vector3 (xScale / 10f, 1, yScale / 10f);
+//		grid.localPosition = new Vector3 (2, grid.localPosition.y, grid.localPosition.z);
 		grid.name = "Grid";
 		grid.gameObject.layer = 12;
-		grid.GetComponent<MeshRenderer> ().material.SetTextureScale ("_MainTex", new Vector2 ((xScale / 2)/*/4*/, (yScale / 2) /*/ 4*/));
+		//grid.GetComponent<MeshRenderer> ().material.SetTextureScale ("_MainTex", new Vector2 ((xScale / 2)/*/4*/, (yScale / 2) /*/ 4*/));
 	}
 	BridgeBuilderGUI gui;
 	void Start ()

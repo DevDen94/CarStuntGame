@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.SceneManagement;
 
-public class Homemanager : MonoBehaviour
+public class HomeManager : MonoBehaviour
 {
     public GameObject SettingPanel, ExitPanel;
     public GameObject mainScenePanel, ModeSelectionPanel, StuntModePanel, FullBridgePanel;
@@ -54,6 +54,8 @@ public class Homemanager : MonoBehaviour
         public GameObject LevelSelectionScreen;
     public void ModeSelect(string category)
 	{
+        if (EventSystem.current.currentSelectedGameObject.GetComponent<CatLock>().IsLocked)
+            return;
         _category = category;
                 LevelSelectionScreen.SetActive (true);
 	}

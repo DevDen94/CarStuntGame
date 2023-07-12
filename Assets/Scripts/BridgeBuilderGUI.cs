@@ -55,7 +55,7 @@ public class BridgeBuilderGUI : MonoBehaviour {
 	{
 		iTween.MoveTo (EnvirnmentCamera, iTween.Hash ("position", envrinmentCamPosition.position, "time", .5f, "easetype", iTween.EaseType.linear));
 		iTween.RotateTo (EnvirnmentCamera, iTween.Hash ("rotation", Vector3.zero, "time", .5f, "easetype", iTween.EaseType.linear));
-		GameObject currentLevelPrefab = Resources.Load<GameObject> ("Levels/" + Homemanager._category + "/" + Homemanager.selectedLevel);
+		GameObject currentLevelPrefab = Resources.Load<GameObject> ("Levels/" + HomeManager._category + "/" + HomeManager.selectedLevel);
 		GameObject Temp = Instantiate (currentLevelPrefab);
 		bridgeSetup = Temp.GetComponentInChildren<BridgeSetup> ();
 		//AllowRopeDrawing ();
@@ -187,7 +187,7 @@ public class BridgeBuilderGUI : MonoBehaviour {
 	public void LevelComplete ()
 	{
 		LevelCompletePanel.SetActive (true);
-		int currentLevelIndex = int.Parse (Homemanager.selectedLevel [5].ToString ());
+		int currentLevelIndex = int.Parse (HomeManager.selectedLevel [5].ToString ());
 		if (currentLevelIndex >= 10) {
 
 			nextLevelButton.SetActive (false);
@@ -197,10 +197,10 @@ public class BridgeBuilderGUI : MonoBehaviour {
 
 	public void loadNextLevel ()
 	{
-		int currentLevelIndex = int.Parse (Homemanager.selectedLevel [5].ToString ());
+		int currentLevelIndex = int.Parse (HomeManager.selectedLevel [5].ToString ());
 		if (currentLevelIndex < 10) {
 			currentLevelIndex++;
-			Homemanager.selectedLevel = "Level" + currentLevelIndex;
+			HomeManager.selectedLevel = "Level" + currentLevelIndex;
 			ResetLevel ();
 		}
 
