@@ -88,11 +88,29 @@ public class BridgeBuilderGUI : MonoBehaviour {
 			bridgeSetup.LevelStage = BridgeSetup.eLevelStage.SetupStage;
 			snapPointCamera.SetActive (true);
 			InsideCarCamera.SetActive (false);
+			bridgeSetup.assignJoints (false);
+			UpdateCamera ((false));
 		} else if (BridgeSetup.eLevelStage.SetupStage == bridgeSetup.LevelStage) {
 			bridgeSetup.LevelStage = BridgeSetup.eLevelStage.PlayStage;
+			UpdateCamera (true);
+			bridgeSetup.assignJoints (true);
 			snapPointCamera.SetActive(false);
 			InsideCarCamera.SetActive (isInsideCar);
 			
+		}
+	}
+
+	public Camera Cam1;
+	public Camera Cam2;
+	private void UpdateCamera (bool run)
+	{
+		if (!run) {
+			Cam1.enabled  = (true);
+			Cam2.enabled= (false);
+		}
+		else {
+			Cam2.enabled= (true);
+			Cam1.enabled= (false);
 		}
 	}
 
@@ -123,29 +141,17 @@ public class BridgeBuilderGUI : MonoBehaviour {
 		}
 	}
 
+	void Update ()
+	{
+		if (gamePaused)
+			Time.timeScale = 0;
+		else
+			Time.timeScale = 1;
+	}
 	void OnGUI ()
 	{
-		if (!bridgeSetup.finishedLevel) {
-			
-			if (BridgeSetup.eLevelStage.PlayStage == bridgeSetup.LevelStage) {
-				
-			}
-			
 
-			if (displayOverBudgetError) {
-				Rect r = new Rect (Screen.width / 2.0f - 100.0f, Screen.height / 2.0f - 30.0f, 200.0f, 40.0f);
-				GUI.Box (r, "You can't go over the budget!");
-				timer--;
-				
-			}
-		} else {
-			
-			if (GUI.Button (new Rect (winningLabelRect.x - 100, winningLabelRect.y + 40, 300, 30), "YouWin")) {
-				
-			}
-		}
-		//timeToggle.
-		Time.timeScale = 1;
+		//Time.timeScale = 1;
 
 	}
 	public Button shift;
@@ -194,6 +200,12 @@ public class BridgeBuilderGUI : MonoBehaviour {
 		}
 	}
 
+	public GameObject levelFailedPanel;
+	public void LevelFailed ()
+	{
+		levelFailedPanel.SetActive (true);
+	}
+
 
 	public void loadNextLevel ()
 	{
@@ -204,6 +216,15 @@ public class BridgeBuilderGUI : MonoBehaviour {
 			ResetLevel ();
 		}
 
+	}
+
+	public GameObject Grid;
+
+	public void GridEnabler ()
+	{
+		if (Grid != null) {
+			Grid.SetActive (!Grid.activeInHierarchy);
+		}
 	}
 
 	public void RunTrain ()
@@ -229,4 +250,23 @@ public class BridgeBuilderGUI : MonoBehaviour {
 		}
 	}
 	bool isInsideCar = false;
+
+	public GameObject pausePanel;
+	public bool gamePaused = false;
+
+
+	public void PauseGame ()
+	{
+		pausePanel.SetActive (true);
+		Time.timeScale = 0;
+		gamePaused = true;
+
+	}
+
+	public void closePausePanel ()
+	{
+		pausePanel.SetActive (false);
+		Time.timeScale = 1;
+		gamePaused = false;
+	}
 }

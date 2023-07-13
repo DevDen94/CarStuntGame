@@ -323,6 +323,7 @@ public class BridgeBeam : MonoBehaviour {
 		Debug.LogError (("yesssss"));
 		if (IsRoadBeam && beamType == BridgeBuilderGUI.beamType.road) {
 			beamStartJoint = road.AddComponent<FixedJoint> ();
+		
 			road.GetComponent<Rigidbody> ().isKinematic = false;
 			road.GetComponent<Rigidbody> ().WakeUp ();
 

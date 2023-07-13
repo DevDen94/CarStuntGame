@@ -11,7 +11,7 @@ public class ResetPhysics : MonoBehaviour {
 
 	void Awake () {
 		UpdatePosition();
-		
+		joints = new HingeJoint [0];
 	}
 
 	public void UpdatePosition() {
@@ -60,8 +60,40 @@ public class ResetPhysics : MonoBehaviour {
 		
 	}
 
+
 	void tapCounter ()
 	{
 		tapped = false;
+	}
+	HingeJoint[] joints;
+	void Update ()
+	{
+		if(joints.Length> 0) {
+			for (int i = 0; i < joints.Length; i++) {
+				//Debug.LogError (joints [i].currentForce.magnitude,joints[i].gameObject);
+				//Debug.LogError (joints [i].breakForce, joints [i].gameObject);
+				if (joints[i]==null) {
+					Debug.Log ("break");
+					Transform temp = Instantiate (dustParticlePrefab, transform).transform;
+
+					Vector3 pos = transform.position;
+					pos.z = 0;
+					temp.position = pos;
+					temp.parent = null;
+					temp.localScale = Vector3.one;
+					assignJoints ();
+				}
+			}
+		}
+	}
+
+	public void assignJoints ()
+	{
+		joints = GetComponents<HingeJoint> ();
+
+	}
+	public void resetJoints ()
+	{
+		joints = new HingeJoint [0];
 	}
 }

@@ -117,7 +117,8 @@ public class BridgeSetup : MonoBehaviour {
 //		grid.localScale = new Vector3 (xScale / 10f, 1, yScale / 10f);
 //		grid.localPosition = new Vector3 (2, grid.localPosition.y, grid.localPosition.z);
 		grid.name = "Grid";
-		grid.gameObject.layer = 12;
+		grid.gameObject.layer = 8;
+		gui.Grid = grid.gameObject;
 		//grid.GetComponent<MeshRenderer> ().material.SetTextureScale ("_MainTex", new Vector2 ((xScale / 2)/*/4*/, (yScale / 2) /*/ 4*/));
 	}
 	BridgeBuilderGUI gui;
@@ -181,7 +182,7 @@ public class BridgeSetup : MonoBehaviour {
 	void Update ()
 	{
 		if (eLevelStage.SetupStage == levelStage) {
-			if (Input.GetMouseButtonDown (0) && !BridgeBuilderGUI.ClickedOnGUI ()) {
+			if (Input.GetMouseButtonDown (0) && !BridgeBuilderGUI.ClickedOnGUI ()&&!gui.gamePaused) {
 				GameObject objClicked = GetSnapPointClicked ();
 				if (!DrawBeam) {
 					DestroyBeam (objClicked);
@@ -460,6 +461,21 @@ public class BridgeSetup : MonoBehaviour {
 		}
 
 		return null;
+	}
+
+	public void assignJoints (bool assign)
+	{
+		ResetPhysics[] reset = bridgeBeams.GetComponentsInChildren<ResetPhysics> ();
+		foreach (var item in reset) {
+			item.TryGetComponent (out HingeJoint joint);
+			if (joint != null) {
+				if (assign)
+					item.assignJoints ();
+				else
+					item.resetJoints ();
+
+			}
+		}
 	}
 
 	public SnapPoint [] bbSnapPoints;
