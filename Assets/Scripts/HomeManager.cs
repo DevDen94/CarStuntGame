@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class HomeManager : MonoBehaviour
 {
@@ -12,37 +13,45 @@ public class HomeManager : MonoBehaviour
     
     public void onPlay()
     {
-       // mainScenePanel.SetActive(false);
+        AudioManager.instance.buttonAudio.Play();
         ModeSelectionPanel.SetActive(true);
     }
     public void opneExitPanel()
     {
+
+        AudioManager.instance.Panelopen.Play();
         ExitPanel.SetActive(true);
     }
     public void YesExit()
     {
+        AudioManager.instance.buttonAudio.Play();
         Application.Quit();
     }
     public void NoExit()
     {
+        AudioManager.instance.buttonAudio.Play();
         ExitPanel.SetActive(false);
     }
     public void closeExitPanel()
     {
+        AudioManager.instance.buttonAudio.Play();
         ExitPanel.SetActive(false);
     }
     public void openSettingPanel()
     {
+        AudioManager.instance.Panelopen.Play();
         SettingPanel.SetActive(true);
     }
     public void CloseSettingPanel()
     {
+        AudioManager.instance.buttonAudio.Play();
         SettingPanel.SetActive(false);
     }
     public void Back_ModeSelection()
     {
-                // mainScenePanel.SetActive(true);
-                if (ModeSelectionPanel.activeInHierarchy)
+        AudioManager.instance.buttonAudio.Play();
+        // mainScenePanel.SetActive(true);
+        if (ModeSelectionPanel.activeInHierarchy)
                         ModeSelectionPanel.SetActive (false);
                 if (LevelSelectionScreen.activeInHierarchy)
                         LevelSelectionScreen.SetActive (false);
@@ -50,21 +59,73 @@ public class HomeManager : MonoBehaviour
 
 
     public static string _category;
+    public static int _currentCategory = 0;
         public static string selectedLevel = "level";
         public GameObject LevelSelectionScreen;
     public void ModeSelect(string category)
 	{
+        AudioManager.instance.buttonAudio.Play();
         if (EventSystem.current.currentSelectedGameObject.GetComponent<CatLock>().IsLocked)
             return;
         _category = category;
+        _currentCategory = EventSystem.current.currentSelectedGameObject.transform.GetSiblingIndex();
                 LevelSelectionScreen.SetActive (true);
 	}
 
         public void selectLevel ()
 	{
-                int index = EventSystem.current.currentSelectedGameObject.transform.GetSiblingIndex ();
-                selectedLevel = "level" + (index + 1);
+        AudioManager.instance.buttonAudio.Play();
+        if (EventSystem.current.currentSelectedGameObject.transform.GetChild(1).gameObject.activeInHierarchy)
+            return;
+        int index = EventSystem.current.currentSelectedGameObject.transform.GetSiblingIndex ();
+                selectedLevel = "level_" + (index + 1);
                 SceneManager.LoadScene (_category);
 
 	}
+
+    public void setSound()
+	{
+                AudioManager.instance.setSound (soundImage);
+	}
+
+        public void setMusic ()
+	{
+                AudioManager.instance.setMusic (musicImage);
+	}
+
+        public Image soundImage;
+
+        public Image musicImage;
+
+
+        public Transform categoryParent;
+        public int categoryIndex = 1 - 1;
+
+    
+
+    [SerializeField] float[] scrollerPosition;
+    public void categoryScroller(int value)
+    {
+        categoryIndex += value;
+
+        if (categoryIndex < (1 - 1))
+        {
+            categoryIndex = 3;
+        }
+        else if (categoryIndex > 3)
+            categoryIndex = 0;
+        categoryParent.localPosition = new Vector3(-875*categoryIndex, categoryParent.localPosition.y);
+
+        //if (value == 1)
+        //{
+        //    AudioManager.instance.buttonAudio.Play();
+        //    categoryParent.GetChild(categoryIndex).SetAsFirstSibling();
+        //}
+        //if (value == -1)
+        //{
+        //    AudioManager.instance.buttonAudio.Play();
+        //    categoryParent.GetChild(1 - 1).SetAsLastSibling();
+        //}
+    }
+   
 }

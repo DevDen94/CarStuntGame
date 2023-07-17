@@ -12,11 +12,18 @@ public class LevelFailedTrigger : MonoBehaviour
 	void OnTriggerEnter (Collider other)
 	{
 		if (other.tag == "TrainHead") {
-			gui.LevelFailed ();
+			AudioManager.instance.CarSink.Play();
+			Invoke ("failPanel", 1);
 			other.transform.parent.GetComponent<TrainController> ().trainWorking = false;
-			other.transform.parent.GetComponent<TrainController> ().trainDirection = Vector3.zero;
-			gui.StopTrain ();
+			//other.transform.parent.GetComponent<TrainController> ().trainDirection = Vector3.zero;
+			gui.StopTrain1 ();
 		}
+
 	}
 
+	void failPanel ()
+	{
+
+		gui.LevelFailed ();
+	}
 }

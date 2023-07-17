@@ -38,7 +38,7 @@ public class TrainController : MonoBehaviour {
 		//	wheel3.motorTorque = 10;
 		//	wheel4.motorTorque = 10;
 			trainHead.GetComponent<Rigidbody>().AddForce(trainDirection, ForceMode.Acceleration);
-			Debug.Log("XXXXXXXXXXXXXXXXXXXXXX" + ForceMode.Acceleration.ToString());
+			///////////////Debug.Log("XXXXXXXXXXXXXXXXXXXXXX" + ForceMode.Acceleration.ToString());
 		}
 	}
 
@@ -50,13 +50,22 @@ public class TrainController : MonoBehaviour {
 		trainWorking = true;
 	//	transform.GetChild (0).GetComponent<CarDriver> ().SetInputs (1, 0);
 	}
+	public void StopTrain1()
+	{
+		trainWorking = false;
+		trainHead.GetComponent<Rigidbody>().AddForce(Vector3.zero);
+		trainHead.GetComponent<Rigidbody>().velocity = Vector3.zero;
+		//transform.GetChild (0).GetComponent<CarDriver> ().SetInputs (0, 0);
+		
 
-public void StopTrain ()
+	}
+	public void StopTrain ()
 	{
 		trainWorking = false;
 		trainHead.GetComponent<Rigidbody> ().AddForce (Vector3.zero);
 		trainHead.GetComponent<Rigidbody> ().velocity = Vector3.zero;
 		//transform.GetChild (0).GetComponent<CarDriver> ().SetInputs (0, 0);
+		ResetTrain();
 
 	}
 

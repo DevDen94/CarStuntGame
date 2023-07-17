@@ -5,7 +5,7 @@ using UnityEngine;
 public class CatLock : MonoBehaviour
 {
     [SerializeField] private GameObject m_LockImage;
-
+    [SerializeField] private GameObject text;
     public bool IsLocked
     {
         get
@@ -25,5 +25,11 @@ public class CatLock : MonoBehaviour
         if (transform.GetSiblingIndex() == 0)
             IsLocked = false;
         m_LockImage.SetActive(IsLocked);
+
+
+        if (IsLocked == false)
+        {
+            text.SetActive(false);
+        }
     }
 }

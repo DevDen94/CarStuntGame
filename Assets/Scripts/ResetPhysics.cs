@@ -34,10 +34,12 @@ public class ResetPhysics : MonoBehaviour {
 
 	public void deleteBeam ()
 	{
+		//AudioManager.instance.beamDestroy.Play();
 		if (gameObject.tag == "road" || gameObject.tag == "beam"||gameObject.tag=="rope") {
 
-			Debug.LogError ("onmouseDown");
+			//AudioManager.instance.beamDestroy.Play();
 			if (tapped) {
+				AudioManager.instance.beamDestroy.Play();
 				BridgeBeam b = GetComponentInParent<BridgeBeam> ();
 				Debug.LogError ("destroy");
 				if (b.bridgeSetupParent.LevelStage == BridgeSetup.eLevelStage.SetupStage) {

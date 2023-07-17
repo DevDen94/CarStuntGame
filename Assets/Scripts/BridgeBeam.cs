@@ -188,6 +188,12 @@ public class BridgeBeam : MonoBehaviour {
 					//SetUpRope ();
 					bridgeSetupParent.currentRopeCount++;
 					addCollider ();
+					if (beamVector.magnitude < .1f)
+					{
+						decreaseCounter();
+
+						Destroy(gameObject);
+					}
 				}
 				bridgeBuilderGUI.roadText.text = (bridgeSetupParent._levelData.roadCounter - bridgeSetupParent.currentRoadsCount).ToString ();
 				bridgeBuilderGUI.beamText.text = (bridgeSetupParent._levelData.beamsCounter - bridgeSetupParent.currentBeamsCount).ToString ();
@@ -218,7 +224,7 @@ public class BridgeBeam : MonoBehaviour {
 			bridgeSetupParent.currentBeamsCount--;
 			bridgeBuilderGUI.beamText.text = (bridgeSetupParent._levelData.beamsCounter - bridgeSetupParent.currentBeamsCount).ToString ();
 			Debug.LogError (bridgeSetupParent.currentBeamsCount);
-		} else if (IsBeamCount && beamType == BridgeBuilderGUI.beamType.rope) {
+		} else if (isRope && beamType == BridgeBuilderGUI.beamType.rope) {
 			bridgeSetupParent.currentRopeCount--;
 			bridgeBuilderGUI.ropeText.text = (bridgeSetupParent._levelData.ropeCounter - bridgeSetupParent.currentRopeCount).ToString ();
 		}
@@ -240,6 +246,8 @@ public class BridgeBeam : MonoBehaviour {
 
 		} else if(beamType == BridgeBuilderGUI.beamType.rope) {
 			cc = rope.transform.GetChild (0).GetChild (1).gameObject.AddComponent<MeshCollider> ();
+			cc.convex = true;
+			cc.isTrigger = true;
 		}
 								       //	cc.radius = .25f; /////0.25f
 		cc.material = beamMaterial;

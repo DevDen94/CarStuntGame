@@ -117,7 +117,7 @@ public class BridgeSetup : MonoBehaviour {
 //		grid.localScale = new Vector3 (xScale / 10f, 1, yScale / 10f);
 //		grid.localPosition = new Vector3 (2, grid.localPosition.y, grid.localPosition.z);
 		grid.name = "Grid";
-		grid.gameObject.layer = 8;
+		grid.gameObject.layer = 13;
 		gui.Grid = grid.gameObject;
 		//grid.GetComponent<MeshRenderer> ().material.SetTextureScale ("_MainTex", new Vector2 ((xScale / 2)/*/4*/, (yScale / 2) /*/ 4*/));
 	}
@@ -177,7 +177,7 @@ public class BridgeSetup : MonoBehaviour {
 
 	BridgeBuilderGUI.beamType beamType;
 	//BridgeBeam
-
+	public static bool isDrawing = false;
 	public bool DrawBeam = true;
 	void Update ()
 	{
@@ -203,14 +203,21 @@ public class BridgeSetup : MonoBehaviour {
 					} else {
 						gui.DisplayOverBudgetError ();
 					}
+					isDrawing = true;
 				}
 				RaycastHit hit;
 				if (Physics.Raycast (Camera.main.ScreenPointToRay (Input.mousePosition), out hit, 222)) {
 					if(hit.collider.gameObject.TryGetComponent(out ResetPhysics _reset)) {
 						_reset.deleteBeam ();
 					}
+					else if(hit.collider.gameObject.TryGetComponent(out ropeDestroyOnTouch _ropeDestroyOnTouch)) {
+						_ropeDestroyOnTouch.transform.parent.GetComponent<ResetPhysics> ().deleteBeam ();
+					}
 				} 
 
+			}
+			else if (Input.GetMouseButtonUp (0)) {
+				isDrawing = false;
 			}
 			RecalculateCost ();
 		} else if (eLevelStage.PlayStage == levelStage) {
@@ -292,6 +299,10 @@ public class BridgeSetup : MonoBehaviour {
 	{
 		trainController.StopTrain ();
 	}
+	public void stopTrain1()
+	{
+		trainController.StopTrain1();
+	}
 
 	public bool IsTrainStarted {
 		get { return trainController.IsTrainStarted; }
@@ -333,8 +344,7 @@ public class BridgeSetup : MonoBehaviour {
 
 	private BridgeBeam CreateBeam (GameObject snapPoint)
 	{
-
-
+		AudioManager.instance.beamMake.Play();
 		GameObject go = Instantiate (BridgeBeamPrefab, snapPoint.transform.position, new Quaternion ()) as GameObject;
 		Debug.Log (":::::::::::::1234");
 		BridgeBeam bb = go.GetComponent<BridgeBeam> ();
@@ -350,7 +360,7 @@ public class BridgeSetup : MonoBehaviour {
 
 	private void DestroyBeam (GameObject snapPoint)
 	{
-
+		AudioManager.instance.beamDestroy.Play();
 		if (null != snapPoint) {
 			BridgeBeam bb = snapPoint.GetComponent<SnapPoint> ().bridgeBeamParent;
 			if (bb.IsRoadBeam) {
