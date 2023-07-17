@@ -53,42 +53,42 @@ ModelImporter:
       type: UnityEngine:Texture2D
       assembly: UnityEngine.CoreModule
       name: FarTree1
-    second: {fileID: 2800000, guid: f56ecd9805bf96f4095e4473b7dbcb06, type: 3}
+    second: {fileID: 2800000, guid: 2982779fbd3539e4b950faf7c80a6ad2, type: 3}
   - first:
       type: UnityEngine:Texture2D
       assembly: UnityEngine.CoreModule
       name: Main
-    second: {fileID: 2800000, guid: d8345a8f5c2a90742966da7d2e585cc7, type: 3}
+    second: {fileID: 2800000, guid: 2e8717e82d0932b4db415db660dcc773, type: 3}
   - first:
       type: UnityEngine:Texture2D
       assembly: UnityEngine.CoreModule
       name: Material.001_baseColor
-    second: {fileID: 2800000, guid: aba9352adb3591841bdf565f191b61a8, type: 3}
+    second: {fileID: 2800000, guid: 5be673f7680e1ee4b8f4e20d26be942d, type: 3}
   - first:
       type: UnityEngine:Texture2D
       assembly: UnityEngine.CoreModule
       name: PP_Standard_Material_baseColor
-    second: {fileID: 2800000, guid: 52153cbd390c21241b1d965b82d90085, type: 3}
+    second: {fileID: 2800000, guid: fc8bb5c8a42f2e7439cc5f9c44cb2950, type: 3}
   - first:
       type: UnityEngine:Texture2D
       assembly: UnityEngine.CoreModule
       name: WaterWavesNormal
-    second: {fileID: 2800000, guid: d4f767113f9087e4ca78d6f45254d061, type: 3}
+    second: {fileID: 2800000, guid: 3f76434f14d4d37418fd66bf5bbaf3c1, type: 3}
   - first:
       type: UnityEngine:Texture2D
       assembly: UnityEngine.CoreModule
       name: ZLPC_Plant
-    second: {fileID: 2800000, guid: 417cd40dbdaf1884a832fb2402484402, type: 3}
+    second: {fileID: 2800000, guid: 77be7e69a0d70074daec197504610446, type: 3}
   - first:
       type: UnityEngine:Texture2D
       assembly: UnityEngine.CoreModule
       name: ZLPC_Prop
-    second: {fileID: 2800000, guid: d1d9103ac3fcfcb4a9f490c58fea2c1b, type: 3}
+    second: {fileID: 2800000, guid: b105c28f51fa71849845eaed4d9d25b0, type: 3}
   - first:
       type: UnityEngine:Texture2D
       assembly: UnityEngine.CoreModule
       name: texture
-    second: {fileID: 2800000, guid: 18217bca44025854a8daf0da8db893eb, type: 3}
+    second: {fileID: 2800000, guid: 722029627102f7440b29418ce3e5bce1, type: 3}
   materials:
     materialImportMode: 2
     materialName: 0
