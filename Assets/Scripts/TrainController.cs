@@ -3,7 +3,7 @@ using System.Collections;
 
 public class TrainController : MonoBehaviour {
 
-	public Vector3 trainDirection = new Vector3(8.0f, 0.0f, 0.0f);
+	[HideInInspector]public Vector3 trainDirection = new Vector3(8.0f, 0.0f, 0.0f);
 
 	private ResetPhysics[] trainWagon;
 
@@ -12,9 +12,10 @@ public class TrainController : MonoBehaviour {
 	public static TrainController instance;
 
 	public GameObject insidewCamera;
+	private Rigidbody m_Rigidbody;
 	// Use this for initialization
 	void Start () {
-
+		m_Rigidbody = trainHead.GetComponent<Rigidbody>();
 		instance = this;
 		trainWagon = GetComponentsInChildren<ResetPhysics>();
 		trainHead = GameObject.FindGameObjectWithTag("TrainHead");
@@ -33,13 +34,15 @@ public class TrainController : MonoBehaviour {
 
 	void FixedUpdate() {
 		if (trainWorking) {
-			//wheel1.motorTorque = 10;
-		//	wheel2.motorTorque = 10;
-		//	wheel3.motorTorque = 10;
-		//	wheel4.motorTorque = 10;
-			trainHead.GetComponent<Rigidbody>().AddForce(trainDirection, ForceMode.Acceleration);
-			///////////////Debug.Log("XXXXXXXXXXXXXXXXXXXXXX" + ForceMode.Acceleration.ToString());
-		}
+            //wheel1.motorTorque = 10;
+            //	wheel2.motorTorque = 10;
+            //	wheel3.motorTorque = 10;
+            //	wheel4.motorTorque = 10;
+            //m_Rigidbody.MovePosition(Vector3.forward*Time.deltaTime*10f);
+            trainHead.GetComponent<Rigidbody>().AddForce(trainDirection , ForceMode.Acceleration);
+            //trainHead.GetComponent<Rigidbody>().velocity= trainDirection;
+            ///////////////Debug.Log("XXXXXXXXXXXXXXXXXXXXXX" + ForceMode.Acceleration.ToString());
+        }
 	}
 
 	public bool IsTrainStarted {
