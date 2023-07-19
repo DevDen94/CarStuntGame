@@ -11,6 +11,7 @@ public class HomeManager : MonoBehaviour
     public GameObject mainScenePanel, ModeSelectionPanel, StuntModePanel, FullBridgePanel;
     private void Start()
     {
+        Time.timeScale = 1;
         AudioManager.instance.musicSource.Play();
         AudioManager.instance.wind.Stop();
     }

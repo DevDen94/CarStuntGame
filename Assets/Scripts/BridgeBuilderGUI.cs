@@ -15,7 +15,8 @@ public class BridgeBuilderGUI : MonoBehaviour {
 	public GameObject InsideCarCamera;
 	public GameObject snapPointCamera;
 
-
+	public Sprite selectedSprite;
+	public Sprite deselectedSprite;
 	public static bool ClickedOnGUI ()
 	{
 		Vector3 mousePos = Input.mousePosition;
@@ -51,10 +52,37 @@ public class BridgeBuilderGUI : MonoBehaviour {
 
 	public beamType _beamType;
 
+	public GameObject roadSprtie;
+	public GameObject beamSprtie;
+	public GameObject ropeSprtie;
 	public void changeBeamState (int index)
 	{
 		_beamType = (beamType)index;
+
+        if (_beamType == beamType.beam)
+        {
+			beamSprtie.GetComponent<Image>().sprite = selectedSprite;
+			ropeSprtie.GetComponent<Image>().sprite = deselectedSprite;
+			roadSprtie.GetComponent<Image>().sprite = deselectedSprite;
+		}
+		if (_beamType == beamType.rope)
+		{
+			ropeSprtie.GetComponent<Image>().sprite = selectedSprite;
+			beamSprtie.GetComponent<Image>().sprite = deselectedSprite;
+			ropeSprtie.GetComponent<Image>().sprite = deselectedSprite;
+		}
+		if (_beamType == beamType.road)
+		{
+			roadSprtie.GetComponent<Image>().sprite = selectedSprite;
+			beamSprtie.GetComponent<Image>().sprite = deselectedSprite;
+			ropeSprtie.GetComponent<Image>().sprite = deselectedSprite;
+		}
+
+
+
+
 	}
+
 
 	void Start ()
 	{
@@ -96,7 +124,7 @@ public class BridgeBuilderGUI : MonoBehaviour {
 		if (BridgeSetup.eLevelStage.PlayStage == bridgeSetup.LevelStage) {
 			bridgeSetup.LevelStage = BridgeSetup.eLevelStage.SetupStage;
 			snapPointCamera.SetActive (true);
-			InsideCarCamera.SetActive (false);
+			//InsideCarCamera.SetActive (false);
 			bridgeSetup.assignJoints (false);
 			UpdateCamera ((false));
 			runButton.SetActive (false);
@@ -108,7 +136,7 @@ public class BridgeBuilderGUI : MonoBehaviour {
 			UpdateCamera (true);
 			bridgeSetup.assignJoints (true);
 			snapPointCamera.SetActive(false);
-			InsideCarCamera.SetActive (isInsideCar);
+			//InsideCarCamera.SetActive (isInsideCar);
 			runButton.SetActive (true);
 			carStopButtom.SetActive (true);
 		}
@@ -216,7 +244,7 @@ public class BridgeBuilderGUI : MonoBehaviour {
 	public void goToMainMenu ()
 	{
 		AudioManager.instance.buttonAudio.Play();
-		SceneManager.LoadScene (0);
+		SceneManager.LoadScene("MainMenu");
 	}
 
 	
@@ -228,9 +256,21 @@ public class BridgeBuilderGUI : MonoBehaviour {
 		AudioManager.instance.winAudio.Play();
 		LevelCompletePanel.SetActive (true);
 		int currentLevelIndex = int.Parse (HomeManager.selectedLevel.Split('_')[1].ToString ());
-		if (currentLevelIndex >= 10) {
 
-			nextLevelButton.SetActive (false);
+
+		if (PlayerPrefs.GetInt("LevelLock_" + HomeManager._category, 1) < currentLevelIndex + 1)
+			PlayerPrefs.SetInt("LevelLock_" + HomeManager._category, currentLevelIndex + 1);
+
+		if (currentLevelIndex < 11)
+		{
+			currentLevelIndex++;
+			HomeManager.selectedLevel = "Level_" + currentLevelIndex;
+			
+		}
+		if (currentLevelIndex == 11)
+		{
+	
+			PlayerPrefs.SetInt("CatLock_" + (HomeManager._currentCategory + 1), 0);
 		}
 	}
 
@@ -248,11 +288,11 @@ public class BridgeBuilderGUI : MonoBehaviour {
 		AudioManager.instance.buttonAudio.Play();
 		int currentLevelIndex = int.Parse (HomeManager.selectedLevel.Split('_')[1].ToString ());
 
-		if(PlayerPrefs.GetInt("LevelLock_" + HomeManager._category,1)<currentLevelIndex +1)
-			PlayerPrefs.SetInt("LevelLock_" + HomeManager._category, currentLevelIndex+1);
+		//if(PlayerPrefs.GetInt("LevelLock_" + HomeManager._category,1)<currentLevelIndex +1)
+		//	PlayerPrefs.SetInt("LevelLock_" + HomeManager._category, currentLevelIndex+1);
   
 		if (currentLevelIndex < 11) {
-			currentLevelIndex++;
+			//currentLevelIndex++;
 			HomeManager.selectedLevel = "Level_" + currentLevelIndex;
 			SceneManager.LoadScene (SceneManager.GetActiveScene ().name);
         }

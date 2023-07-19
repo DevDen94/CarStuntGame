@@ -12,8 +12,7 @@ public class BridgeSetup : MonoBehaviour {
 	public int currentBeamsCount = 0;
 	public int currentRopeCount = 0;
 
-
-
+	
 	/** LevelStage determines which stage of the level the player is:
 	 *  - SetupStage lets the player put beams around. Beams are kinetic.
 	 *  - PlayStage spawns the train and makes it pass the bridge. Beams are dynamic.
@@ -192,17 +191,23 @@ public class BridgeSetup : MonoBehaviour {
 						IsBeamCount = _levelData.beamsCounter > currentBeamsCount;
 						isRope = _levelData.ropeCounter > currentRopeCount;
 						beamType = gui._beamType;
-						Debug.LogError (isRope);
-						if (IsRoadBeam && beamType == BridgeBuilderGUI.beamType.road) {
 
+						if (IsRoadBeam && beamType == BridgeBuilderGUI.beamType.road)
+						{
 							CreateBeam(objClicked);
-							Debug.LogError (beamType);
-						} else if (IsBeamCount && beamType == BridgeBuilderGUI.beamType.beam) {
-							Debug.LogError (beamType); CreateBeam (objClicked);
-						} else if (_levelData.AllowRopeInLevel&&isRope && beamType == BridgeBuilderGUI.beamType.rope)
-							CreateBeam (objClicked);
-						Debug.LogError (beamType);
-					} else {
+						}
+						else if (IsBeamCount && beamType == BridgeBuilderGUI.beamType.beam)
+						{
+							print("beamClicked");
+							CreateBeam(objClicked);
+						}
+						else if (_levelData.AllowRopeInLevel && isRope && beamType == BridgeBuilderGUI.beamType.rope)
+						{
+							CreateBeam(objClicked); 
+						}
+					}
+					else 
+					{
 						gui.DisplayOverBudgetError ();
 					}
 					isDrawing = true;
@@ -229,13 +234,11 @@ public class BridgeSetup : MonoBehaviour {
 		}
 	}
 
-	//public interface
 
 	public Vector3 GetSnapPointFromPosition (Vector3 pos, Vector3 start, float maxDistance)
 	{
 		Vector3 diff = pos - start;
 		if (diff.magnitude >= maxDistance) {
-			//If distance larger than maximum put it in same vector
 			Vector3 direction = diff.normalized;
 			return SetPointToSnapPoint (start, start + maxDistance * direction);
 		}
@@ -348,7 +351,6 @@ public class BridgeSetup : MonoBehaviour {
 	{
 		AudioManager.instance.beamMake.Play();
 		GameObject go = Instantiate (BridgeBeamPrefab, snapPoint.transform.position, new Quaternion ()) as GameObject;
-		Debug.Log (":::::::::::::1234");
 		BridgeBeam bb = go.GetComponent<BridgeBeam> ();
 		bb.bridgeSetupParent = this;
 		Vector3 newPos = new Vector3 (snapPoint.transform.position.x, snapPoint.transform.position.y, gridOrigin.z);
@@ -438,7 +440,7 @@ public class BridgeSetup : MonoBehaviour {
 
 		foreach (BridgeBeam b in bb) {
 
-			//Debug.LogError ((b == null) + "_______________");
+			
 			b.SetToPlay ();
 		}
 	}
@@ -497,14 +499,11 @@ public class BridgeSetup : MonoBehaviour {
 		Vector3 pos = point.transform.position;
 
 		foreach (SnapPoint sp in bbSnapPoints) {
-			//			Debug.LogError (Mathf.Epsilon);
-			//			Debug.LogError((sp.gameObject.transform.position - pos).magnitude);
+			
 			if (sp.gameObject != point && (sp.gameObject.transform.position - pos).magnitude < 0.1f) {
 				return sp;
 			}
-			//Debug.LogError (sp.gameObject.name, sp.gameObject);
-			//	Debug.LogError(point,point.gameObject);
-			//Debug.LogError(((sp.gameObject.transform.position - pos).magnitude < Mathf.Epsilon)+"_"+ (sp.gameObject != point && (sp.gameObject.transform.position - pos).magnitude < Mathf.Epsilon));
+			
 
 		}
 		return null;
@@ -521,6 +520,6 @@ public class BridgeSetup : MonoBehaviour {
 		}
 
 		return snps.ToArray ();
-		//		BridgeBuilderGUI
+		
 	}
 }

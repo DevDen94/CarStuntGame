@@ -71,8 +71,8 @@ public class ZoomInOut : MonoBehaviour
 
 		if (!BridgeSetup.isDrawing) {
 			if (_zoomIn) {
-				xAxis += touchField.TouchDist.x* .01f;
-				yAxis += touchField.TouchDist.y* .01f;
+				xAxis -= touchField.TouchDist.x* .01f;
+				yAxis -= touchField.TouchDist.y* .01f;
 				xAxis = Mathf.Clamp(xAxis, xMin, xMax);
 				yAxis = Mathf.Clamp(yAxis, yMin, yMax);
 				Vector3 _speed = Vector3.Lerp (transform.position, new Vector3(xAxis ,yAxis),1);
