@@ -188,16 +188,23 @@ public class BridgeBeam : MonoBehaviour {
 					//SetUpRope ();
 					bridgeSetupParent.currentRopeCount++;
 					addCollider ();
+					Debug.LogError (beamVector.magnitude);
 					if (beamVector.magnitude < .1f)
 					{
 						decreaseCounter();
 
 						Destroy(gameObject);
 					}
+				} else {
+					Debug.LogError ("___________");
+							Destroy (gameObject);
+					
 				}
 				bridgeBuilderGUI.roadText.text = (bridgeSetupParent._levelData.roadCounter - bridgeSetupParent.currentRoadsCount).ToString ();
 				bridgeBuilderGUI.beamText.text = (bridgeSetupParent._levelData.beamsCounter - bridgeSetupParent.currentBeamsCount).ToString ();
 				bridgeBuilderGUI.ropeText.text = (bridgeSetupParent._levelData.ropeCounter - bridgeSetupParent.currentRopeCount).ToString ();
+
+				
 
 			}
 
@@ -238,20 +245,37 @@ public class BridgeBeam : MonoBehaviour {
 		if (beamType == BridgeBuilderGUI.beamType.road) {
 			cc = road.AddComponent<MeshCollider> ();
 			cc.sharedMesh = cc.GetComponent<MeshFilter> ().mesh;   //4.0f
+			BoxCollider cpl = road.AddComponent<BoxCollider> ();
+			cpl.isTrigger = true;
+			cpl.size = new Vector3 (cpl.size.x, cpl.size.y, 0.003f);
+			cpl.center = new Vector3 (cpl.center.x, cpl.center.y, 0);
+			cc.material = beamMaterial;
+			cc.convex = true;
 
 		} else if(beamType == BridgeBuilderGUI.beamType.beam)
 			{
 			cc = beam.AddComponent<MeshCollider> ();
 			cc.sharedMesh = cc.GetComponent<MeshFilter> ().mesh;   //4.0f
+			BoxCollider cpl = beam.AddComponent<BoxCollider> ();
+
+			cpl.size = new Vector3 (0.003f, cpl.size.y,cpl.size.z);
+			cpl.center = new Vector3 (0, cpl.center.y, cpl.center.z);
+			cpl.isTrigger = true;
+			cc.material = beamMaterial;
+			cc.convex = true;
 
 		} else if(beamType == BridgeBuilderGUI.beamType.rope) {
 			cc = rope.transform.GetChild (0).GetChild (1).gameObject.AddComponent<MeshCollider> ();
+			
 			cc.convex = true;
 			cc.isTrigger = true;
+			BoxCollider cpl = rope.transform.GetChild (0).GetChild (1).gameObject.AddComponent<BoxCollider> ();
+
+			cpl.size = new Vector3 (cpl.size.x, .75f, cpl.size.z);
+			cpl.center = new Vector3 (cpl.center.x, 0, cpl.center.z);
+			cpl.isTrigger = true;
 		}
 								       //	cc.radius = .25f; /////0.25f
-		cc.material = beamMaterial;
-		cc.convex = true;
 	}
 
 
@@ -529,12 +553,19 @@ public class BridgeBeam : MonoBehaviour {
 			originalColor.a = 0.5f;
 			beam.layer = 10; //does not collide with train
 
-		} else if (beamType == BridgeBuilderGUI.beamType.rope) {
+		} else if ( isRope&&beamType == BridgeBuilderGUI.beamType.rope) {
 
+			Vector3 beamVector = pointEnd.transform.position - pointStart.transform.position;
+			Vector3 euAngles = rope.transform.parent.eulerAngles;
+			Quaternion qt = Quaternion.identity;
 
+			euAngles.z = Mathf.Atan2 (beamVector.y, beamVector.x) * Mathf.Rad2Deg;
+			qt.eulerAngles = euAngles;
+
+			beam.transform.parent.localRotation = qt;
 
 			//ObiRope rope = this.rope.transform.GetChild (0).GetComponent<ObiRope> ();
-		//	rope.ropeBlueprint.
+			//	rope.ropeBlueprint.
 
 			//for (int i = 0; i < 2; i++)
 			//{

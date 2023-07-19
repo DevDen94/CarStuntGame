@@ -75,7 +75,7 @@ public class ZoomInOut : MonoBehaviour
 				yAxis += touchField.TouchDist.y* .01f;
 				xAxis = Mathf.Clamp(xAxis, xMin, xMax);
 				yAxis = Mathf.Clamp(yAxis, yMin, yMax);
-				Vector3 _speed = Vector3.Lerp (transform.position, new Vector3(xAxis ,yAxis), Time.deltaTime);
+				Vector3 _speed = Vector3.Lerp (transform.position, new Vector3(xAxis ,yAxis),1);
 				transform.position = _speed;
 			} else {
 				transform.position = InitPosition;

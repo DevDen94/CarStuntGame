@@ -9,8 +9,12 @@ public class HomeManager : MonoBehaviour
 {
     public GameObject SettingPanel, ExitPanel;
     public GameObject mainScenePanel, ModeSelectionPanel, StuntModePanel, FullBridgePanel;
-    
-    
+    private void Start()
+    {
+        AudioManager.instance.musicSource.Play();
+        AudioManager.instance.wind.Stop();
+    }
+
     public void onPlay()
     {
         AudioManager.instance.buttonAudio.Play();
@@ -106,6 +110,8 @@ public class HomeManager : MonoBehaviour
     [SerializeField] float[] scrollerPosition;
     public void categoryScroller(int value)
     {
+
+        AudioManager.instance.buttonAudio.Play();
         categoryIndex += value;
 
         if (categoryIndex < (1 - 1))

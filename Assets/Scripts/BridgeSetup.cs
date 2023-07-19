@@ -192,14 +192,16 @@ public class BridgeSetup : MonoBehaviour {
 						IsBeamCount = _levelData.beamsCounter > currentBeamsCount;
 						isRope = _levelData.ropeCounter > currentRopeCount;
 						beamType = gui._beamType;
-
+						Debug.LogError (isRope);
 						if (IsRoadBeam && beamType == BridgeBuilderGUI.beamType.road) {
 
 							CreateBeam(objClicked);
+							Debug.LogError (beamType);
 						} else if (IsBeamCount && beamType == BridgeBuilderGUI.beamType.beam) {
-							CreateBeam(objClicked);
+							Debug.LogError (beamType); CreateBeam (objClicked);
 						} else if (_levelData.AllowRopeInLevel&&isRope && beamType == BridgeBuilderGUI.beamType.rope)
 							CreateBeam (objClicked);
+						Debug.LogError (beamType);
 					} else {
 						gui.DisplayOverBudgetError ();
 					}

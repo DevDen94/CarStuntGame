@@ -58,6 +58,8 @@ public class BridgeBuilderGUI : MonoBehaviour {
 
 	void Start ()
 	{
+		AudioManager.instance.musicSource.Stop();
+		AudioManager.instance.wind.Play();
 		iTween.MoveTo (EnvirnmentCamera, iTween.Hash ("position", envrinmentCamPosition.position, "time", .5f, "easetype", iTween.EaseType.linear));
 		iTween.RotateTo (EnvirnmentCamera, iTween.Hash ("rotation", Vector3.zero, "time", .5f, "easetype", iTween.EaseType.linear));
 		GameObject currentLevelPrefab = Resources.Load<GameObject> ("Levels/" + HomeManager._category + "/" + HomeManager.selectedLevel.Replace("_",""));
@@ -162,8 +164,8 @@ public class BridgeBuilderGUI : MonoBehaviour {
 		else
 			Time.timeScale = 1;
 
-		AudioManager.instance.musicSource.Stop();
-		//AudioManager.instance.wind.Play();
+		
+		
 	}
 	void OnGUI ()
 	{
@@ -249,14 +251,12 @@ public class BridgeBuilderGUI : MonoBehaviour {
 		if(PlayerPrefs.GetInt("LevelLock_" + HomeManager._category,1)<currentLevelIndex +1)
 			PlayerPrefs.SetInt("LevelLock_" + HomeManager._category, currentLevelIndex+1);
   
-		if (currentLevelIndex < 10) {
+		if (currentLevelIndex < 11) {
 			currentLevelIndex++;
 			HomeManager.selectedLevel = "Level_" + currentLevelIndex;
 			SceneManager.LoadScene (SceneManager.GetActiveScene ().name);
         }
-		print(currentLevelIndex);
-			print(HomeManager._currentCategory);
-        if(currentLevelIndex ==10)
+        if(currentLevelIndex ==11)
         {
 			SceneManager.LoadScene("MainMenu");
 			PlayerPrefs.SetInt("CatLock_" + (HomeManager._currentCategory + 1), 0); 
@@ -289,6 +289,7 @@ public class BridgeBuilderGUI : MonoBehaviour {
 	{
 		AudioManager.instance.carStart.Play();
 		bridgeSetup.StartTrain ();
+		runButton.SetActive(false);
 	}
 
 	public void StopTrain ()
