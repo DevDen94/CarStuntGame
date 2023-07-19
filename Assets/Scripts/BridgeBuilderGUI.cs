@@ -69,7 +69,7 @@ public class BridgeBuilderGUI : MonoBehaviour {
 		{
 			ropeSprtie.GetComponent<Image>().sprite = selectedSprite;
 			beamSprtie.GetComponent<Image>().sprite = deselectedSprite;
-			ropeSprtie.GetComponent<Image>().sprite = deselectedSprite;
+			roadSprtie.GetComponent<Image>().sprite = deselectedSprite;
 		}
 		if (_beamType == beamType.road)
 		{
