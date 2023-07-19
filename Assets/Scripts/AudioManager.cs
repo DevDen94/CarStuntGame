@@ -103,11 +103,10 @@ public class AudioManager : MonoBehaviour
         buttonAudio.volume = 0.0f;
         Panelopen.volume = 0.0f;
         beamDestroy.volume = 0.0f;
-        soundState = 0;
-                sound = 0;
+        sound = 0;
                 if (soundImage != null)
-
                         soundImage.color = Color.grey;
+        soundState = 0;
     }
 
     public void TurnSoundOn()

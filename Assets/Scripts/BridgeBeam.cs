@@ -108,7 +108,7 @@ public class BridgeBeam : MonoBehaviour {
 				DestroyIfSamePosition();
 
 				anchorEnd = bridgeSetupParent.GetOtherEndPoint(pointEnd);
-				Debug.Log (anchorEnd);
+			//	Debug.Log (anchorEnd);
 			}
 
 			//Position beam according to the layout
@@ -188,7 +188,7 @@ public class BridgeBeam : MonoBehaviour {
 					//SetUpRope ();
 					bridgeSetupParent.currentRopeCount++;
 					addCollider ();
-					Debug.LogError (beamVector.magnitude);
+					//Debug.LogError (beamVector.magnitude);
 					if (beamVector.magnitude < .1f)
 					{
 						decreaseCounter();
@@ -196,7 +196,7 @@ public class BridgeBeam : MonoBehaviour {
 						Destroy(gameObject);
 					}
 				} else {
-					Debug.LogError ("___________");
+				//	Debug.LogError ("___________");
 							Destroy (gameObject);
 					
 				}
@@ -226,11 +226,11 @@ public class BridgeBeam : MonoBehaviour {
 		if (beamType == BridgeBuilderGUI.beamType.road) {
 			bridgeSetupParent.currentRoadsCount--;
 			bridgeBuilderGUI.roadText.text = (bridgeSetupParent._levelData.roadCounter - bridgeSetupParent.currentRoadsCount).ToString ();
-			Debug.LogError (bridgeSetupParent.currentRoadsCount);
+			//Debug.LogError (bridgeSetupParent.currentRoadsCount);
 		} else if (beamType == BridgeBuilderGUI.beamType.beam) {
 			bridgeSetupParent.currentBeamsCount--;
 			bridgeBuilderGUI.beamText.text = (bridgeSetupParent._levelData.beamsCounter - bridgeSetupParent.currentBeamsCount).ToString ();
-			Debug.LogError (bridgeSetupParent.currentBeamsCount);
+		//	Debug.LogError (bridgeSetupParent.currentBeamsCount);
 		} else if (isRope && beamType == BridgeBuilderGUI.beamType.rope) {
 			bridgeSetupParent.currentRopeCount--;
 			bridgeBuilderGUI.ropeText.text = (bridgeSetupParent._levelData.ropeCounter - bridgeSetupParent.currentRopeCount).ToString ();
@@ -352,7 +352,7 @@ public class BridgeBeam : MonoBehaviour {
 			endJoint.breakForce = terrainAnchor ? breakForce : breakForce / 2f;
 		}
 
-		Debug.LogError (("yesssss"));
+	///	Debug.LogError (("yesssss"));
 		if (IsRoadBeam && beamType == BridgeBuilderGUI.beamType.road) {
 			beamStartJoint = road.AddComponent<FixedJoint> ();
 		
@@ -386,7 +386,7 @@ public class BridgeBeam : MonoBehaviour {
 		beamStartJoint.autoConfigureConnectedAnchor = true;
 		beamStartJoint.connectedBody = pointStart.GetComponent<Rigidbody> ();
 
-		Debug.Log ("fixedJoint", beamEndJoint.gameObject);
+		//Debug.Log ("fixedJoint", beamEndJoint.gameObject);
 
 
 

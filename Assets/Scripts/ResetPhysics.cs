@@ -41,7 +41,7 @@ public class ResetPhysics : MonoBehaviour {
 			if (tapped) {
 				AudioManager.instance.beamDestroy.Play();
 				BridgeBeam b = GetComponentInParent<BridgeBeam> ();
-				Debug.LogError ("destroy");
+				//Debug.LogError ("destroy");
 				if (b.bridgeSetupParent.LevelStage == BridgeSetup.eLevelStage.SetupStage) {
 					b.anchorStart = null;
 					Transform temp = Instantiate (dustParticlePrefab ,transform).transform;

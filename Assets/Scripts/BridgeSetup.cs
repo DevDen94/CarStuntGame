@@ -198,7 +198,7 @@ public class BridgeSetup : MonoBehaviour {
 						}
 						else if (IsBeamCount && beamType == BridgeBuilderGUI.beamType.beam)
 						{
-							print("beamClicked");
+						///	print("beamClicked");
 							CreateBeam(objClicked);
 						}
 						else if (_levelData.AllowRopeInLevel && isRope && beamType == BridgeBuilderGUI.beamType.rope)

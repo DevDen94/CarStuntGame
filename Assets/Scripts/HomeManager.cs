@@ -14,6 +14,10 @@ public class HomeManager : MonoBehaviour
         Time.timeScale = 1;
         AudioManager.instance.musicSource.Play();
         AudioManager.instance.wind.Stop();
+        if (PlayerPrefs.GetInt("Sound", 1) == 0)
+            soundImage.color = Color.grey;
+        if (PlayerPrefs.GetInt("Music", 1) == 0)
+            musicImage.color = Color.grey;
     }
 
     public void onPlay()
@@ -95,6 +99,7 @@ public class HomeManager : MonoBehaviour
 
         public void setMusic ()
 	{
+
                 AudioManager.instance.setMusic (musicImage);
 	}
 
