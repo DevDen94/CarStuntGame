@@ -5114,14 +5114,16 @@ struct TrainController_t2157E441AF7CD878573B1085B977FE673A45123C  : public MonoB
 	bool ___trainWorking_7;
 	// UnityEngine.GameObject TrainController::insidewCamera
 	GameObject_t76FEDD663AB33C991A9C9A23129337651094216F* ___insidewCamera_9;
+	// UnityEngine.Rigidbody TrainController::m_Rigidbody
+	Rigidbody_t268697F5A994213ED97393309870968BC1C7393C* ___m_Rigidbody_10;
 	// UnityEngine.WheelCollider TrainController::wheel1
-	WheelCollider_t4E35407C7AFEFA3DB30E9FFE3C38C9A5C5933481* ___wheel1_10;
+	WheelCollider_t4E35407C7AFEFA3DB30E9FFE3C38C9A5C5933481* ___wheel1_11;
 	// UnityEngine.WheelCollider TrainController::wheel2
-	WheelCollider_t4E35407C7AFEFA3DB30E9FFE3C38C9A5C5933481* ___wheel2_11;
+	WheelCollider_t4E35407C7AFEFA3DB30E9FFE3C38C9A5C5933481* ___wheel2_12;
 	// UnityEngine.WheelCollider TrainController::wheel3
-	WheelCollider_t4E35407C7AFEFA3DB30E9FFE3C38C9A5C5933481* ___wheel3_12;
+	WheelCollider_t4E35407C7AFEFA3DB30E9FFE3C38C9A5C5933481* ___wheel3_13;
 	// UnityEngine.WheelCollider TrainController::wheel4
-	WheelCollider_t4E35407C7AFEFA3DB30E9FFE3C38C9A5C5933481* ___wheel4_13;
+	WheelCollider_t4E35407C7AFEFA3DB30E9FFE3C38C9A5C5933481* ___wheel4_14;
 };
 
 struct TrainController_t2157E441AF7CD878573B1085B977FE673A45123C_StaticFields
@@ -21936,8 +21938,8 @@ IL_0052:
 		Sprite_tAFF74BC83CD68037494CB0B4F28CBDF8971CAB99* L_17 = __this->___deselectedSprite_12;
 		NullCheck(L_16);
 		Image_set_sprite_mC0C248340BA27AAEE56855A3FAFA0D8CA12956DE(L_16, L_17, NULL);
-		// ropeSprtie.GetComponent<Image>().sprite = deselectedSprite;
-		GameObject_t76FEDD663AB33C991A9C9A23129337651094216F* L_18 = __this->___ropeSprtie_29;
+		// roadSprtie.GetComponent<Image>().sprite = deselectedSprite;
+		GameObject_t76FEDD663AB33C991A9C9A23129337651094216F* L_18 = __this->___roadSprtie_27;
 		NullCheck(L_18);
 		Image_tBC1D03F63BF71132E9A5E472B8742F172A011E7E* L_19;
 		L_19 = GameObject_GetComponent_TisImage_tBC1D03F63BF71132E9A5E472B8742F172A011E7E_mA59EA7D5F9133B2593F4AB70B099928BA955EE7D(L_18, GameObject_GetComponent_TisImage_tBC1D03F63BF71132E9A5E472B8742F172A011E7E_mA59EA7D5F9133B2593F4AB70B099928BA955EE7D_RuntimeMethod_var);
