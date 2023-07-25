@@ -11,6 +11,13 @@ public class HomeManager : MonoBehaviour
     public GameObject mainScenePanel, ModeSelectionPanel, StuntModePanel, FullBridgePanel;
     private void Start()
     {
+
+        //PlayerPrefs.SetInt("CatLock_" + (HomeManager._currentCategory + 1), 0);
+        //PlayerPrefs.SetInt("CatLock_" + (HomeManager._currentCategory + 2), 0);
+        //PlayerPrefs.SetInt("CatLock_" + (HomeManager._currentCategory + 3), 0);
+        //PlayerPrefs.SetInt("CatLock_" + (HomeManager._currentCategory + 4), 0);
+
+       
         Time.timeScale = 1;
         AudioManager.instance.musicSource.Play();
         AudioManager.instance.wind.Stop();
