@@ -62,8 +62,10 @@ public class HomeManager : MonoBehaviour
         // mainScenePanel.SetActive(true);
         if (ModeSelectionPanel.activeInHierarchy)
                         ModeSelectionPanel.SetActive (false);
-                if (LevelSelectionScreen.activeInHierarchy)
-                        LevelSelectionScreen.SetActive (false);
+        if (LevelSelectionScreen.activeInHierarchy)
+        { LevelSelectionScreen.SetActive(false);
+            ModeSelectionPanel.SetActive(true);
+        }
     }
 
 

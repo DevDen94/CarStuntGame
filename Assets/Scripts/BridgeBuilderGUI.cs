@@ -3,7 +3,7 @@ using System.Collections;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
-
+using System.Collections.Generic;
 public class BridgeBuilderGUI : MonoBehaviour {
 
 	bool DrawBeams = true;
@@ -14,7 +14,7 @@ public class BridgeBuilderGUI : MonoBehaviour {
 
 	public GameObject InsideCarCamera;
 	public GameObject snapPointCamera;
-
+	public GameObject UndoButton;
 	public Sprite selectedSprite;
 	public Sprite deselectedSprite;
 	public static bool ClickedOnGUI ()
@@ -130,6 +130,7 @@ public class BridgeBuilderGUI : MonoBehaviour {
 			runButton.SetActive (false);
 			carStopButtom.SetActive (false);
 			StopTrain();
+			UndoButton.SetActive(true);
 
 		} else if (BridgeSetup.eLevelStage.SetupStage == bridgeSetup.LevelStage) {
 			bridgeSetup.LevelStage = BridgeSetup.eLevelStage.PlayStage;
@@ -139,6 +140,8 @@ public class BridgeBuilderGUI : MonoBehaviour {
 			//InsideCarCamera.SetActive (isInsideCar);
 			runButton.SetActive (true);
 			carStopButtom.SetActive (true);
+			UndoButton.SetActive(false);
+
 		}
 	}
 
@@ -161,16 +164,40 @@ public class BridgeBuilderGUI : MonoBehaviour {
 		AudioManager.instance.buttonAudio.Play();
 		if (bridgeSetup.allCreatedBeams.Count > 0) {
 			BridgeBeam Temp = bridgeSetup.allCreatedBeams [bridgeSetup.allCreatedBeams.Count - 1];
-			bridgeSetup.allCreatedBeams.Remove (Temp);
-			if (Temp.IsRoadBeam) {
-				Temp.bridgeSetupParent.currentRoadsCount--;
-			} else {
-				Temp.bridgeSetupParent.currentBeamsCount--;
+            if (Temp != null)
+            {
+				bridgeSetup.allCreatedBeams.Remove (Temp);
+				//if (Temp.beamType == BridgeBuilderGUI.beamType.road) {
+				//	Temp.bridgeSetupParent.currentRoadsCount--;
+				//} else if(Temp.beamType == BridgeBuilderGUI.beamType.beam) {
+				//	Temp.bridgeSetupParent.currentBeamsCount--;
 
-			}
-			DestroyImmediate (Temp.gameObject, true);
+				//}
+				//else if(Temp.beamType == BridgeBuilderGUI.beamType.rope)
+				//{
+				//             Temp.bridgeSetupParent.currentRopeCount--;
+				//         }
+				Temp.decreaseCounter();
+				DestroyImmediate (Temp.gameObject, true);
+				updateListCount();
+            }
+            else
+            {
+				updateListCount();
+				undo();
+            }
 
 		}
+	}
+	public void updateListCount()
+	{
+		List<BridgeBeam> tempList = new List<BridgeBeam>();
+		for (int i = 0; i < bridgeSetup.allCreatedBeams.Count; i++)
+		{
+			if (bridgeSetup.allCreatedBeams[i] != null)
+				tempList.Add(bridgeSetup.allCreatedBeams[i]);
+		}
+		bridgeSetup.allCreatedBeams = tempList;
 	}
 	public void changeBeamDrawState ()
 	{
@@ -366,6 +393,7 @@ public GameObject carStopButtom;
 	public void PauseGame ()
 	{
 		AudioManager.instance.buttonAudio.Play();
+		AudioManager.instance.carStart.volume = 0.0f;
 		pausePanel.SetActive (true);
 		Time.timeScale = 0;
 		gamePaused = true;
@@ -375,8 +403,13 @@ public GameObject carStopButtom;
 	public void closePausePanel ()
 	{
 		AudioManager.instance.buttonAudio.Play();
+		AudioManager.instance.carStart.volume = 1.0f;
 		pausePanel.SetActive (false);
 		Time.timeScale = 1;
 		gamePaused = false;
+  //      if (TrainController.instance.trainWorking == true)
+  //      {
+		//	AudioManager.instance.carStart.volume = 1.0f;
+		//}
 	}
 }

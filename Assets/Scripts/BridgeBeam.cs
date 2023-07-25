@@ -33,14 +33,14 @@ public class BridgeBeam : MonoBehaviour {
 	public GameObject beam;
 	public GameObject road;
 	public GameObject rope;
-	private HingeJoint startJoint;
-	private HingeJoint endJoint;
+	public HingeJoint startJoint;
+	public HingeJoint endJoint;
 	private FixedJoint beamStartJoint;
 	private FixedJoint beamEndJoint;
 
 	public GameObject anchorStart;
-	private GameObject pointStart;
-	private GameObject pointEnd;
+	public GameObject pointStart;
+	public GameObject pointEnd;
 	public GameObject anchorEnd;
 
 	private Color originalColor;
@@ -95,7 +95,17 @@ public class BridgeBeam : MonoBehaviour {
 		
 		BeamState = eBeamState.LayoutMode;
 	}
-	BridgeBuilderGUI.beamType beamType;
+	public BridgeBuilderGUI.beamType beamType;
+
+	public void reassignEndPoint()
+	{
+        anchorEnd = bridgeSetupParent.GetOtherEndPoint(pointEnd);
+    }
+
+	public void reassignStartPoint()
+	{
+        anchorStart = bridgeSetupParent.GetOtherEndPoint(pointStart);
+    }
 
 	// Update is called once per frame
 	void Update () {
@@ -313,7 +323,8 @@ public class BridgeBeam : MonoBehaviour {
 
 
 
-
+	public bool isStartAnchorUsed = false;
+	public bool isEndAnchorUsed = false;
 	public void SetToPlay ()
 	{
 		Vector3 beamVector = pointEnd.transform.position - pointStart.transform.position;
@@ -325,19 +336,31 @@ public class BridgeBeam : MonoBehaviour {
 
 		try { Debug.LogError (anchorStart); } catch { anchorStart = null; }
 
+
+		if (anchorStart == null&&isStartAnchorUsed)
+			reassignStartPoint();
+
 		if (anchorStart!=null) {
 			bool terrainAnchor = anchorStart.GetComponent<SnapPoint> ().isBaseTerrain;
 			startJoint = pointStart.AddComponent<HingeJoint> ();
 			startJoint.anchor = Vector3.zero;
 			startJoint.autoConfigureConnectedAnchor = true;
-		//Debug.LogError (anchorStart.GetComponent<SnapPoint> (), anchorStart.gameObject);
+			//Debug.LogError (anchorStart.GetComponent<SnapPoint> (), anchorStart.gameObject);
 			//startJoint.connectedAnchor = new Vector3(0.0f, 0.0f, 0.0f);
 			startJoint.connectedBody = anchorStart.GetComponent<Rigidbody> ();
 			startJoint.axis = Vector3.forward;
 			//startJoint.breakForce = terrainAnchor? 1000.0f: 500.0f;
 			//	startJoint.breakForce =  bridgeSetupParent._levelData.breakForce;
 			startJoint.breakForce = terrainAnchor ? bridgeSetupParent._levelData.breakForce : bridgeSetupParent._levelData.breakForce / 2f;
+			
+			isStartAnchorUsed = true;
 		}
+
+		if (anchorEnd==null&&isEndAnchorUsed)
+		{
+			reassignEndPoint();
+		}
+
 		if (anchorEnd!=null) {
 			bool terrainAnchor = anchorEnd.GetComponent<SnapPoint> ().isBaseTerrain;
 			endJoint = pointEnd.AddComponent<HingeJoint> ();
@@ -350,6 +373,7 @@ public class BridgeBeam : MonoBehaviour {
 			//	endJoint.breakForce = bridgeSetupParent._levelData.breakForce;
 			float breakForce = bridgeSetupParent._levelData.breakForce * bridgeSetupParent._levelData.EndbreakForceMultiplier;
 			endJoint.breakForce = terrainAnchor ? breakForce : breakForce / 2f;
+			isEndAnchorUsed = true;
 		}
 
 	///	Debug.LogError (("yesssss"));

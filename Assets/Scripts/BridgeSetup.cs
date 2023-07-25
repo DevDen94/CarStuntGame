@@ -120,7 +120,7 @@ public class BridgeSetup : MonoBehaviour {
 		gui.Grid = grid.gameObject;
 		//grid.GetComponent<MeshRenderer> ().material.SetTextureScale ("_MainTex", new Vector2 ((xScale / 2)/*/4*/, (yScale / 2) /*/ 4*/));
 	}
-	BridgeBuilderGUI gui;
+	public BridgeBuilderGUI gui;
 	void Start ()
 	{
 		gui = Camera.main.GetComponent<BridgeBuilderGUI> ();
@@ -362,16 +362,17 @@ public class BridgeSetup : MonoBehaviour {
 		return bb;
 	}
 
-	private void DestroyBeam (GameObject snapPoint)
+	public void DestroyBeam (GameObject snapPoint)
 	{
 		AudioManager.instance.beamDestroy.Play();
 		if (null != snapPoint) {
-			BridgeBeam bb = snapPoint.GetComponent<SnapPoint> ().bridgeBeamParent;
-			if (bb.IsRoadBeam) {
-				bb.bridgeSetupParent.currentRoadsCount--;
-			} else {
-				bb.bridgeSetupParent.currentBeamsCount--;
-			}
+			Debug.LogError("n");
+			BridgeBeam bb = snapPoint.GetComponent<BridgeBeam> ();
+			//if (bb.IsRoadBeam) {
+			//	bb.bridgeSetupParent.currentRoadsCount--;
+			//} else {
+			//	bb.bridgeSetupParent.currentBeamsCount--;
+			//}
 
 			if (bb != null) {
 				Destroy (bb.gameObject);
@@ -500,10 +501,15 @@ public class BridgeSetup : MonoBehaviour {
 
 		foreach (SnapPoint sp in bbSnapPoints) {
 			
-			if (sp.gameObject != point && (sp.gameObject.transform.position - pos).magnitude < 0.1f) {
+			if (sp.gameObject != point && (sp.gameObject.transform.position - pos).magnitude < 0.1f&&sp.bridgeBeamParent.beamType==BridgeBuilderGUI.beamType.road) {
 				return sp;
 			}
-			
+			if (sp.gameObject != point && (sp.gameObject.transform.position - pos).magnitude < 0.1f && sp.bridgeBeamParent.beamType == BridgeBuilderGUI.beamType.beam) {
+				return sp;
+			}
+			if (sp.gameObject != point && (sp.gameObject.transform.position - pos).magnitude < 0.1f && sp.bridgeBeamParent.beamType == BridgeBuilderGUI.beamType.rope) {
+				return sp;
+			}
 
 		}
 		return null;

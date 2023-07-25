@@ -43,7 +43,7 @@ public class ResetPhysics : MonoBehaviour {
 				BridgeBeam b = GetComponentInParent<BridgeBeam> ();
 				//Debug.LogError ("destroy");
 				if (b.bridgeSetupParent.LevelStage == BridgeSetup.eLevelStage.SetupStage) {
-					b.anchorStart = null;
+					//b.anchorStart = null;
 					Transform temp = Instantiate (dustParticlePrefab ,transform).transform;
 
 					Vector3 pos = Camera.main.ScreenToWorldPoint (Input.mousePosition);
@@ -52,7 +52,12 @@ public class ResetPhysics : MonoBehaviour {
 					temp.parent = null;
 					temp.localScale = Vector3.one;
 					b.decreaseCounter ();
-					DestroyImmediate (b.gameObject);
+					//int index = b.bridgeSetupParent.allCreatedBeams.IndexOf(b);
+					//b.bridgeSetupParent.allCreatedBeams.RemoveAt(index);
+					b.bridgeSetupParent.gui.updateListCount();
+					b.bridgeSetupParent.allCreatedBeams.Remove(b);
+				b.bridgeSetupParent.DestroyBeam(b.gameObject);
+				//	DestroyImmediate(b.gameObject);
 				}
 			} else {
 				tapped = true;

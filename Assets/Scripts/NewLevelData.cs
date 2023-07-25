@@ -11,7 +11,7 @@ public class NewLevelData : MonoBehaviour
 	public int Budget = 0;
 	public int roadCounter = 0;
 	public int beamsCounter = 0;
-	public int ropeCounter = 2;
+	public int ropeCounter = 0;
 	public float breakForce = 100;
 	public float EndbreakForceMultiplier = 10;
 	public Transform m_Grid;
