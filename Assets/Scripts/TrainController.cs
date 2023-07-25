@@ -3,7 +3,7 @@ using System.Collections;
 
 public class TrainController : MonoBehaviour {
 
-	[HideInInspector]public Vector3 trainDirection = new Vector3(8.0f, 0.0f, 0.0f);
+	public Vector3 trainDirection = new Vector3(8.0f, 0.0f, 0.0f);
 
 	private ResetPhysics[] trainWagon;
 

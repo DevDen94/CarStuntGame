@@ -265,6 +265,7 @@ public class BridgeBuilderGUI : MonoBehaviour {
 	public void reloadScene ()
 	{
 		AudioManager.instance.buttonAudio.Play();
+		AudioManager.instance.carStart.volume = 0.0f;
 		SceneManager.LoadScene (SceneManager.GetActiveScene ().name);
 	}
 
@@ -355,6 +356,7 @@ public class BridgeBuilderGUI : MonoBehaviour {
 	public void RunTrain ()
 	{
 		AudioManager.instance.carStart.Play();
+		AudioManager.instance.carStart.volume = 1.0f;
 		bridgeSetup.StartTrain ();
 		runButton.SetActive(false);
 	}
