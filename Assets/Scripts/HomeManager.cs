@@ -17,7 +17,7 @@ public class HomeManager : MonoBehaviour
         //PlayerPrefs.SetInt("CatLock_" + (HomeManager._currentCategory + 3), 0);
         //PlayerPrefs.SetInt("CatLock_" + (HomeManager._currentCategory + 4), 0);
 
-       
+
         Time.timeScale = 1;
         AudioManager.instance.musicSource.Play();
         AudioManager.instance.wind.Stop();

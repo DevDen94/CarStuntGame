@@ -57,6 +57,7 @@ public class BridgeBuilderGUI : MonoBehaviour {
 	public GameObject ropeSprtie;
 	public void changeBeamState (int index)
 	{
+		AudioManager.instance.buttonAudio.Play();
 		_beamType = (beamType)index;
 
         if (_beamType == beamType.beam)
@@ -113,7 +114,8 @@ public class BridgeBuilderGUI : MonoBehaviour {
 		displayOverBudgetError = true;
 		//timer = timerToDisplay;
 	}
-
+	public GameObject zoomBTN;
+	public GameObject resetBtn;
 
 	public void backToDraw ()
 	{
@@ -131,6 +133,12 @@ public class BridgeBuilderGUI : MonoBehaviour {
 			carStopButtom.SetActive (false);
 			StopTrain();
 			UndoButton.SetActive(true);
+			zoomBTN.SetActive(true);
+			resetBtn.SetActive(true);
+			GridBTN.SetActive(true);
+			roadSprtie.SetActive(true);
+			beamSprtie.SetActive(true);
+
 
 		} else if (BridgeSetup.eLevelStage.SetupStage == bridgeSetup.LevelStage) {
 			bridgeSetup.LevelStage = BridgeSetup.eLevelStage.PlayStage;
@@ -141,6 +149,11 @@ public class BridgeBuilderGUI : MonoBehaviour {
 			runButton.SetActive (true);
 			carStopButtom.SetActive (true);
 			UndoButton.SetActive(false);
+			zoomBTN.SetActive(false);
+			resetBtn.SetActive(false);
+			GridBTN.SetActive(false);
+			roadSprtie.SetActive(false);
+			beamSprtie.SetActive(false);
 
 		}
 	}
@@ -219,8 +232,13 @@ public class BridgeBuilderGUI : MonoBehaviour {
 		else
 			Time.timeScale = 1;
 
-		
-		
+
+   //     if (resetPanel.gameObject.activeInHierarchy)
+   //     {
+			
+			//levelFailedPanel.SetActive(false);
+			//LevelCompletePanel.SetActive(false);
+   //     }
 	}
 	void OnGUI ()
 	{
@@ -244,12 +262,15 @@ public class BridgeBuilderGUI : MonoBehaviour {
 	{
 		AudioManager.instance.buttonAudio.Play();
 		resetPanel.SetActive (false);
+	
+	
 	}
 
 	public void OpenPanel ()
 	{
 		AudioManager.instance.Panelopen.Play();
 		resetPanel.SetActive (true);
+		
 	}
 
 	public void ResetLevel ()
@@ -266,6 +287,7 @@ public class BridgeBuilderGUI : MonoBehaviour {
 	{
 		AudioManager.instance.buttonAudio.Play();
 		AudioManager.instance.carStart.volume = 0.0f;
+	
 		SceneManager.LoadScene (SceneManager.GetActiveScene ().name);
 	}
 
@@ -333,6 +355,7 @@ public class BridgeBuilderGUI : MonoBehaviour {
 	}
 
 	public GameObject Grid;
+	public GameObject GridBTN;
 
 	public void GridEnabler ()
 	{
