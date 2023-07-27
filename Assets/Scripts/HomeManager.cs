@@ -9,6 +9,9 @@ public class HomeManager : MonoBehaviour
 {
     public GameObject SettingPanel, ExitPanel;
     public GameObject mainScenePanel, ModeSelectionPanel, StuntModePanel, FullBridgePanel;
+
+
+  
     private void Start()
     {
 
@@ -36,6 +39,7 @@ public class HomeManager : MonoBehaviour
     {
 
         AudioManager.instance.Panelopen.Play();
+      
         ExitPanel.SetActive(true);
     }
     public void YesExit()

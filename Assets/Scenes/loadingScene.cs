@@ -22,7 +22,7 @@ public class loadingScene : MonoBehaviour
     IEnumerator fillImage()
     {
         float t = 0.1f;
-        while (t <= 1)
+        while (t <= 1.5)
         {
             t += Time.deltaTime;
             yield return null;
@@ -47,4 +47,5 @@ public class loadingScene : MonoBehaviour
             yield return null;
         }
     }
+
 }
