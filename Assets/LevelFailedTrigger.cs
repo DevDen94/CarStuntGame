@@ -15,8 +15,9 @@ public class LevelFailedTrigger : MonoBehaviour
 			AudioManager.instance.CarSink.Play();
 			Invoke ("failPanel", 1);
 			other.transform.parent.GetComponent<TrainController> ().trainWorking = false;
-			//other.transform.parent.GetComponent<TrainController> ().trainDirection = Vector3.zero;
+			//other.transform.parent.GetComponent<TrainController> ().trainDirection = Vector3.zero; try k
 			gui.StopTrain1 ();
+			other.GetComponent<Collider>().enabled = false;
 		}
 
 	}

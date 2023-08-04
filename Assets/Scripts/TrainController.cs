@@ -78,6 +78,8 @@ public class TrainController : MonoBehaviour {
 		foreach (ResetPhysics rp in trainWagon) {
 			rp.Reset();
 		}
+
+		transform.GetChild(0).GetComponent<Collider>().enabled = true; //play
 	}
 
 	public void SetVisible(bool value) {
@@ -87,4 +89,23 @@ public class TrainController : MonoBehaviour {
 			r.enabled = value;
 		}
 	}
+
+ //   bool onetime = false;
+ //   private void OnCollisionEnter(Collision collision)
+ //   {
+ //       if (collision.gameObject.tag == "rock" && !onetime)
+ //       {
+ //           onetime = true;
+ //           Debug.LogError("collided with rock");
+ //           Invoke("forcefulLevelFailed", 5);
+ //       }
+ //   }
+
+ //   void forcefulLevelFailed()
+	//{
+	//	if (!Camera.main.GetComponent<BridgeBuilderGUI>().gamePaused)
+	//	{
+	//		Camera.main.GetComponent<BridgeBuilderGUI>().LevelFailed();
+	//	}
+	//}
 }

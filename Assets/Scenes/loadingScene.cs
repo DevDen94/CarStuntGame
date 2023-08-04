@@ -6,46 +6,36 @@ using UnityEngine.SceneManagement;
 
 public class loadingScene : MonoBehaviour
 {
-    [SerializeField] Image loadingImage;
+    public Image loadingBarImage;
+    public float fillDuration = 3f; // Time it takes to fill the Image
+    public float delayBeforeLoadScene = 1f; // Delay before loading the next scene
+    public string nextSceneName = "MainMenu"; // Name of the scene you want to load
 
-
-  
-
-    void Start()
+    private void Start()
     {
-
-       
-
-        StartCoroutine(fillImage());
+        StartCoroutine(AnimateLoadingBar());
     }
 
-    IEnumerator fillImage()
+    private IEnumerator AnimateLoadingBar()
     {
-        float t = 0.1f;
-        while (t <= 1.5)
-        {
-            t += Time.deltaTime;
-            yield return null;
-            loadingImage.fillAmount = t;
-        }
-        yield return null;
-        SceneManager.LoadScene("MainMenu");
-       
-    }
-    IEnumerator LoadAsynchronously(int sceneIndex)
-    {
-        AsyncOperation operation = SceneManager.LoadSceneAsync("MainMenu");
-        gameObject.SetActive(true);
+        float elapsedTime = 0f;
 
-        yield return null;
-
-        while (!operation.isDone)
+        while (elapsedTime < fillDuration)
         {
-            float progress = Mathf.Clamp01(operation.progress / .9f);
-            Debug.Log(progress);
-            loadingImage.fillAmount = progress;
+            float fillAmount = Mathf.Lerp(0f, 1f, elapsedTime / fillDuration);
+            loadingBarImage.fillAmount = fillAmount;
+
+            elapsedTime += Time.deltaTime;
             yield return null;
         }
-    }
 
+        // Ensure the Image is completely filled at the end
+        loadingBarImage.fillAmount = 1f;
+
+        // Wait for the delay before loading the next scene
+        yield return new WaitForSeconds(delayBeforeLoadScene);
+
+        // Load the next scene
+        SceneManager.LoadScene(nextSceneName);
+    }
 }

@@ -6,12 +6,15 @@ public class ResetPhysics : MonoBehaviour {
 	private Vector3 position;
 	private Quaternion rotation;
 	bool tapped = false;
-	public GameObject dustParticlePrefab
-		;
+	public GameObject dustParticlePrefab;
+
+	BridgeBeam b;
+	bool oneTimeCollision = false;
 
 	void Awake () {
 		UpdatePosition();
 		joints = new HingeJoint [0];
+		b = GetComponentInParent<BridgeBeam>();
 	}
 
 	public void UpdatePosition() {
@@ -40,7 +43,7 @@ public class ResetPhysics : MonoBehaviour {
 			//AudioManager.instance.beamDestroy.Play();
 			if (tapped) {
 				AudioManager.instance.beamDestroy.Play();
-				BridgeBeam b = GetComponentInParent<BridgeBeam> ();
+				 b = GetComponentInParent<BridgeBeam> ();
 				//Debug.LogError ("destroy");
 				if (b.bridgeSetupParent.LevelStage == BridgeSetup.eLevelStage.SetupStage) {
 					//b.anchorStart = null;
@@ -51,7 +54,7 @@ public class ResetPhysics : MonoBehaviour {
 					temp.position = pos;
 					temp.parent = null;
 					temp.localScale = Vector3.one;
-					b.decreaseCounter ();
+					b.decreaseCounter (true);
 					//int index = b.bridgeSetupParent.allCreatedBeams.IndexOf(b);
 					//b.bridgeSetupParent.allCreatedBeams.RemoveAt(index);
 					b.bridgeSetupParent.gui.updateListCount();
@@ -103,4 +106,107 @@ public class ResetPhysics : MonoBehaviour {
 	{
 		joints = new HingeJoint [0];
 	}
+
+	public Vector3 onSamePlainVector;
+
+    private void OnTriggerEnter(Collider other)
+    {
+		if ((gameObject.tag == "road" || gameObject . tag == "beam") && (other.gameObject.tag == "beam" || other.gameObject.tag == "road")&&b.gameObject==b.bridgeSetupParent.currentBeam)
+		{
+			string eulerAngle = null;
+			string OverlappingBeam = null;
+
+			float z = 0;
+
+			eulerAngle = new Vector3(Mathf.Round(transform.parent.eulerAngles.x), Mathf.Round (transform.parent.eulerAngles.y), Mathf.Round (transform.parent.eulerAngles.z)).ToString();
+
+
+			Debug.LogError ("zAxis = " + transform.eulerAngles.z);
+
+				OverlappingBeam = new Vector3 (Mathf.Round (other.transform.parent.eulerAngles.x), Mathf.Round (other.transform.parent.eulerAngles.y), Mathf.Round (other.transform.parent.eulerAngles.z)).ToString ();
+
+
+			//	if (gameObject.tag == "road") {
+
+			//	OverlappingBeam = new Vector3 (Mathf.Round (other.transform.parent.GetChild (1).eulerAngles.x), Mathf.Round (other.transform.parent.GetChild (1).eulerAngles.y), Mathf.Round (other.transform.parent.GetChild (1).eulerAngles.z)).ToString ();
+			//} else if (gameObject.tag == "beam") {
+
+
+			//		OverlappingBeam = new Vector3 (Mathf.Round (other.transform.parent.GetChild (0).eulerAngles.x), Mathf.Round (other.transform.parent.GetChild (0).eulerAngles.y), Mathf.Round (other.transform.parent.GetChild (0).eulerAngles.z)).ToString ();
+			//}
+			Debug.LogError(b.gameObject == b.bridgeSetupParent.currentBeam, b.gameObject);
+			Debug.LogError (OverlappingBeam);
+			Debug.LogError (eulerAngle);
+			//Vector3 onSamePlainVector = Vector3.Cross(transform.eulerAngles,other.transform.eulerAngles);
+			//onSamePlainVector.x = Mathf.Abs(onSamePlainVector.x);
+			//onSamePlainVector.y = Mathf.Abs(onSamePlainVector.y);
+			//onSamePlainVector.z = Mathf.Abs(onSamePlainVector.z);
+
+			Vector3 current = transform.parent.eulerAngles;
+			Vector3 collided = Vector3.zero/* = other.transform.eulerAngles.normalized*/;
+			// if (other.gameObject.tag == "road")
+			//   collided = new Vector3(other.transform.parent.GetChild(1).eulerAngles.x, other.transform.parent.GetChild(1).eulerAngles.y, other.transform.parent.GetChild(1).eulerAngles.z);
+			// else if (other.gameObject.tag == "beam")
+			//   collided = new Vector3(other.transform.parent.GetChild(0).eulerAngles.x, other.transform.parent.GetChild(0).eulerAngles.y, other.transform.parent.GetChild(0).eulerAngles.z);
+			collided = other.transform.parent.eulerAngles;
+            Vector3 onSamePlainVector = Vector3.Cross(current, collided);
+
+
+			bool onSamePlain = onSamePlainVector == Vector3.zero;
+
+
+            Debug.LogError(onSamePlainVector,gameObject);
+
+			if (eulerAngle == OverlappingBeam&&!oneTimeCollision ) 
+			{
+				float beamVecMagnitude1 = (b.pointEnd.transform.position - b.pointStart.transform.position).magnitude;
+				float beamVecMagnitude2 = (other.GetComponentInParent<BridgeBeam>().pointEnd.transform.position - other.GetComponentInParent<BridgeBeam>().pointStart.transform.position).magnitude;
+
+				//float totalLength = beamVecMagnitude1 + beamVecMagnitude2;
+
+				float totalLength = (b.pointEnd.transform.position - other.GetComponentInParent<BridgeBeam>().pointEnd.transform.position).magnitude;
+
+
+				float greaterValue = 0;
+
+				if (beamVecMagnitude1 > beamVecMagnitude2)
+					greaterValue = beamVecMagnitude1;
+				else
+					greaterValue = beamVecMagnitude2;
+
+				bool isOnOppositeDirection = (totalLength <= greaterValue);
+
+				if (isOnOppositeDirection)
+				{
+					oneTimeCollision = true;
+					//	BridgeSetup.destroyUsingTrigger = false;
+					b = GetComponentInParent<BridgeBeam>();
+					if (b.transform.GetSiblingIndex() > other.transform.GetComponentInParent<BridgeBeam>().transform.GetSiblingIndex())
+					{
+						Debug.LogError(other.name, other.gameObject);
+						Debug.LogError(transform.GetSiblingIndex());
+						Debug.LogError(other.transform.GetSiblingIndex());
+						b.decreaseCounter(true);
+						//int index = b.bridgeSetupParent.allCreatedBeams.IndexOf(b);
+						//b.bridgeSetupParent.allCreatedBeams.RemoveAt(index);
+						b.bridgeSetupParent.gui.updateListCount();
+						b.bridgeSetupParent.allCreatedBeams.Remove(b);
+						b.bridgeSetupParent.DestroyBeam(b.gameObject);
+					}
+				}
+
+			}
+        }
+
+		if ((gameObject.tag == "road" || gameObject.tag == "beam") && other.gameObject.tag == "rock"&& BridgeSetup.eLevelStage.SetupStage == b.bridgeSetupParent.LevelStage)
+		{
+			b = GetComponentInParent<BridgeBeam>();
+			b.decreaseCounter(true);
+			//int index = b.bridgeSetupParent.allCreatedBeams.IndexOf(b);
+			//b.bridgeSetupParent.allCreatedBeams.RemoveAt(index);
+			b.bridgeSetupParent.gui.updateListCount();
+			b.bridgeSetupParent.allCreatedBeams.Remove(b);
+			b.bridgeSetupParent.DestroyBeam(b.gameObject);
+		}
+    }
 }

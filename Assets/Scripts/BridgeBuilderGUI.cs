@@ -11,7 +11,7 @@ public class BridgeBuilderGUI : MonoBehaviour {
 	public Text beamText;
 	public Text roadText;
 	public Text ropeText;
-
+	public GameObject waterLevel;
 	public GameObject InsideCarCamera;
 	public GameObject snapPointCamera;
 	public GameObject UndoButton;
@@ -190,7 +190,7 @@ public class BridgeBuilderGUI : MonoBehaviour {
 				//{
 				//             Temp.bridgeSetupParent.currentRopeCount--;
 				//         }
-				Temp.decreaseCounter();
+				Temp.decreaseCounter(true);
 				DestroyImmediate (Temp.gameObject, true);
 				updateListCount();
             }
@@ -306,7 +306,7 @@ public class BridgeBuilderGUI : MonoBehaviour {
 		AudioManager.instance.winAudio.Play();
 		LevelCompletePanel.SetActive (true);
 		int currentLevelIndex = int.Parse (HomeManager.selectedLevel.Split('_')[1].ToString ());
-
+		gamePaused = true;
 
 		if (PlayerPrefs.GetInt("LevelLock_" + HomeManager._category, 1) < currentLevelIndex + 1)
 			PlayerPrefs.SetInt("LevelLock_" + HomeManager._category, currentLevelIndex + 1);
@@ -325,13 +325,24 @@ public class BridgeBuilderGUI : MonoBehaviour {
 	}
 
 	public GameObject levelFailedPanel;
-	public void LevelFailed ()
+	//public void LevelFailed ()
+	//{
+	//	AudioManager.instance.failAudio.Play();
+	//	gamePaused = true;
+	//	levelFailedPanel.SetActive (true);
+	//}
+	public void LevelFailed()
 	{
-		AudioManager.instance.failAudio.Play();
-		gamePaused = true;
-		levelFailedPanel.SetActive (true);
-	}
 
+		//if (levelFailedPanel.activeInHierarchy == false) try kro
+	
+		if (!gamePaused&&!levelFailedPanel.activeInHierarchy)
+		{
+			AudioManager.instance.failAudio.Play();
+			gamePaused = true;
+			levelFailedPanel.SetActive(true);
+		}
+	}
 
 	public void loadNextLevel ()
 	{

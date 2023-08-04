@@ -174,7 +174,14 @@ public class BridgeSetup : MonoBehaviour {
 	public bool IsBeamCount = false;
 	public bool isRope = false;
 
+	public static bool destroyUsingTrigger = false;
+
+	public GameObject currentBeam;
+
 	BridgeBuilderGUI.beamType beamType;
+	public Dictionary<string, string> beamData = new Dictionary<string, string> ();
+	public List<string> allKeysofDict = new List<string> ();
+	public List<int> beamDataKeysCOunter = new List<int> ();
 	//BridgeBeam
 	public static bool isDrawing = false;
 	public bool DrawBeam = true;
@@ -192,12 +199,21 @@ public class BridgeSetup : MonoBehaviour {
 						isRope = _levelData.ropeCounter > currentRopeCount;
 						beamType = gui._beamType;
 
+						//Debug.LogError (objClicked, objClicked);
 						if (IsRoadBeam && beamType == BridgeBuilderGUI.beamType.road)
 						{
+							//if (beamData.ContainsKey (objClicked.transform.position.ToString())) {
+							//	Debug.LogError ("exist");
+							//} else {
+							//	Debug.LogError ("notExist");
+							//}
 							CreateBeam(objClicked);
 						}
 						else if (IsBeamCount && beamType == BridgeBuilderGUI.beamType.beam)
 						{
+								if (beamData.ContainsKey (objClicked.transform.position.ToString())) {
+								Debug.LogError ("exist");
+							}
 						///	print("beamClicked");
 							CreateBeam(objClicked);
 						}
@@ -224,8 +240,10 @@ public class BridgeSetup : MonoBehaviour {
 
 			}
 			else if (Input.GetMouseButtonUp (0)) {
+				destroyUsingTrigger = false;
 				isDrawing = false;
 			}
+		
 			RecalculateCost ();
 		} else if (eLevelStage.PlayStage == levelStage) {
 			if (trainController.trainHead.transform.position.x >= trainGoal) {
@@ -349,10 +367,12 @@ public class BridgeSetup : MonoBehaviour {
 
 	private BridgeBeam CreateBeam (GameObject snapPoint)
 	{
+		destroyUsingTrigger = true;
 		AudioManager.instance.beamMake.Play();
 		GameObject go = Instantiate (BridgeBeamPrefab, snapPoint.transform.position, new Quaternion ()) as GameObject;
 		BridgeBeam bb = go.GetComponent<BridgeBeam> ();
 		bb.bridgeSetupParent = this;
+		currentBeam = go;
 		Vector3 newPos = new Vector3 (snapPoint.transform.position.x, snapPoint.transform.position.y, gridOrigin.z);
 		bb.StartLayout (newPos, snapPoint, this);
 		bb.transform.parent = bridgeBeams.transform;
