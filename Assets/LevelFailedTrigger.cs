@@ -24,7 +24,7 @@ public class LevelFailedTrigger : MonoBehaviour
 
 	void failPanel ()
 	{
-
-		gui.LevelFailed ();
+		if( BridgeSetup.eLevelStage.PlayStage == gui.bridgeSetup.LevelStage)
+			gui.LevelFailed ();
 	}
 }

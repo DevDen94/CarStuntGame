@@ -466,7 +466,20 @@ public class BridgeSetup : MonoBehaviour {
 		}
 	}
 
-	private void SetBeamsToSetup ()
+    public void SetEndPoints()
+    {
+        BridgeBeam[] bb = bridgeBeams.GetComponentsInChildren<BridgeBeam>();
+
+        foreach (BridgeBeam b in bb)
+        {
+
+
+            b.reassignEndPoint();
+			b.reassignStartPoint();
+        }
+    }
+
+    private void SetBeamsToSetup ()
 	{
 		BridgeBeam [] bb = bridgeBeams.GetComponentsInChildren<BridgeBeam> ();
 

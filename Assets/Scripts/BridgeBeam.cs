@@ -99,12 +99,15 @@ public class BridgeBeam : MonoBehaviour {
 
 	public void reassignEndPoint()
 	{
-        anchorEnd = bridgeSetupParent.GetOtherEndPoint(pointEnd);
+
+        if (anchorEnd == null && isEndAnchorUsed)
+            anchorEnd = bridgeSetupParent.GetOtherEndPoint(pointEnd);
     }
 
 	public void reassignStartPoint()
 	{
-        anchorStart = bridgeSetupParent.GetOtherEndPoint(pointStart);
+        if (anchorStart == null && isStartAnchorUsed)
+            anchorStart = bridgeSetupParent.GetOtherEndPoint(pointStart);
     }
 
 	public string startVector = null; public string endVector = null;
@@ -474,7 +477,7 @@ public class BridgeBeam : MonoBehaviour {
 		try { Debug.LogError (anchorStart); } catch { anchorStart = null; }
 
 
-		if (anchorStart == null&&isStartAnchorUsed)
+
 			reassignStartPoint();
 
 		if (anchorStart!=null) {
@@ -493,10 +496,7 @@ public class BridgeBeam : MonoBehaviour {
 			isStartAnchorUsed = true;
 		}
 
-		if (anchorEnd==null&&isEndAnchorUsed)
-		{
 			reassignEndPoint();
-		}
 
 		if (anchorEnd!=null) {
 			bool terrainAnchor = anchorEnd.GetComponent<SnapPoint> ().isBaseTerrain;

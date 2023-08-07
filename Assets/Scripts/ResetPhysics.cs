@@ -55,6 +55,7 @@ public class ResetPhysics : MonoBehaviour {
 					temp.parent = null;
 					temp.localScale = Vector3.one;
 					b.decreaseCounter (true);
+					b.bridgeSetupParent.SetEndPoints();
 					//int index = b.bridgeSetupParent.allCreatedBeams.IndexOf(b);
 					//b.bridgeSetupParent.allCreatedBeams.RemoveAt(index);
 					b.bridgeSetupParent.gui.updateListCount();
