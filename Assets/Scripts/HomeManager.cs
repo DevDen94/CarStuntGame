@@ -12,10 +12,10 @@ public class HomeManager : MonoBehaviour
     private void Start()
     {
 
-        //PlayerPrefs.SetInt("CatLock_" + (HomeManager._currentCategory + 1), 0);
-        //PlayerPrefs.SetInt("CatLock_" + (HomeManager._currentCategory + 2), 0);
-        //PlayerPrefs.SetInt("CatLock_" + (HomeManager._currentCategory + 3), 0);
-        //PlayerPrefs.SetInt("CatLock_" + (HomeManager._currentCategory + 4), 0);
+        ////PlayerPrefs.SetInt("CatLock_" + (HomeManager._currentCategory + 1), 0);
+        ////PlayerPrefs.SetInt("CatLock_" + (HomeManager._currentCategory + 2), 0);
+        ////PlayerPrefs.SetInt("CatLock_" + (HomeManager._currentCategory + 3), 0);
+        ////PlayerPrefs.SetInt("CatLock_" + (HomeManager._currentCategory + 4), 0);
 
 
         Time.timeScale = 1;
