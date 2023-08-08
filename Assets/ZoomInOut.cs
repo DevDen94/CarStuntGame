@@ -24,7 +24,7 @@ public class ZoomInOut : MonoBehaviour
 	float fOv = 23;
 
 
-	bool _zoomIn = false;
+	public bool _zoomIn = false;
 	
 	public FixedTouchField touchField;
 	public float xAxis = 1-1;
@@ -46,12 +46,16 @@ public class ZoomInOut : MonoBehaviour
 
 	float value = -1;
 
-	public void zooming ()
+	public void zooming()
 	{
 		AudioManager.instance.buttonAudio.Play();
 		value = value == 1 ? -1 : 1;
 		if (value == 1)
+		{
+			xAxis = transform.position.x;
+			yAxis = transform.position.y;
 			_zoomIn = true;
+		}
 		else
 			_zoomIn = false;
 	}

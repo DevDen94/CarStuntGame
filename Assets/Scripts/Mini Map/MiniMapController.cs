@@ -45,8 +45,5 @@ public class MiniMapController : MonoBehaviour
         }
     }
 
-    public void MINI()
-    {
-        gameObject.SetActive(false);
-    }
+   
 }

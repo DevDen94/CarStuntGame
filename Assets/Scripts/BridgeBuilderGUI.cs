@@ -88,6 +88,8 @@ public class BridgeBuilderGUI : MonoBehaviour {
 
 	public Text LevelText;
 	GameObject Temp_Hint;
+
+	public GameObject HintAfterAdd;
 	void Start()
 	{
 		AudioManager.instance.musicSource.Stop();
@@ -105,13 +107,21 @@ public class BridgeBuilderGUI : MonoBehaviour {
 		LevelText.text = "Level " + currentLevelIndex;
 
 	}
-
+	public bool hintBtnActiveStatus = false;
+	public void showHintBtn()
+    {
+		
+		HINTbTN.SetActive(false);
+		hintBtnActiveStatus = true;
+		showHint();
+		HintAfterAdd.SetActive(true);
+    }
     public void showHint()
 	{
 		Temp_Hint.SetActive(!Temp_Hint.activeInHierarchy);
 	}
 
-
+	public GameObject levelbtn;
 
 	public void AllowRopeDrawing ()
 	{
@@ -121,7 +131,7 @@ public class BridgeBuilderGUI : MonoBehaviour {
 			ropeText.transform.parent.gameObject.SetActive (true);
 		}
 	}
-
+	public GameObject minimap;
 	public void DisplayOverBudgetError ()
 	{
 		displayOverBudgetError = true;
@@ -129,7 +139,7 @@ public class BridgeBuilderGUI : MonoBehaviour {
 	}
 	public GameObject zoomBTN;
 	public GameObject resetBtn;
-
+	public ZoomInOut _zoominOut;
 	public void backToDraw ()
 	{
 		AudioManager.instance.buttonAudio.Play();
@@ -151,11 +161,30 @@ public class BridgeBuilderGUI : MonoBehaviour {
 			GridBTN.SetActive(true);
 			roadSprtie.SetActive(true);
 			beamSprtie.SetActive(true);
-			HINTbTN.SetActive(true);
+			levelbtn.SetActive(true);
+
+            if (hintBtnActiveStatus==false)
+            {
+				HINTbTN.SetActive(true);
+
+			}
+
+			if (hintBtnActiveStatus == true)
+			{
+				HintAfterAdd.SetActive(true);
+
+			}
+			
 
 
 		} else if (BridgeSetup.eLevelStage.SetupStage == bridgeSetup.LevelStage) {
 			bridgeSetup.LevelStage = BridgeSetup.eLevelStage.PlayStage;
+			if (_zoominOut._zoomIn)
+			{ 
+				_zoominOut.zooming();
+				minimap.SetActive(false);
+			}
+				
 			UpdateCamera (true);
 			bridgeSetup.assignJoints (true);
 			snapPointCamera.SetActive(false);
@@ -169,6 +198,8 @@ public class BridgeBuilderGUI : MonoBehaviour {
 			roadSprtie.SetActive(false);
 			beamSprtie.SetActive(false);
 			HINTbTN.SetActive(false);
+			levelbtn.SetActive(false);
+			HintAfterAdd.SetActive(false);
 
 		}
 	}
@@ -184,7 +215,7 @@ public class BridgeBuilderGUI : MonoBehaviour {
 		else {
 			Cam2.enabled= (true);
 			Cam1.enabled= (false);
-			FindObjectOfType<MiniMapController>().MINI();
+		//FindObjectOfType<MiniMapController>().MINI();
 			
 		}
 	}
