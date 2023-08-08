@@ -6,12 +6,14 @@ using UnityEngine.EventSystems;
 using System.Collections.Generic;
 public class BridgeBuilderGUI : MonoBehaviour {
 
+
+	public GameObject HINTbTN;
 	bool DrawBeams = true;
 	public BridgeSetup bridgeSetup;
 	public Text beamText;
 	public Text roadText;
 	public Text ropeText;
-	public GameObject waterLevel;
+	//public GameObject waterLevel;
 	public GameObject InsideCarCamera;
 	public GameObject snapPointCamera;
 	public GameObject UndoButton;
@@ -84,18 +86,29 @@ public class BridgeBuilderGUI : MonoBehaviour {
 
 	}
 
-
-	void Start ()
+	public Text LevelText;
+	GameObject Temp_Hint;
+	void Start()
 	{
 		AudioManager.instance.musicSource.Stop();
 		AudioManager.instance.wind.Play();
-		iTween.MoveTo (EnvirnmentCamera, iTween.Hash ("position", envrinmentCamPosition.position, "time", .5f, "easetype", iTween.EaseType.linear));
-		iTween.RotateTo (EnvirnmentCamera, iTween.Hash ("rotation", Vector3.zero, "time", .5f, "easetype", iTween.EaseType.linear));
-		GameObject currentLevelPrefab = Resources.Load<GameObject> ("Levels/" + HomeManager._category + "/" + HomeManager.selectedLevel.Replace("_",""));
-		GameObject Temp = Instantiate (currentLevelPrefab);
-		bridgeSetup = Temp.GetComponentInChildren<BridgeSetup> ();
-		runButton.SetActive (false);
-		//AllowRopeDrawing ();
+		iTween.MoveTo(EnvirnmentCamera, iTween.Hash("position", envrinmentCamPosition.position, "time", .5f, "easetype", iTween.EaseType.linear));
+		iTween.RotateTo(EnvirnmentCamera, iTween.Hash("rotation", Vector3.zero, "time", .5f, "easetype", iTween.EaseType.linear));
+		GameObject currentLevelPrefab = Resources.Load<GameObject>("Levels/" + HomeManager._category + "/" + HomeManager.selectedLevel.Replace("_", ""));
+		GameObject Temp = Instantiate(currentLevelPrefab);
+		bridgeSetup = Temp.GetComponentInChildren<BridgeSetup>();
+		runButton.SetActive(false);
+        //AllowRopeDrawing ();
+        GameObject currentLevelPrefabHint = Resources.Load<GameObject>("Levels_Hint/" + HomeManager._category + "/" + HomeManager.selectedLevel.Replace("_", ""));
+        Temp_Hint = Instantiate(currentLevelPrefabHint);
+		int currentLevelIndex = int.Parse(HomeManager.selectedLevel.Split('_')[1].ToString());
+		LevelText.text = "Level " + currentLevelIndex;
+
+	}
+
+    public void showHint()
+	{
+		Temp_Hint.SetActive(!Temp_Hint.activeInHierarchy);
 	}
 
 
@@ -138,6 +151,7 @@ public class BridgeBuilderGUI : MonoBehaviour {
 			GridBTN.SetActive(true);
 			roadSprtie.SetActive(true);
 			beamSprtie.SetActive(true);
+			HINTbTN.SetActive(true);
 
 
 		} else if (BridgeSetup.eLevelStage.SetupStage == bridgeSetup.LevelStage) {
@@ -154,6 +168,7 @@ public class BridgeBuilderGUI : MonoBehaviour {
 			GridBTN.SetActive(false);
 			roadSprtie.SetActive(false);
 			beamSprtie.SetActive(false);
+			HINTbTN.SetActive(false);
 
 		}
 	}
@@ -169,6 +184,8 @@ public class BridgeBuilderGUI : MonoBehaviour {
 		else {
 			Cam2.enabled= (true);
 			Cam1.enabled= (false);
+			FindObjectOfType<MiniMapController>().MINI();
+			
 		}
 	}
 
@@ -447,5 +464,23 @@ public GameObject carStopButtom;
   //      {
 		//	AudioManager.instance.carStart.volume = 1.0f;
 		//}
+	}
+
+
+	public void skipLevel()
+	{
+		int currentLevelIndex = int.Parse(HomeManager.selectedLevel.Split('_')[1].ToString());
+
+		if (currentLevelIndex < 11)
+		{
+			currentLevelIndex++;
+			HomeManager.selectedLevel = "Level_" + currentLevelIndex;
+			SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+		}
+		if (currentLevelIndex == 11)
+		{
+			SceneManager.LoadScene("MainMenu");
+			PlayerPrefs.SetInt("CatLock_" + (HomeManager._currentCategory + 1), 0);
+		}
 	}
 }

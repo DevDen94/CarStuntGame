@@ -110,6 +110,15 @@ public class BridgeBeam : MonoBehaviour {
             anchorStart = bridgeSetupParent.GetOtherEndPoint(pointStart);
     }
 
+
+	void saveAnchors()
+	{
+		if (anchorStart != null)
+			isStartAnchorUsed = true;
+		if (anchorEnd != null)
+			isEndAnchorUsed = true;
+	}
+
 	public string startVector = null; public string endVector = null;
 
 	int startIndex = -1;
@@ -127,6 +136,7 @@ public class BridgeBeam : MonoBehaviour {
 				DestroyIfSamePosition ();
 
 				anchorEnd = bridgeSetupParent.GetOtherEndPoint (pointEnd);
+				saveAnchors();
 				//	Debug.Log (anchorEnd);
 			}
 
