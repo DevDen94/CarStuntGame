@@ -199,6 +199,8 @@ public class BridgeBeam : MonoBehaviour {
 					bridgeSetupParent.currentRoadsCount++;
 					//					Debug.LogError (bridgeSetupParent.currentRoadsCount);
 					//addCollider ();
+
+					Debug.Log(transform.parent.eulerAngles + "\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\");
 					if (beamVector.magnitude < 2f)
 					{
 						decreaseCounter(false);
@@ -307,7 +309,7 @@ public class BridgeBeam : MonoBehaviour {
 					//}
 					////	Debug.LogError (bridgeSetupParent.currentBeamsCount);
 					//	addCollider ();
-
+					Debug.Log(transform.parent.eulerAngles + "\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\");
 					if (beamVector.magnitude < 2f)
 					{
 						decreaseCounter(false);
@@ -405,8 +407,8 @@ public class BridgeBeam : MonoBehaviour {
 			cc.enabled = false;
 			BoxCollider cpl = road.AddComponent<BoxCollider> ();
 			cpl.isTrigger = true;
-			cpl.size = new Vector3 (cpl.size.x, cpl.size.y, 0.003f);
-			cpl.center = new Vector3 (cpl.center.x, cpl.center.y, 0);
+			cpl.size = new Vector3 (cpl.size.x, cpl.size.y, 0.001723294xf);
+			cpl.center = new Vector3 (cpl.center.x, cpl.center.y, -4.25563f);
 			cc.material = beamMaterial;
 			cc.convex = true;
 
