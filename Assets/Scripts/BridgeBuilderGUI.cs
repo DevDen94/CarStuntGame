@@ -501,6 +501,10 @@ public GameObject carStopButtom;
 	public void skipLevel()
 	{
 		int currentLevelIndex = int.Parse(HomeManager.selectedLevel.Split('_')[1].ToString());
+		gamePaused = true;
+
+		if (PlayerPrefs.GetInt("LevelLock_" + HomeManager._category, 1) < currentLevelIndex + 1)
+			PlayerPrefs.SetInt("LevelLock_" + HomeManager._category, currentLevelIndex + 1);
 
 		if (currentLevelIndex < 11)
 		{
@@ -513,5 +517,11 @@ public GameObject carStopButtom;
 			SceneManager.LoadScene("MainMenu");
 			PlayerPrefs.SetInt("CatLock_" + (HomeManager._currentCategory + 1), 0);
 		}
+
+
+
+
+
+	
 	}
 }
