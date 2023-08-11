@@ -54,16 +54,16 @@ public class MainMenuLeanTween : MonoBehaviour
 
     public void RateUs()
     {
-        Application.OpenURL("https://darwingames1.blogspot.com/2023/06/privacy-policy.html");
+        Application.OpenURL("https://apps.apple.com/us/app/bridge-builder-stunt-car-games/id6459148538");
     }
     public void MoreGamesBtn()
     {
-        Application.OpenURL("https://play.google.com/store/apps/developer?id=Darwin+Games");
+        Application.OpenURL("https://apps.apple.com/us/developer/farrukh-zaib/id1609304796");
 
     }
     public void PP()
     {
-        Application.OpenURL("https://play.google.com/store/apps/details?id="+Application.identifier);
+        Application.OpenURL("https://docs.google.com/document/d/1r60q4Prp2Qw9DbF4FnmQbUJkwEX0YRSkvxEgL2CLryM/edit?usp=sharing");
 
     }
 

@@ -1,38 +1,35 @@
 {
   "project_info": {
-    "project_number": "574655398826",
-    "project_id": "bridge-builder-4a18e",
-    "storage_bucket": "bridge-builder-4a18e.appspot.com"
+    "project_number": "528733224436",
+    "project_id": "bridgebuilderios",
+    "storage_bucket": "bridgebuilderios.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:574655398826:android:518a5b6fdeb6059d2821d3",
+        "mobilesdk_app_id": "1:528733224436:ios:5284722eb4b48b908d8da1",
         "android_client_info": {
-          "package_name": "com.darwingames.bridgebuilder.stunts.car.games"
+          "package_name": "com.stackergames.bridgebuilder.stunt.car.games"
+        }
+      },
+      "api_key": [
+        {
+          "current_key": "AIzaSyBlVyNQabm3fFH466LGEAfScJ-xkFGqDAA"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 0
+        },
+        "appinvite_service": {
+          "status": 1
         }
       },
       "oauth_client": [
         {
-          "client_id": "574655398826-6jnpt6thr5g9v30kuc0gj08ik8k8k8fv.apps.googleusercontent.com",
-          "client_type": 3
+          "client_id": "528733224436-9jiuirr0k0mejj752c6e1ph2gvpe3v8h.apps.googleusercontent.com"
         }
-      ],
-      "api_key": [
-        {
-          "current_key": "AIzaSyC02-j_aLQDyrJZNxMtXhNzlB6o2ZtL4xw"
-        }
-      ],
-      "services": {
-        "appinvite_service": {
-          "other_platform_oauth_client": [
-            {
-              "client_id": "574655398826-6jnpt6thr5g9v30kuc0gj08ik8k8k8fv.apps.googleusercontent.com",
-              "client_type": 3
-            }
-          ]
-        }
-      }
+      ]
     }
   ],
   "configuration_version": "1"
