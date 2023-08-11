@@ -13,13 +13,22 @@ public class MainMenuLeanTween : MonoBehaviour
 
     void Start()
     {
-        
+
+        GoogleAdMobController.instance.DestroyBannerAd();
+        Invoke(nameof(showBanner), 1f);
         LeanTween.scale(BridgeTitle, new Vector3(1f, 1f, 1f), 1.2f).setEase(LeanTweenType.easeOutElastic).setOnComplete(UpperBtns);
-       // LeanTween.moveLocal(BridgeTitle, new Vector3(-30f, 747f, 2f), 0.7f).setDelay(2f).setEase(LeanTweenType.easeInOutCubic);
-       // LeanTween.scale(BridgeTitle, new Vector3(1f, 1f, 1f), 2f).setDelay(1.7f).setEase(LeanTweenType.easeInOutCubic);
-
+        // LeanTween.moveLocal(BridgeTitle, new Vector3(-30f, 747f, 2f), 0.7f).setDelay(2f).setEase(LeanTweenType.easeInOutCubic);
+        // LeanTween.scale(BridgeTitle, new Vector3(1f, 1f, 1f), 2f).setDelay(1.7f).setEase(LeanTweenType.easeInOutCubic);
+        if (GoogleAdMobController.instance.isAppOpenAd)
+        {
+            GoogleAdMobController.instance.ShowAppOpenAd();
+            GoogleAdMobController.instance.isAppOpenAd = false;
+        }
     }
-
+    public void showBanner()
+    {
+        GoogleAdMobController.instance.RequestBannerAd();
+    }
     void UpperBtns()
     {
 

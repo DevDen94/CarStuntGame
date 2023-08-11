@@ -30,12 +30,14 @@ public class HomeManager : MonoBehaviour
     public void onPlay()
     {
         AudioManager.instance.buttonAudio.Play();
+        GoogleAdMobController.instance.ShowInterstitialAd();
         ModeSelectionPanel.SetActive(true);
     }
     public void opneExitPanel()
     {
 
         AudioManager.instance.Panelopen.Play();
+        GoogleAdMobController.instance.ShowInterstitialAd();
         ExitPanel.SetActive(true);
     }
     public void YesExit()
@@ -93,6 +95,7 @@ public class HomeManager : MonoBehaviour
         public void selectLevel ()
 	{
         AudioManager.instance.buttonAudio.Play();
+        GoogleAdMobController.instance.ShowInterstitialAd();
         if (EventSystem.current.currentSelectedGameObject.transform.GetChild(1).gameObject.activeInHierarchy)
             return;
         int index = EventSystem.current.currentSelectedGameObject.transform.GetSiblingIndex ();

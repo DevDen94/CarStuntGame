@@ -19,7 +19,17 @@ public class BridgeBuilderGUI : MonoBehaviour {
 	public GameObject UndoButton;
 	public Sprite selectedSprite;
 	public Sprite deselectedSprite;
-	public static bool ClickedOnGUI ()
+
+	public static BridgeBuilderGUI Instance;
+
+
+    private void Awake()
+    {
+		Instance = this;
+    }
+
+
+    public static bool ClickedOnGUI ()
 	{
 		Vector3 mousePos = Input.mousePosition;
 		mousePos.y = Screen.height - mousePos.y;
@@ -477,6 +487,8 @@ public GameObject carStopButtom;
 	public void PauseGame ()
 	{
 		AudioManager.instance.buttonAudio.Play();
+		GoogleAdMobController.instance.ShowInterstitialAd();
+		GoogleAdMobController.instance.DestroyBannerAd();
 		AudioManager.instance.carStart.volume = 0.0f;
 		pausePanel.SetActive (true);
 		Time.timeScale = 0;
@@ -486,11 +498,13 @@ public GameObject carStopButtom;
 
 	public void closePausePanel ()
 	{
+		GoogleAdMobController.instance.DestroyBannerAd();
 		AudioManager.instance.buttonAudio.Play();
 		AudioManager.instance.carStart.volume = 1.0f;
 		pausePanel.SetActive (false);
 		Time.timeScale = 1;
 		gamePaused = false;
+		GoogleAdMobController.instance.RequestBannerAd();
   //      if (TrainController.instance.trainWorking == true)
   //      {
 		//	AudioManager.instance.carStart.volume = 1.0f;
