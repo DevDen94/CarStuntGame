@@ -3,12 +3,17 @@
     <package>androidx.lifecycle:lifecycle-common-java8:2.4.1</package>
     <package>androidx.lifecycle:lifecycle-process:2.4.1</package>
     <package>com.google.android.gms:play-services-ads:21.3.0</package>
+    <package>com.google.android.gms:play-services-base:18.2.0</package>
     <package>com.google.android.ump:user-messaging-platform:2.0.0</package>
+    <package>com.google.firebase:firebase-analytics:21.3.0</package>
+    <package>com.google.firebase:firebase-analytics-unity:11.1.0</package>
+    <package>com.google.firebase:firebase-app-unity:11.1.0</package>
+    <package>com.google.firebase:firebase-common:20.3.2</package>
   </packages>
   <files />
   <settings>
     <setting name="androidAbis" value="arm64-v8a,armeabi-v7a" />
-    <setting name="bundleId" value="com.bridgebuilder" />
+    <setting name="bundleId" value="com.darwingames.bridgebuilder.stunts.car.games" />
     <setting name="explodeAars" value="True" />
     <setting name="gradleBuildEnabled" value="True" />
     <setting name="gradlePropertiesTemplateEnabled" value="False" />
@@ -19,6 +24,8 @@
     <setting name="patchAndroidManifest" value="True" />
     <setting name="patchMainTemplateGradle" value="True" />
     <setting name="projectExportEnabled" value="False" />
+    <setting name="useFullCustomMavenRepoPathWhenExport" value="True" />
+    <setting name="useFullCustomMavenRepoPathWhenNotExport" value="False" />
     <setting name="useJetifier" value="True" />
   </settings>
 </dependencies>

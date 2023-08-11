@@ -51,4 +51,20 @@ public class MainMenuLeanTween : MonoBehaviour
         LeanTween.scale(PlayBTN, new Vector3(1f, 1f, 1f), .8f)/*.setDelay(.02f)*/.setEase(LeanTweenType.easeOutElastic);
     }
     
+
+    public void RateUs()
+    {
+        Application.OpenURL("https://darwingames1.blogspot.com/2023/06/privacy-policy.html");
+    }
+    public void MoreGamesBtn()
+    {
+        Application.OpenURL("https://play.google.com/store/apps/developer?id=Darwin+Games");
+
+    }
+    public void PP()
+    {
+        Application.OpenURL("https://play.google.com/store/apps/details?id="+Application.identifier);
+
+    }
+
 }
