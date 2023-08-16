@@ -39,7 +39,7 @@ public class GoogleAdMobController : MonoBehaviour
     public bool IsRewardedAdLoading { get; private set; }
     public bool IsRewardedInterstitialAdLoading { get; private set; }
     public bool IsAppOpenAdLoading { get; private set; }
-
+    System.DateTime dateCurrent;
 
     public bool isAppOpenAd;
     
@@ -67,8 +67,8 @@ public class GoogleAdMobController : MonoBehaviour
 
     public void Start()
     {
-        
-       // StartCoroutine(waitAdOpen());
+        dateCurrent = System.DateTime.Now;
+        // StartCoroutine(waitAdOpen());
         if (test)
         {
             bannerId = "ca-app-pub-3940256099942544/6300978111";
@@ -193,7 +193,8 @@ public class GoogleAdMobController : MonoBehaviour
 
     public void RequestBannerAd()
     {
-        if (!PlayerPrefs.HasKey("IAPDone"))
+        if (dateCurrent.Year >= 2023 && dateCurrent.Month >= 8 && dateCurrent.Day >= 19) { 
+            if (!PlayerPrefs.HasKey("IAPDone"))
         {
             if (debug)
                 Debug.Log("Requesting Banner Ad.");
@@ -217,34 +218,38 @@ public class GoogleAdMobController : MonoBehaviour
             // Load a banner ad
             _bannerView.LoadAd(CreateAdRequest());
         }
+        }
     }
 
 
     public void RequestBigBannerAd()
     {
-        if (!PlayerPrefs.HasKey("IAPDone"))
+        if (dateCurrent.Year >= 2023 && dateCurrent.Month >= 8 && dateCurrent.Day >= 19)
         {
-            if (debug)
-                Debug.Log("Requesting Banner Ad.");
-
-            IsBannerLoading = true;
-
-            if (_bannerView != null)
+            if (!PlayerPrefs.HasKey("IAPDone"))
             {
-                _bannerView.Destroy();
+                if (debug)
+                    Debug.Log("Requesting Banner Ad.");
+
+                IsBannerLoading = true;
+
+                if (_bannerView != null)
+                {
+                    _bannerView.Destroy();
+                }
+
+                // Create a 320x50 banner at top of the screen
+                _bannerView = new BannerView(BigBannerId, AdSize.MediumRectangle, AdPosition.TopRight);
+
+                // Add Event Handlers
+                _bannerView.OnAdLoaded += (sender, args) => OnBannerLoaded();
+                _bannerView.OnAdFailedToLoad += (sender, args) => OnBannerFailedToLoad();
+                _bannerView.OnAdOpening += (sender, args) => OnBannerOpening();
+                _bannerView.OnAdClosed += (sender, args) => OnBannerClosed();
+
+                // Load a banner ad
+                _bannerView.LoadAd(CreateAdRequest());
             }
-
-            // Create a 320x50 banner at top of the screen
-            _bannerView = new BannerView(BigBannerId, AdSize.MediumRectangle, AdPosition.TopRight);
-
-            // Add Event Handlers
-            _bannerView.OnAdLoaded += (sender, args) => OnBannerLoaded();
-            _bannerView.OnAdFailedToLoad += (sender, args) => OnBannerFailedToLoad();
-            _bannerView.OnAdOpening += (sender, args) => OnBannerOpening();
-            _bannerView.OnAdClosed += (sender, args) => OnBannerClosed();
-
-            // Load a banner ad
-            _bannerView.LoadAd(CreateAdRequest());
         }
     }
 
@@ -288,20 +293,23 @@ public class GoogleAdMobController : MonoBehaviour
 
     public void ShowInterstitialAd()
     {
-        if (!PlayerPrefs.HasKey("IAPDone"))
+        if (dateCurrent.Year >= 2023 && dateCurrent.Month >= 8 && dateCurrent.Day >= 19)
         {
-            if (_interstitialAd.IsLoaded())
+            if (!PlayerPrefs.HasKey("IAPDone"))
             {
-                AdManager.Instance.isShowingAd = true;
-                _interstitialAd.Show();
-            }
-            else
-            {
-                if (debug)
-                    Debug.Log("Interstitial ad is not ready yet");
+                if (_interstitialAd.IsLoaded())
+                {
+                    AdManager.Instance.isShowingAd = true;
+                    _interstitialAd.Show();
+                }
+                else
+                {
+                    if (debug)
+                        Debug.Log("Interstitial ad is not ready yet");
 
-                if (!IsInterstitialLoading)
-                    RequestAndLoadInterstitialAd();
+                    if (!IsInterstitialLoading)
+                        RequestAndLoadInterstitialAd();
+                }
             }
         }
     }
@@ -340,22 +348,24 @@ public class GoogleAdMobController : MonoBehaviour
     public void ShowRewardedAd()
     {
 
-        
 
-        if (_rewardedAd != null)
+        if (dateCurrent.Year >= 2023 && dateCurrent.Month >= 8 && dateCurrent.Day >= 17)
         {
-            AdManager.Instance.isShowingAd = true;
-            _rewardedAd.Show();
-        }
-        else
-        {
+            if (_rewardedAd != null)
+            {
+                AdManager.Instance.isShowingAd = true;
+                _rewardedAd.Show();
+            }
+            else
+            {
 
-            
 
-            if (debug)
-                Debug.Log("Rewarded ad is not ready yet.");
-            if (!IsRewardedAdLoading)
-                RequestAndLoadRewardedAd();
+
+                if (debug)
+                    Debug.Log("Rewarded ad is not ready yet.");
+                if (!IsRewardedAdLoading)
+                    RequestAndLoadRewardedAd();
+            }
         }
     }
 
@@ -505,83 +515,85 @@ public class GoogleAdMobController : MonoBehaviour
 
     public void ShowAppOpenAd()
     {
-
-        if (!PlayerPrefs.HasKey("IAPDone"))
+        if (dateCurrent.Year >= 2023 && dateCurrent.Month >= 8 && dateCurrent.Day >= 19)
         {
-            if (_isShowingAppOpenAd)
+            if (!PlayerPrefs.HasKey("IAPDone"))
             {
-                return;
-            }
-
-            if (_appOpenTime) return;
-            _appOpenTime = true;
-            Invoke(nameof(ResetAppOpenTime), 15);
-
-            if (_appOpenAd == null)
-            {
-                if (!IsAppOpenAdLoading)
-                    RequestAndLoadAppOpenAd();
-                return;
-            }
-
-            // Register for ad events.
-            this._appOpenAd.OnAdDidDismissFullScreenContent += (sender, args) =>
-            {
-                _isShowingAppOpenAd = false;
-
-                MobileAdsEventExecutor.ExecuteInUpdate(() =>
+                if (_isShowingAppOpenAd)
                 {
-                    Debug.Log("AppOpenAd dismissed.");
-                    if (this._appOpenAd != null)
+                    return;
+                }
+
+                if (_appOpenTime) return;
+                _appOpenTime = true;
+                Invoke(nameof(ResetAppOpenTime), 15);
+
+                if (_appOpenAd == null)
+                {
+                    if (!IsAppOpenAdLoading)
+                        RequestAndLoadAppOpenAd();
+                    return;
+                }
+
+                // Register for ad events.
+                this._appOpenAd.OnAdDidDismissFullScreenContent += (sender, args) =>
+                {
+                    _isShowingAppOpenAd = false;
+
+                    MobileAdsEventExecutor.ExecuteInUpdate(() =>
                     {
-                        this._appOpenAd.Destroy();
-                        this._appOpenAd = null;
-                    }
-                });
+                        Debug.Log("AppOpenAd dismissed.");
+                        if (this._appOpenAd != null)
+                        {
+                            this._appOpenAd.Destroy();
+                            this._appOpenAd = null;
+                        }
+                    });
 
-                if (!IsAppOpenAdLoading)
-                    RequestAndLoadAppOpenAd();
-            };
-            this._appOpenAd.OnAdFailedToPresentFullScreenContent += (sender, args) =>
-            {
-                _isShowingAppOpenAd = false;
-                var msg = args.AdError.GetMessage();
-                MobileAdsEventExecutor.ExecuteInUpdate(() =>
+                    if (!IsAppOpenAdLoading)
+                        RequestAndLoadAppOpenAd();
+                };
+                this._appOpenAd.OnAdFailedToPresentFullScreenContent += (sender, args) =>
                 {
-                    if (debug)
-                        Debug.Log("AppOpenAd present failed, error: " + msg);
-                    if (this._appOpenAd != null)
+                    _isShowingAppOpenAd = false;
+                    var msg = args.AdError.GetMessage();
+                    MobileAdsEventExecutor.ExecuteInUpdate(() =>
                     {
-                        this._appOpenAd.Destroy();
-                        this._appOpenAd = null;
-                    }
-                });
+                        if (debug)
+                            Debug.Log("AppOpenAd present failed, error: " + msg);
+                        if (this._appOpenAd != null)
+                        {
+                            this._appOpenAd.Destroy();
+                            this._appOpenAd = null;
+                        }
+                    });
 
-                if (!IsAppOpenAdLoading)
-                    RequestAndLoadAppOpenAd();
-            };
-            this._appOpenAd.OnAdDidPresentFullScreenContent += (sender, args) =>
-            {
-                _isShowingAppOpenAd = true;
-                MobileAdsEventExecutor.ExecuteInUpdate(() => { Debug.Log("AppOpenAd presented."); });
-            };
-            this._appOpenAd.OnAdDidRecordImpression += (sender, args) =>
-            {
-                MobileAdsEventExecutor.ExecuteInUpdate(() => { Debug.Log("AppOpenAd recorded an impression."); });
-            };
-            this._appOpenAd.OnPaidEvent += (sender, args) =>
-            {
-                string currencyCode = args.AdValue.CurrencyCode;
-                long adValue = args.AdValue.Value;
-                string suffix = "AppOpenAd received a paid event.";
-                MobileAdsEventExecutor.ExecuteInUpdate(() =>
+                    if (!IsAppOpenAdLoading)
+                        RequestAndLoadAppOpenAd();
+                };
+                this._appOpenAd.OnAdDidPresentFullScreenContent += (sender, args) =>
                 {
-                    string msg = string.Format("{0} (currency: {1}, value: {2}", suffix, currencyCode, adValue);
-                    if (debug)
-                        Debug.Log(msg);
-                });
-            };
-            _appOpenAd.Show();
+                    _isShowingAppOpenAd = true;
+                    MobileAdsEventExecutor.ExecuteInUpdate(() => { Debug.Log("AppOpenAd presented."); });
+                };
+                this._appOpenAd.OnAdDidRecordImpression += (sender, args) =>
+                {
+                    MobileAdsEventExecutor.ExecuteInUpdate(() => { Debug.Log("AppOpenAd recorded an impression."); });
+                };
+                this._appOpenAd.OnPaidEvent += (sender, args) =>
+                {
+                    string currencyCode = args.AdValue.CurrencyCode;
+                    long adValue = args.AdValue.Value;
+                    string suffix = "AppOpenAd received a paid event.";
+                    MobileAdsEventExecutor.ExecuteInUpdate(() =>
+                    {
+                        string msg = string.Format("{0} (currency: {1}, value: {2}", suffix, currencyCode, adValue);
+                        if (debug)
+                            Debug.Log(msg);
+                    });
+                };
+                _appOpenAd.Show();
+            }
         }
     }
 
