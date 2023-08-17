@@ -65,16 +65,33 @@ public class HomeManager : MonoBehaviour
     }
     public void Back_ModeSelection()
     {
+        ////////AudioManager.instance.buttonAudio.Play();
+        ////////// mainScenePanel.SetActive(true);
+        ////////if (ModeSelectionPanel.activeInHierarchy)
+        ////////                ModeSelectionPanel.SetActive (false);
+        ////////if (LevelSelectionScreen.activeInHierarchy)
+        ////////{ LevelSelectionScreen.SetActive(false);
+        ////////    ModeSelectionPanel.SetActive(true);
+        ////////}
+        ///
+
         AudioManager.instance.buttonAudio.Play();
         // mainScenePanel.SetActive(true);
         if (ModeSelectionPanel.activeInHierarchy)
-                        ModeSelectionPanel.SetActive (false);
+        {
+            categoryIndex = 0;
+            categoryParent.localPosition = new Vector3(-875 * categoryIndex, categoryParent.localPosition.y);
+            ModeSelectionPanel.SetActive(false);
+        }
         if (LevelSelectionScreen.activeInHierarchy)
-        { LevelSelectionScreen.SetActive(false);
+        {
+            LevelSelectionScreen.SetActive(false);
             ModeSelectionPanel.SetActive(true);
         }
     }
 
+
+  
 
     public static string _category;
     public static int _currentCategory = 0;

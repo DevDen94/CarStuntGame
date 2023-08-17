@@ -61,7 +61,7 @@ public class AudioManager : MonoBehaviour
         //}
     }
 
-        int sound {
+        public int sound {
 		get {
                         return PlayerPrefs.GetInt("Sound",1);
 

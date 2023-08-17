@@ -407,7 +407,7 @@ public class BridgeBeam : MonoBehaviour {
 			cc.enabled = false;
 			BoxCollider cpl = road.AddComponent<BoxCollider> ();
 			cpl.isTrigger = true;
-			cpl.size = new Vector3 (cpl.size.x, cpl.size.y, 0.001723294xf);
+			cpl.size = new Vector3 (cpl.size.x, cpl.size.y, 0.001723294f);
 			cpl.center = new Vector3 (cpl.center.x, cpl.center.y, -4.25563f);
 			cc.material = beamMaterial;
 			cc.convex = true;

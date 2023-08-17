@@ -85,6 +85,7 @@ public class ResetPhysics : MonoBehaviour {
 				//Debug.LogError (joints [i].breakForce, joints [i].gameObject);
 				if (joints[i]==null) {
 					Debug.Log ("break");
+					AudioManager.instance.beamDestroy.Play();
 					Transform temp = Instantiate (dustParticlePrefab, transform).transform;
 
 					Vector3 pos = transform.position;
