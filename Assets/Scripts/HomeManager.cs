@@ -165,5 +165,19 @@ public class HomeManager : MonoBehaviour
         //    categoryParent.GetChild(1 - 1).SetAsLastSibling();
         //}
     }
-   
+
+    public void MoreApps()
+    {
+        Application.OpenURL("https://play.google.com/store/apps/developer?id=Darwin+Games");
+    }
+   public void PrivacyPolicy()
+    {
+        Application.OpenURL("https://darwingames1.blogspot.com/2023/06/privacy-policy.html");
+
+    }
+
+    public void RateUs()
+    {
+        Application.OpenURL("https://play.google.com/store/apps/details?id=com.darwingames.bridgebuilder.stunts.car.games");
+    }
 }

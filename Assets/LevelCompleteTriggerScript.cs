@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class LevelCompleteTriggerScript : MonoBehaviour
 {
+	public GameObject m_Particle;
 	BridgeBuilderGUI gui;
 	void Start ()
 	{
@@ -17,6 +18,7 @@ public class LevelCompleteTriggerScript : MonoBehaviour
 			other.transform.parent.GetComponent<TrainController> ().trainWorking = false;
 			other.transform.parent.GetComponent<TrainController> ().trainDirection = Vector3.zero;
 			gui.StopTrain1 ();
+			m_Particle.SetActive(true);
 		}
 	}
 

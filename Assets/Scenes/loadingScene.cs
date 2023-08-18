@@ -10,11 +10,27 @@ public class loadingScene : MonoBehaviour
     public float fillDuration = 3f; // Time it takes to fill the Image
     public float delayBeforeLoadScene = 1f; // Delay before loading the next scene
     public string nextSceneName = "MainMenu"; // Name of the scene you want to load
-
-    private void Start()
+    public GameObject m_InternetConnnectionPanel;
+    private void Awake()
     {
-        StartCoroutine(AnimateLoadingBar());
+        checkForInternet.OnInternetConnectivityChanged += LoadNextScreen;
     }
+
+
+
+    public void LoadNextScreen(bool isConnected)
+    {
+        if (isConnected)
+        {
+        StartCoroutine(AnimateLoadingBar());
+
+        }
+        else
+        {
+            m_InternetConnnectionPanel.SetActive(true);
+        }
+    }
+
 
     private IEnumerator AnimateLoadingBar()
     {
@@ -37,5 +53,10 @@ public class loadingScene : MonoBehaviour
 
         // Load the next scene
         SceneManager.LoadScene(nextSceneName);
+    }
+
+    public void Quit()
+    {
+        Application.Quit();
     }
 }
