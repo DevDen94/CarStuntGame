@@ -11,6 +11,13 @@ public class HomeManager : MonoBehaviour
     public GameObject mainScenePanel, ModeSelectionPanel, StuntModePanel, FullBridgePanel;
     private void Start()
     {
+        GoogleAdMobController.instance.DestroyBannerAd();
+        if (GoogleAdMobController.instance.isAppOpen)
+        {
+            GoogleAdMobController.instance.ShowAppOpenAd();
+            GoogleAdMobController.instance.isAppOpen=false;
+        }
+
 
         //PlayerPrefs.SetInt("CatLock_" + (HomeManager._currentCategory + 1), 0);
         //PlayerPrefs.SetInt("CatLock_" + (HomeManager._currentCategory + 2), 0);
@@ -25,16 +32,20 @@ public class HomeManager : MonoBehaviour
             soundImage.color = Color.grey;
         if (PlayerPrefs.GetInt("Music", 1) == 0)
             musicImage.color = Color.grey;
+
+
+        GoogleAdMobController.instance.RequestBannerAd();
     }
 
     public void onPlay()
     {
+        GoogleAdMobController.instance.ShowInterstitialAd();
         AudioManager.instance.buttonAudio.Play();
         ModeSelectionPanel.SetActive(true);
     }
     public void opneExitPanel()
     {
-
+        GoogleAdMobController.instance.ShowInterstitialAd();
         AudioManager.instance.Panelopen.Play();
         ExitPanel.SetActive(true);
     }
@@ -109,6 +120,7 @@ public class HomeManager : MonoBehaviour
 
         public void selectLevel ()
 	{
+        GoogleAdMobController.instance.ShowInterstitialAd();
         AudioManager.instance.buttonAudio.Play();
         if (EventSystem.current.currentSelectedGameObject.transform.GetChild(1).gameObject.activeInHierarchy)
             return;

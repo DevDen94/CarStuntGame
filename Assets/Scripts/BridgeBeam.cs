@@ -201,7 +201,7 @@ public class BridgeBeam : MonoBehaviour {
 					//addCollider ();
 
 					Debug.Log(transform.parent.eulerAngles + "\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\");
-					if (beamVector.magnitude < 2f)
+					if (beamVector.magnitude < 1.5f)
 					{
 						decreaseCounter(false);
 						Destroy(gameObject);
@@ -310,7 +310,7 @@ public class BridgeBeam : MonoBehaviour {
 					////	Debug.LogError (bridgeSetupParent.currentBeamsCount);
 					//	addCollider ();
 					Debug.Log(transform.parent.eulerAngles + "\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\");
-					if (beamVector.magnitude < 2f)
+					if (beamVector.magnitude < 1.5f)
 					{
 						decreaseCounter(false);
 						Destroy(gameObject);
