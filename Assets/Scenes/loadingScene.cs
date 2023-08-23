@@ -11,24 +11,19 @@ public class loadingScene : MonoBehaviour
     public float delayBeforeLoadScene = 1f; // Delay before loading the next scene
     public string nextSceneName = "MainMenu"; // Name of the scene you want to load
     public GameObject m_InternetConnnectionPanel;
-    private void Awake()
+    private void Start()
     {
-        checkForInternet.OnInternetConnectivityChanged += LoadNextScreen;
+        LoadNextScreen();
     }
 
 
 
-    public void LoadNextScreen(bool isConnected)
+    public void LoadNextScreen()
     {
-        if (isConnected)
-        {
+        
         StartCoroutine(AnimateLoadingBar());
 
-        }
-        else
-        {
-            m_InternetConnnectionPanel.SetActive(true);
-        }
+      
     }
 
 
