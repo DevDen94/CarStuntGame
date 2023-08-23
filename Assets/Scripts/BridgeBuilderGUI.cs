@@ -19,7 +19,17 @@ public class BridgeBuilderGUI : MonoBehaviour {
 	public GameObject UndoButton;
 	public Sprite selectedSprite;
 	public Sprite deselectedSprite;
-	public static bool ClickedOnGUI ()
+
+	public static BridgeBuilderGUI Instance;
+
+
+    private void Awake()
+    {
+		Instance = this;
+    }
+
+
+    public static bool ClickedOnGUI ()
 	{
 		Vector3 mousePos = Input.mousePosition;
 		mousePos.y = Screen.height - mousePos.y;
@@ -333,19 +343,11 @@ public class BridgeBuilderGUI : MonoBehaviour {
 
 	public void reloadScene ()
 	{
-		//AudioManager.instance.buttonAudio.Play();
-		//AudioManager.instance.carStart.volume = 0.0f;
-
-		//SceneManager.LoadScene (SceneManager.GetActiveScene ().name);
-
 		AudioManager.instance.buttonAudio.Play();
-		if (AudioManager.instance.sound == 1)
-			AudioManager.instance.carStart.volume = 0.0f;
-
-		SceneManager.LoadScene(SceneManager.GetActiveScene().name);
-	}
-
+		AudioManager.instance.carStart.volume = 0.0f;
 	
+		SceneManager.LoadScene (SceneManager.GetActiveScene ().name);
+	}
 
 	public void goToMainMenu ()
 	{
@@ -445,18 +447,11 @@ public class BridgeBuilderGUI : MonoBehaviour {
 
 	public void RunTrain ()
 	{
-		////AudioManager.instance.carStart.Play();
-		////AudioManager.instance.carStart.volume = 1.0f;
-		////bridgeSetup.StartTrain ();
-		////runButton.SetActive(false);
-		///
 		AudioManager.instance.carStart.Play();
-		if (AudioManager.instance.sound == 1)
-			AudioManager.instance.carStart.volume = 1.0f;
-		bridgeSetup.StartTrain();
+		AudioManager.instance.carStart.volume = 1.0f;
+		bridgeSetup.StartTrain ();
 		runButton.SetActive(false);
 	}
-
 
 	public void StopTrain ()
 	{
@@ -491,47 +486,31 @@ public GameObject carStopButtom;
 
 	public void PauseGame ()
 	{
-		//AudioManager.instance.buttonAudio.Play();
-		//AudioManager.instance.carStart.volume = 0.0f;
-		//pausePanel.SetActive (true);
-		//Time.timeScale = 0;
-		//gamePaused = true;
-
 		AudioManager.instance.buttonAudio.Play();
-		if (AudioManager.instance.sound == 1)
-			AudioManager.instance.carStart.volume = 0.0f;
-		pausePanel.SetActive(true);
+		GoogleAdMobController.instance.ShowInterstitialAd();
+		GoogleAdMobController.instance.DestroyBannerAd();
+		AudioManager.instance.carStart.volume = 0.0f;
+		pausePanel.SetActive (true);
 		Time.timeScale = 0;
 		gamePaused = true;
 
 	}
-	
+
 	public void closePausePanel ()
 	{
-		////AudioManager.instance.buttonAudio.Play();
-		////AudioManager.instance.carStart.volume = 1.0f;
-		////pausePanel.SetActive (false);
-		////Time.timeScale = 1;
-		////gamePaused = false;
-		//////      if (TrainController.instance.trainWorking == true)
-		//////      {
-		//////	AudioManager.instance.carStart.volume = 1.0f;
-		//////}
-		///
-
+		GoogleAdMobController.instance.DestroyBannerAd();
 		AudioManager.instance.buttonAudio.Play();
-		if (AudioManager.instance.sound == 1)
-			AudioManager.instance.carStart.volume = 1.0f;
-		pausePanel.SetActive(false);
+		AudioManager.instance.carStart.volume = 1.0f;
+		pausePanel.SetActive (false);
 		Time.timeScale = 1;
 		gamePaused = false;
-		//      if (TrainController.instance.trainWorking == true)
-		//      {
+		GoogleAdMobController.instance.RequestBannerAd();
+  //      if (TrainController.instance.trainWorking == true)
+  //      {
 		//	AudioManager.instance.carStart.volume = 1.0f;
 		//}
 	}
 
-	
 
 	public void skipLevel()
 	{
@@ -551,25 +530,12 @@ public GameObject carStopButtom;
 		{
 			SceneManager.LoadScene("MainMenu");
 			PlayerPrefs.SetInt("CatLock_" + (HomeManager._currentCategory + 1), 0);
-		}	
-	}
+		}
 
 
-	public void resetBridge()
-	{
-		GameObject current = FindObjectOfType<NewLevelData>().gameObject;
-		DestroyImmediate(current);
-		AudioManager.instance.buttonAudio.Play();
-		GameObject currentLevelPrefab = Resources.Load<GameObject>("Levels/" + HomeManager._category + "/" + HomeManager.selectedLevel.Replace("_", ""));
-		GameObject Temp = Instantiate(currentLevelPrefab);
-		bridgeSetup = Temp.GetComponentInChildren<BridgeSetup>();
-		gamePaused = false;
-		resetPanel.SetActive(false);
-		Invoke("setGridAfterReset", .2f);
-	}
 
-	void setGridAfterReset()
-	{
-		Grid.GetComponent<MeshRenderer>().material = gridMaterial[gridCounter];
+
+
+	
 	}
 }

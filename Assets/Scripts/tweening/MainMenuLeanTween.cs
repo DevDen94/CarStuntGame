@@ -13,13 +13,22 @@ public class MainMenuLeanTween : MonoBehaviour
 
     void Start()
     {
-        
+
+        GoogleAdMobController.instance.DestroyBannerAd();
+        Invoke(nameof(showBanner), 1f);
         LeanTween.scale(BridgeTitle, new Vector3(1f, 1f, 1f), 1.2f).setEase(LeanTweenType.easeOutElastic).setOnComplete(UpperBtns);
-       // LeanTween.moveLocal(BridgeTitle, new Vector3(-30f, 747f, 2f), 0.7f).setDelay(2f).setEase(LeanTweenType.easeInOutCubic);
-       // LeanTween.scale(BridgeTitle, new Vector3(1f, 1f, 1f), 2f).setDelay(1.7f).setEase(LeanTweenType.easeInOutCubic);
-
+        // LeanTween.moveLocal(BridgeTitle, new Vector3(-30f, 747f, 2f), 0.7f).setDelay(2f).setEase(LeanTweenType.easeInOutCubic);
+        // LeanTween.scale(BridgeTitle, new Vector3(1f, 1f, 1f), 2f).setDelay(1.7f).setEase(LeanTweenType.easeInOutCubic);
+        if (GoogleAdMobController.instance.isAppOpenAd)
+        {
+            GoogleAdMobController.instance.ShowAppOpenAd();
+            GoogleAdMobController.instance.isAppOpenAd = false;
+        }
     }
-
+    public void showBanner()
+    {
+        GoogleAdMobController.instance.RequestBannerAd();
+    }
     void UpperBtns()
     {
 
@@ -42,4 +51,20 @@ public class MainMenuLeanTween : MonoBehaviour
         LeanTween.scale(PlayBTN, new Vector3(1f, 1f, 1f), .8f)/*.setDelay(.02f)*/.setEase(LeanTweenType.easeOutElastic);
     }
     
+
+    public void RateUs()
+    {
+        Application.OpenURL("https://apps.apple.com/us/app/bridge-builder-stunt-car-games/id6459148538");
+    }
+    public void MoreGamesBtn()
+    {
+        Application.OpenURL("https://apps.apple.com/us/developer/farrukh-zaib/id1609304796");
+
+    }
+    public void PP()
+    {
+        Application.OpenURL("https://docs.google.com/document/d/1r60q4Prp2Qw9DbF4FnmQbUJkwEX0YRSkvxEgL2CLryM/edit?usp=sharing");
+
+    }
+
 }
