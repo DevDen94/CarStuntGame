@@ -9,14 +9,24 @@ public class HomeManager : MonoBehaviour
 {
     public GameObject SettingPanel, ExitPanel;
     public GameObject mainScenePanel, ModeSelectionPanel, StuntModePanel, FullBridgePanel;
+
+
+
+    private void Awake()
+    {
+       
+           
+        
+    }
     private void Start()
     {
-        GoogleAdMobController.instance.DestroyBannerAd();
-        if (GoogleAdMobController.instance.isAppOpen)
-        {
-            GoogleAdMobController.instance.ShowAppOpenAd();
-            GoogleAdMobController.instance.isAppOpen=false;
-        }
+        AdsManager.instance.LoadAppOpenAd();
+        AdsManager.instance.LoadInterstitialAd();
+        AdsManager.instance.LoadRewardedAd();
+        AdsManager.instance.LoadSmallBannerAd();
+
+        Invoke(nameof(showAppOpen), 0.2f);
+       
 
 
         //PlayerPrefs.SetInt("CatLock_" + (HomeManager._currentCategory + 1), 0);
@@ -34,18 +44,30 @@ public class HomeManager : MonoBehaviour
             musicImage.color = Color.grey;
 
 
-        GoogleAdMobController.instance.RequestBannerAd();
+       
     }
+
+    public void showAppOpen()
+    {
+        if (AdsManager.instance.isAppOpen)
+        {
+            AdsManager.instance.ShowAppOpenAd();
+            AdsManager.instance.isAppOpen = false;
+        }
+    }
+
+
+
 
     public void onPlay()
     {
-        GoogleAdMobController.instance.ShowInterstitialAd();
+        AdsManager.instance.ShowinterAd();
         AudioManager.instance.buttonAudio.Play();
         ModeSelectionPanel.SetActive(true);
     }
     public void opneExitPanel()
     {
-        GoogleAdMobController.instance.ShowInterstitialAd();
+        AdsManager.instance.ShowinterAd();
         AudioManager.instance.Panelopen.Play();
         ExitPanel.SetActive(true);
     }
@@ -110,17 +132,18 @@ public class HomeManager : MonoBehaviour
         public GameObject LevelSelectionScreen;
     public void ModeSelect(string category)
 	{
+        AdsManager.instance.ShowinterAd();
         AudioManager.instance.buttonAudio.Play();
         if (EventSystem.current.currentSelectedGameObject.GetComponent<CatLock>().IsLocked)
             return;
         _category = category;
         _currentCategory = EventSystem.current.currentSelectedGameObject.transform.GetSiblingIndex();
-                LevelSelectionScreen.SetActive (true);
+         LevelSelectionScreen.SetActive (true);
 	}
 
         public void selectLevel ()
 	{
-        GoogleAdMobController.instance.ShowInterstitialAd();
+        
         AudioManager.instance.buttonAudio.Play();
         if (EventSystem.current.currentSelectedGameObject.transform.GetChild(1).gameObject.activeInHierarchy)
             return;

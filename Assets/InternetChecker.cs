@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 public class InternetChecker : MonoBehaviour
 {
     public GameObject panel;
@@ -16,11 +17,16 @@ public class InternetChecker : MonoBehaviour
     {
         if (Application.internetReachability == NetworkReachability.NotReachable)
         {
+            Time.timeScale = 0f;
             panel.SetActive(true);
         }
-        else
-        {
-            panel.SetActive(false);
-        }
+    }
+
+
+    public void Refresh()
+    {
+        panel.SetActive(false);
+        Time.timeScale = 1f;
+        SceneManager.LoadScene(0);
     }
 }

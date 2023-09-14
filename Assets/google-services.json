@@ -1,0 +1,41 @@
+{
+  "project_info": {
+    "project_number": "574655398826",
+    "firebase_url": "https://bridge-builder-4a18e-default-rtdb.firebaseio.com",
+    "project_id": "bridge-builder-4a18e",
+    "storage_bucket": "bridge-builder-4a18e.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:574655398826:android:518a5b6fdeb6059d2821d3",
+        "android_client_info": {
+          "package_name": "com.darwingames.bridgebuilder.stunts.car.games"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "574655398826-6jnpt6thr5g9v30kuc0gj08ik8k8k8fv.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC02-j_aLQDyrJZNxMtXhNzlB6o2ZtL4xw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "574655398826-6jnpt6thr5g9v30kuc0gj08ik8k8k8fv.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      },
+      "admob_app_id": "ca-app-pub-5227706387493609~6855074695"
+    }
+  ],
+  "configuration_version": "1"
+}

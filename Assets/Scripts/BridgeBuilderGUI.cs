@@ -102,7 +102,7 @@ public class BridgeBuilderGUI : MonoBehaviour {
 	public GameObject HintAfterAdd;
 	void Start()
 	{
-		GoogleAdMobController.instance.DestroyBannerAd();
+		AdsManager.instance.LoadSmallBannerAd();
 		AudioManager.instance.musicSource.Stop();
 		AudioManager.instance.wind.Play();
 		iTween.MoveTo(EnvirnmentCamera, iTween.Hash("position", envrinmentCamPosition.position, "time", .5f, "easetype", iTween.EaseType.linear));
@@ -116,7 +116,7 @@ public class BridgeBuilderGUI : MonoBehaviour {
         Temp_Hint = Instantiate(currentLevelPrefabHint);
 		int currentLevelIndex = int.Parse(HomeManager.selectedLevel.Split('_')[1].ToString());
 		LevelText.text = "Level " + currentLevelIndex;
-		StartCoroutine(ShowSmallBannerAd());
+		
 	}
 	public bool hintBtnActiveStatus = false;
 	public void showHintBtn()
@@ -334,13 +334,13 @@ public class BridgeBuilderGUI : MonoBehaviour {
 
 	public void ResetLevel ()
 	{
-		GoogleAdMobController.instance.DestroyBannerAd();
+		AdsManager.instance.LoadSmallBannerAd();
 		AudioManager.instance.buttonAudio.Play();
 		backToDraw ();
 		levelFailedPanel.SetActive (false);
 		pausePanel.SetActive(false);
 		gamePaused = false;
-		StartCoroutine(ShowSmallBannerAd());
+		
 		//SceneManager.LoadScene (SceneManager.GetActiveScene ().name);
 	}
 
@@ -372,8 +372,8 @@ public class BridgeBuilderGUI : MonoBehaviour {
 	public GameObject nextLevelButton;
 	public void LevelComplete ()
 	{
-		GoogleAdMobController.instance.ShowInterstitialAd();
-		GoogleAdMobController.instance.DestroyBannerAd();
+		AdsManager.instance.ShowinterAd();
+		AdsManager.instance.LoadBigBannerAd();
 		AudioManager.instance.winAudio.Play();
 		LevelCompletePanel.SetActive (true);
 		int currentLevelIndex = int.Parse (HomeManager.selectedLevel.Split('_')[1].ToString ());
@@ -393,7 +393,7 @@ public class BridgeBuilderGUI : MonoBehaviour {
 	
 			PlayerPrefs.SetInt("CatLock_" + (HomeManager._currentCategory + 1), 0);
 		}
-		StartCoroutine(ShowBigBannerAd());
+		
 	}
 
 	public GameObject levelFailedPanel;
@@ -407,23 +407,21 @@ public class BridgeBuilderGUI : MonoBehaviour {
 	{
 
 		//if (levelFailedPanel.activeInHierarchy == false) try kro
-	
+		AdsManager.instance.ShowinterAd();
 		if (!gamePaused&&!levelFailedPanel.activeInHierarchy)
 		{
-			GoogleAdMobController.instance.ShowInterstitialAd();
-
-			GoogleAdMobController.instance.DestroyBannerAd();
+			AdsManager.instance.LoadBigBannerAd();
 			AudioManager.instance.failAudio.Play();
 			gamePaused = true;
 			levelFailedPanel.SetActive(true);
-			StartCoroutine(ShowBigBannerAd());
+			
 
 		}
 	}
 
 	public void loadNextLevel ()
 	{
-		GoogleAdMobController.instance.DestroyBannerAd();
+		
 		AudioManager.instance.buttonAudio.Play();
 		int currentLevelIndex = int.Parse (HomeManager.selectedLevel.Split('_')[1].ToString ());
 
@@ -440,7 +438,7 @@ public class BridgeBuilderGUI : MonoBehaviour {
 			SceneManager.LoadScene("MainMenu");
 			PlayerPrefs.SetInt("CatLock_" + (HomeManager._currentCategory + 1), 0); 
         }
-		StartCoroutine(ShowBigBannerAd());
+		
 
 	}
 
@@ -519,9 +517,8 @@ public GameObject carStopButtom;
 		//pausePanel.SetActive (true);
 		//Time.timeScale = 0;
 		//gamePaused = true;
-		GoogleAdMobController.instance.ShowInterstitialAd();
-		GoogleAdMobController.instance.DestroyBannerAd();
-		StartCoroutine(ShowBigBannerAd());
+		AdsManager.instance.ShowinterAd();
+		AdsManager.instance.LoadBigBannerAd();
 		AudioManager.instance.buttonAudio.Play();
 		if (AudioManager.instance.sound == 1)
 			AudioManager.instance.carStart.volume = 0.0f;
@@ -531,15 +528,8 @@ public GameObject carStopButtom;
 		
 	}
 
-	IEnumerator ShowBigBannerAd()
-    {
-		yield return new WaitForSeconds(0.5f);
-		GoogleAdMobController.instance.RequestBigBannerAd();
-	}IEnumerator ShowSmallBannerAd()
-    {
-		yield return new WaitForSeconds(0.5f);
-		GoogleAdMobController.instance.RequestBannerAd();
-	}
+	
+	
 
 	
 
@@ -555,14 +545,14 @@ public GameObject carStopButtom;
 		//////	AudioManager.instance.carStart.volume = 1.0f;
 		//////}
 		///
-		GoogleAdMobController.instance.DestroyBannerAd();
+		
 		AudioManager.instance.buttonAudio.Play();
 		if (AudioManager.instance.sound == 1)
 			AudioManager.instance.carStart.volume = 1.0f;
 		pausePanel.SetActive(false);
 		Time.timeScale = 1;
 		gamePaused = false;
-		StartCoroutine(ShowSmallBannerAd());
+		AdsManager.instance.LoadSmallBannerAd();
 		//      if (TrainController.instance.trainWorking == true)
 		//      {
 		//	AudioManager.instance.carStart.volume = 1.0f;
@@ -571,13 +561,13 @@ public GameObject carStopButtom;
 
 	public void HintFromVideo()
     {
-		GoogleAdMobController.instance.ShowRewardedAd();
+		
 		PlayerPrefs.SetInt("Ad", 0);
     }
 
 	public void skipLevelFromVideo()
     {
-		GoogleAdMobController.instance.ShowRewardedAd();
+		
 		PlayerPrefs.SetInt("Ad", 1);
 	}
 
