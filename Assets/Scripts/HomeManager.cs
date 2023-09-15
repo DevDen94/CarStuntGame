@@ -14,19 +14,18 @@ public class HomeManager : MonoBehaviour
 
     private void Awake()
     {
-       
-           
         
     }
     private void Start()
     {
-        AdsManager.instance.LoadAppOpenAd();
-        AdsManager.instance.LoadInterstitialAd();
-        AdsManager.instance.LoadRewardedAd();
-        AdsManager.instance.LoadSmallBannerAd();
+        AdsManager.instance.ShowSmallBanner();
+        
+        if (AdsManager.instance.isAppOpen)
+        {
+            AdsManager.instance.ShowAppOpenAd();
+            AdsManager.instance.isAppOpen = false;
+        }
 
-        Invoke(nameof(showAppOpen), 0.2f);
-       
 
 
         //PlayerPrefs.SetInt("CatLock_" + (HomeManager._currentCategory + 1), 0);
@@ -43,20 +42,11 @@ public class HomeManager : MonoBehaviour
         if (PlayerPrefs.GetInt("Music", 1) == 0)
             musicImage.color = Color.grey;
 
-
+        
        
     }
 
-    public void showAppOpen()
-    {
-        if (AdsManager.instance.isAppOpen)
-        {
-            AdsManager.instance.ShowAppOpenAd();
-            AdsManager.instance.isAppOpen = false;
-        }
-    }
-
-
+    
 
 
     public void onPlay()

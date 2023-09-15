@@ -1,11 +1,10 @@
-using GoogleMobileAds.Api;
+﻿using GoogleMobileAds.Api;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using GoogleMobileAds;
 using UnityEngine.Advertisements;
-using Firebase;
-using Firebase.Database;
+
 
 
 
@@ -46,18 +45,13 @@ public class AdsManager : MonoBehaviour, IUnityAdsInitializationListener, IUnity
 
 
     public static AdsManager instance;
+
     public bool isAppOpen;
-
-    public bool ShowAds;
-
-    DatabaseReference reference;
-
-
-
-
 
     private void Awake()
     {
+
+
         if (instance == null)
             instance = this;
         else if (instance != null)
@@ -67,92 +61,68 @@ public class AdsManager : MonoBehaviour, IUnityAdsInitializationListener, IUnity
         isAppOpen = true;
         DontDestroyOnLoad(this);
 
-        SavePlacement();
-
-    }
-
-    
-    void SavePlacement()
-    {
-
-        #if UNITY_ANDROID
+#if UNITY_ANDROID
 
         BANNER_PLACEMENT = "Banner_Android";
         InterstatialPlacement = "Interstitial_Android";
         REWARDED_VIDEO_PLACEMENT = "Rewarded_Android";
 
-        #elif UNITY_IOS
+#elif UNITY_IOS
         BANNER_PLACEMENT = "Banner_iOS";
         InterstatialPlacemen = "Interstitial_iOS";
         REWARDED_VIDEO_PLACEMENT = "Rewarded_iOS";
-        #endif
+#endif
 
+        
     }
 
+    
 
-    /// </summary>
+
 
     public void Start()
     {
 
-        FirebaseApp.CheckAndFixDependenciesAsync().ContinueWith(task => {
-            FirebaseApp app = FirebaseApp.DefaultInstance;
-            reference = FirebaseDatabase.DefaultInstance.RootReference;
-        });
+
+            BannerAd = FBData.Instance.BannerAd ;
+            inter = FBData.Instance.inter;
+            BigBannerAd = FBData.Instance.BigBannerAd;
+            appopen = FBData.Instance.appopen;
+            rewarded = FBData.Instance.rewarded;
         
 
+
         // Initialize the Google Mobile Ads SDK.
-       
-
-
-        Invoke(nameof(ReadIDsFromDataBase), 0.5f);
-        if (!Advertisement.isInitialized && Advertisement.isSupported)
-        {
-            Advertisement.Initialize(UnityAdsID, Test, this);
-            Advertisement.Load(InterstatialPlacement, this);
-        }
-
-
-        //Advertisement(this);
-
-
-
-    }
-
-    public void ReadIDsFromDataBase()
-    {
-        reference.Child("Game Name").Child("Ads Type").GetValueAsync().ContinueWith(task =>
-        {
-            if (task.IsCompleted)
-            {
-                DataSnapshot snapshot = task.Result;
-
-                 BannerAd= snapshot.Child("SmartBannerAD").Value.ToString();
-                 BigBannerAd= snapshot.Child("BigBannerAd").Value.ToString();
-                 inter=          snapshot.Child("InterstatialAd").Value.ToString();
-                 appopen= snapshot.Child("AppOpenAd").Value.ToString();
-                 rewarded= snapshot.Child("RewardedAd").Value.ToString();
-                 ShowAds =  (bool)snapshot.Child("AdsEnable").Value;
-
-                Invoke(nameof(InitilizeAdmob), 0.2f);
-            }
-           
-        });
-    }
-
-    void InitilizeAdmob()
-    {
         MobileAds.Initialize((InitializationStatus initStatus) =>
         {
             // This callback is called once the MobileAds SDK is initialized.
         });
+        LoadInterstitialAd();
+        LoadAppOpenAd();
+        LoadRewardedAd();
+        LoadBigBannerAd();
+        LoadSmallBannerAd();
 
-        
+
+
+
+
+
+
+        //Advertisement(this);
+
+        if (!Advertisement.isInitialized && Advertisement.isSupported)
+        {
+            Advertisement.Initialize(UnityAdsID, Test, this);
+            InitilizeUnityAds();
+        }
+
     }
 
-
-
-
+   public void InitilizeUnityAds()
+    {
+        Advertisement.Load(InterstatialPlacement, this);
+    }
 
 
 
@@ -190,43 +160,48 @@ public class AdsManager : MonoBehaviour, IUnityAdsInitializationListener, IUnity
     }
     public void LoadSmallBannerAd()
     {
-        if (ShowAds)
+        // create an instance of a banner view first.
+        if (_bannerView == null)
         {
-            DestroyAd();
-
-            // create an instance of a banner view first.
-            if (_bannerView == null)
-            {
-                CreateSmallBannerView();
-            }
-            // create our request used to load the ad.
-            var adRequest = new AdRequest();
-            adRequest.Keywords.Add("unity-admob-sample");
-
-            // send the request to load the ad.
-            Debug.Log("Loading banner ad.");
-            _bannerView.LoadAd(adRequest);
+            CreateSmallBannerView();
         }
+        // create our request used to load the ad.
+        var adRequest = new AdRequest();
+        adRequest.Keywords.Add("unity-admob-sample");
+        Debug.Log("Loading banner ad.");
+        _bannerView.LoadAd(adRequest);
+        _bannerView.Hide();
     }
+    
+    public void ShowSmallBanner()
+    {
+        _bannerView.Show();
+        _bannerView1.Hide();
+    }
+    public void ShowBigBanner()
+    {
+        _bannerView1.Show();
+        _bannerView.Hide();
+    }
+
+
+
     public void LoadBigBannerAd()
     {
-        if (ShowAds)
+        // create an instance of a banner view first.
         {
-            DestroysmllAd();
-            // create an instance of a banner view first.
-            {
-                if (_bannerView1 == null)
-                    CreateBigBannerView();
-            }
-            // create our request used to load the ad.
-            var adRequest = new AdRequest();
-            adRequest.Keywords.Add("unity-admob-sample");
-
-            // send the request to load the ad.
-            Debug.Log("Loading banner ad.");
-            _bannerView1.LoadAd(adRequest);
+            if (_bannerView1 == null)
+                CreateBigBannerView();
         }
+        // create our request used to load the ad.
+        var adRequest = new AdRequest();
+        adRequest.Keywords.Add("unity-admob-sample");
+        // send the request to load the ad.
+        Debug.Log("Loading banner ad.");
+        _bannerView1.LoadAd(adRequest);
+        _bannerView1.Hide();
     }
+
 
     /// <summary>
     /// listen to events the banner may raise.
@@ -346,36 +321,40 @@ public class AdsManager : MonoBehaviour, IUnityAdsInitializationListener, IUnity
 
     public void ShowinterAd()
     {
-        LoadInterstitialAd();
-        if (ShowAds)
+        
+        if (BannerType_ == BannerType.Both)
         {
-            if (BannerType_ == BannerType.Both)
+            if (interstitialAd != null && interstitialAd.CanShowAd())
             {
-                if (interstitialAd != null && interstitialAd.CanShowAd())
-                {
-                    Debug.Log("Showing interstitial ad.");
-                    interstitialAd.Show();
-                }
-                else
-                {
-                    Advertisement.Show(InterstatialPlacement, this);
-                }
+                Debug.Log("Showing interstitial ad.");
+                interstitialAd.Show();
             }
-            else if (BannerType_ == BannerType.Admob)
-            {
-                if (interstitialAd != null && interstitialAd.CanShowAd())
-                {
-                    Debug.Log("Showing interstitial ad.");
-                    interstitialAd.Show();
-                }
-            }
-            else if (BannerType_ == BannerType.Unity)
+            else
             {
                 Advertisement.Show(InterstatialPlacement, this);
-
             }
         }
+        else if (BannerType_ == BannerType.Admob)
+        {
+            if (interstitialAd != null && interstitialAd.CanShowAd())
+            {
+                Debug.Log("Showing interstitial ad.");
+                interstitialAd.Show();
+            }
+        }
+        else if (BannerType_ == BannerType.Unity)
+        {
+            Advertisement.Show(InterstatialPlacement, this);
+
+        }
+
+        Invoke(nameof(LoadInterstitialAd), 0.5f);
+        Invoke(nameof(InitilizeUnityAds), 0.5f);
     }
+
+
+
+
     private void RegisterEventHandlers(InterstitialAd ad)
     {
         // Raised when the ad is estimated to have earned money.
@@ -442,39 +421,37 @@ public class AdsManager : MonoBehaviour, IUnityAdsInitializationListener, IUnity
 
     public void LoadAppOpenAd()
     {
-       
-            // Clean up the old ad before loading a new one.
-            if (appOpenAd != null)
-            {
-                appOpenAd.Destroy();
-                appOpenAd = null;
-            }
-
-            Debug.Log("Loading the app open ad.");
-
-            // Create our request used to load the ad.
-            var adRequest = new AdRequest();
-
-            // send the request to load the ad.
-            AppOpenAd.Load(appopen, adRequest,
-                (AppOpenAd ad, LoadAdError error) =>
-                {
-                // if error is not null, the load request failed.
-                if (error != null || ad == null)
-                    {
-                        Debug.LogError("app open ad failed to load an ad " +
-                                       "with error : " + error);
-                        return;
-                    }
-
-                    Debug.Log("App open ad loaded with response : "
-                              + ad.GetResponseInfo());
-
-                    appOpenAd = ad;
-                    RegisterEventHandlers(ad);
-                });
+        // Clean up the old ad before loading a new one.
+        if (appOpenAd != null)
+        {
+            appOpenAd.Destroy();
+            appOpenAd = null;
         }
-    
+
+        Debug.Log("Loading the app open ad.");
+
+        // Create our request used to load the ad.
+        var adRequest = new AdRequest();
+
+        // send the request to load the ad.
+        AppOpenAd.Load(appopen, adRequest,
+            (AppOpenAd ad, LoadAdError error) =>
+            {
+              // if error is not null, the load request failed.
+              if (error != null || ad == null)
+                {
+                    Debug.LogError("app open ad failed to load an ad " +
+                                   "with error : " + error);
+                    return;
+                }
+
+                Debug.Log("App open ad loaded with response : "
+                          + ad.GetResponseInfo());
+
+                appOpenAd = ad;
+                RegisterEventHandlers(ad);
+            });
+    }
 
     private void RegisterEventHandlers(AppOpenAd ad)
     {
@@ -515,19 +492,17 @@ public class AdsManager : MonoBehaviour, IUnityAdsInitializationListener, IUnity
 
     public void ShowAppOpenAd()
     {
-        LoadAppOpenAd();
-        if (ShowAds)
+        if (appOpenAd != null && appOpenAd.CanShowAd())
         {
-            if (appOpenAd != null && appOpenAd.CanShowAd())
-            {
-                Debug.Log("Showing app open ad.");
-                appOpenAd.Show();
-            }
-            else
-            {
-                Debug.LogError("App open ad is not ready yet.");
-            }
+            Debug.Log("Showing app open ad.");
+            appOpenAd.Show();
         }
+        else
+        {
+            Debug.LogError("App open ad is not ready yet.");
+        }
+
+        
     }
 
 
@@ -582,19 +557,16 @@ public class AdsManager : MonoBehaviour, IUnityAdsInitializationListener, IUnity
 
     public void ShowRewardedAd()
     {
-        if (ShowAds)
-        {
-            const string rewardMsg =
+        const string rewardMsg =
             "Rewarded ad rewarded the user. Type: {0}, amount: {1}.";
 
-            if (rewardedAd != null && rewardedAd.CanShowAd())
+        if (rewardedAd != null && rewardedAd.CanShowAd())
+        {
+            rewardedAd.Show((Reward reward) =>
             {
-                rewardedAd.Show((Reward reward) =>
-                {
                 // TODO: Reward the user.
                 Debug.Log(string.Format(rewardMsg, reward.Type, reward.Amount));
-                });
-            }
+            });
         }
     }
 
@@ -669,9 +641,9 @@ public class AdsManager : MonoBehaviour, IUnityAdsInitializationListener, IUnity
         // Optionally execute code if the Ad Unit fails to show, such as loading another ad.
     }
 
+
+
     
-
-
 
 
 }

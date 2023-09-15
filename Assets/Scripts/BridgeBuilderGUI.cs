@@ -102,7 +102,7 @@ public class BridgeBuilderGUI : MonoBehaviour {
 	public GameObject HintAfterAdd;
 	void Start()
 	{
-		AdsManager.instance.LoadSmallBannerAd();
+		AdsManager.instance.ShowSmallBanner();
 		AudioManager.instance.musicSource.Stop();
 		AudioManager.instance.wind.Play();
 		iTween.MoveTo(EnvirnmentCamera, iTween.Hash("position", envrinmentCamPosition.position, "time", .5f, "easetype", iTween.EaseType.linear));
@@ -334,7 +334,7 @@ public class BridgeBuilderGUI : MonoBehaviour {
 
 	public void ResetLevel ()
 	{
-		AdsManager.instance.LoadSmallBannerAd();
+		AdsManager.instance.ShowSmallBanner();
 		AudioManager.instance.buttonAudio.Play();
 		backToDraw ();
 		levelFailedPanel.SetActive (false);
@@ -373,7 +373,7 @@ public class BridgeBuilderGUI : MonoBehaviour {
 	public void LevelComplete ()
 	{
 		AdsManager.instance.ShowinterAd();
-		AdsManager.instance.LoadBigBannerAd();
+		AdsManager.instance.ShowBigBanner();
 		AudioManager.instance.winAudio.Play();
 		LevelCompletePanel.SetActive (true);
 		int currentLevelIndex = int.Parse (HomeManager.selectedLevel.Split('_')[1].ToString ());
@@ -410,7 +410,7 @@ public class BridgeBuilderGUI : MonoBehaviour {
 		AdsManager.instance.ShowinterAd();
 		if (!gamePaused&&!levelFailedPanel.activeInHierarchy)
 		{
-			AdsManager.instance.LoadBigBannerAd();
+			AdsManager.instance.ShowBigBanner();
 			AudioManager.instance.failAudio.Play();
 			gamePaused = true;
 			levelFailedPanel.SetActive(true);
@@ -518,7 +518,7 @@ public GameObject carStopButtom;
 		//Time.timeScale = 0;
 		//gamePaused = true;
 		AdsManager.instance.ShowinterAd();
-		AdsManager.instance.LoadBigBannerAd();
+		AdsManager.instance.ShowBigBanner();
 		AudioManager.instance.buttonAudio.Play();
 		if (AudioManager.instance.sound == 1)
 			AudioManager.instance.carStart.volume = 0.0f;
@@ -552,7 +552,7 @@ public GameObject carStopButtom;
 		pausePanel.SetActive(false);
 		Time.timeScale = 1;
 		gamePaused = false;
-		AdsManager.instance.LoadSmallBannerAd();
+		AdsManager.instance.ShowSmallBanner();
 		//      if (TrainController.instance.trainWorking == true)
 		//      {
 		//	AudioManager.instance.carStart.volume = 1.0f;
