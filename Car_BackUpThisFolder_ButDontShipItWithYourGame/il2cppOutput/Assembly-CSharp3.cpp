@@ -402,8 +402,6 @@ struct CraneController_t268A5B70F9FA74311241DF9FD14B59FE4A1ECE8C;
 struct CullingAllocationInfo_tB260F5CD0B290F74E145EB16E54B901CC68D9D5A;
 // CursorController
 struct CursorController_t327FD1503822020E5E76CFDBBA337E14BFD215D7;
-// Firebase.Database.DatabaseReference
-struct DatabaseReference_tD6F9941BEAE8109991B814490DA64099EECBFA6D;
 // UnityEngine.Rendering.Universal.DebugHandler
 struct DebugHandler_t3A09E2CFD1CA6F5C192968A6FF19EE4863F44DA4;
 // DebugParticleFrames
@@ -3748,20 +3746,16 @@ struct AdsManager_tE059594BE435B356831188671B794CDE032FC41B  : public MonoBehavi
 	String_t* ___REWARDED_VIDEO_PLACEMENT_16;
 	// System.Boolean AdsManager::isAppOpen
 	bool ___isAppOpen_18;
-	// System.Boolean AdsManager::ShowAds
-	bool ___ShowAds_19;
-	// Firebase.Database.DatabaseReference AdsManager::reference
-	DatabaseReference_tD6F9941BEAE8109991B814490DA64099EECBFA6D* ___reference_20;
 	// GoogleMobileAds.Api.BannerView AdsManager::_bannerView
-	BannerView_t203A90A6D41B56EC7208F121D6EE7E7283A590BB* ____bannerView_21;
+	BannerView_t203A90A6D41B56EC7208F121D6EE7E7283A590BB* ____bannerView_19;
 	// GoogleMobileAds.Api.BannerView AdsManager::_bannerView1
-	BannerView_t203A90A6D41B56EC7208F121D6EE7E7283A590BB* ____bannerView1_22;
+	BannerView_t203A90A6D41B56EC7208F121D6EE7E7283A590BB* ____bannerView1_20;
 	// GoogleMobileAds.Api.InterstitialAd AdsManager::interstitialAd
-	InterstitialAd_t41640B3957C2B66FA5F6F38A4805393B6B013FEC* ___interstitialAd_23;
+	InterstitialAd_t41640B3957C2B66FA5F6F38A4805393B6B013FEC* ___interstitialAd_21;
 	// GoogleMobileAds.Api.AppOpenAd AdsManager::appOpenAd
-	AppOpenAd_tF3D4C7489EF9689BE192F2379D10A39A26B82DAC* ___appOpenAd_24;
+	AppOpenAd_tF3D4C7489EF9689BE192F2379D10A39A26B82DAC* ___appOpenAd_22;
 	// GoogleMobileAds.Api.RewardedAd AdsManager::rewardedAd
-	RewardedAd_t6D9A2A205821D735AB48061D75AC8DC4E3FA5D09* ___rewardedAd_25;
+	RewardedAd_t6D9A2A205821D735AB48061D75AC8DC4E3FA5D09* ___rewardedAd_23;
 };
 
 // AudioManager
@@ -8550,8 +8544,8 @@ inline Image_tBC1D03F63BF71132E9A5E472B8742F172A011E7E* GameObject_GetComponent_
 }
 // System.Void UnityEngine.UI.Image::set_sprite(UnityEngine.Sprite)
 IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void Image_set_sprite_mC0C248340BA27AAEE56855A3FAFA0D8CA12956DE (Image_tBC1D03F63BF71132E9A5E472B8742F172A011E7E* __this, Sprite_tAFF74BC83CD68037494CB0B4F28CBDF8971CAB99* ___0_value, const RuntimeMethod* method) ;
-// System.Void AdsManager::LoadSmallBannerAd()
-IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void AdsManager_LoadSmallBannerAd_mFF27FA57CF7DFCEF392577FD2BD6806DD5D4F5C9 (AdsManager_tE059594BE435B356831188671B794CDE032FC41B* __this, const RuntimeMethod* method) ;
+// System.Void AdsManager::ShowSmallBanner()
+IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void AdsManager_ShowSmallBanner_m49CA9EB698BB65E37FD98F04F39524EA89BCA3CB (AdsManager_tE059594BE435B356831188671B794CDE032FC41B* __this, const RuntimeMethod* method) ;
 // System.Void UnityEngine.AudioSource::Stop()
 IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void AudioSource_Stop_m318F17F17A147C77FF6E0A5A7A6BE057DB90F537 (AudioSource_t871AC2272F896738252F04EE949AEF5B241D3299* __this, const RuntimeMethod* method) ;
 // System.Collections.Hashtable iTween::Hash(System.Object[])
@@ -8644,8 +8638,8 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR Scene_tA1DC762B79745EB5140F054C884855B9223183
 IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR String_t* Scene_get_name_m3C818DFA663E159274DAD823B780C7616C5E2A8C (Scene_tA1DC762B79745EB5140F054C884855B922318356* __this, const RuntimeMethod* method) ;
 // System.Void AdsManager::ShowinterAd()
 IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void AdsManager_ShowinterAd_m7F76CB02AA84C755DD28FE8EE1705D029B8CF2C2 (AdsManager_tE059594BE435B356831188671B794CDE032FC41B* __this, const RuntimeMethod* method) ;
-// System.Void AdsManager::LoadBigBannerAd()
-IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void AdsManager_LoadBigBannerAd_m1E28812CC60A7EB5C64D3A14A227A4AE348E9D08 (AdsManager_tE059594BE435B356831188671B794CDE032FC41B* __this, const RuntimeMethod* method) ;
+// System.Void AdsManager::ShowBigBanner()
+IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void AdsManager_ShowBigBanner_m016586AEAF123193F33A96E01E3B7C885D0447AD (AdsManager_tE059594BE435B356831188671B794CDE032FC41B* __this, const RuntimeMethod* method) ;
 // T UnityEngine.GameObject::GetComponent<UnityEngine.MeshRenderer>()
 inline MeshRenderer_t4B7747212F0B88244BB7790C61AE124BFC15BAAE* GameObject_GetComponent_TisMeshRenderer_t4B7747212F0B88244BB7790C61AE124BFC15BAAE_m7FF948365C38BC39333D82B235A7C4EAD219960D (GameObject_t76FEDD663AB33C991A9C9A23129337651094216F* __this, const RuntimeMethod* method)
 {
@@ -24537,10 +24531,10 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void BridgeBuilderGUI_Start_m4F32F62A1ED9F217
 	GameObject_t76FEDD663AB33C991A9C9A23129337651094216F* V_1 = NULL;
 	int32_t V_2 = 0;
 	{
-		// AdsManager.instance.LoadSmallBannerAd();
+		// AdsManager.instance.ShowSmallBanner();
 		AdsManager_tE059594BE435B356831188671B794CDE032FC41B* L_0 = ((AdsManager_tE059594BE435B356831188671B794CDE032FC41B_StaticFields*)il2cpp_codegen_static_fields_for(AdsManager_tE059594BE435B356831188671B794CDE032FC41B_il2cpp_TypeInfo_var))->___instance_17;
 		NullCheck(L_0);
-		AdsManager_LoadSmallBannerAd_mFF27FA57CF7DFCEF392577FD2BD6806DD5D4F5C9(L_0, NULL);
+		AdsManager_ShowSmallBanner_m49CA9EB698BB65E37FD98F04F39524EA89BCA3CB(L_0, NULL);
 		// AudioManager.instance.musicSource.Stop();
 		AudioManager_t4BE66A4A0E184D85AF74C37BC93BFBEC52953C7B* L_1 = ((AudioManager_t4BE66A4A0E184D85AF74C37BC93BFBEC52953C7B_StaticFields*)il2cpp_codegen_static_fields_for(AudioManager_t4BE66A4A0E184D85AF74C37BC93BFBEC52953C7B_il2cpp_TypeInfo_var))->___instance_4;
 		NullCheck(L_1);
@@ -25431,10 +25425,10 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void BridgeBuilderGUI_ResetLevel_m25231AF2966
 		s_Il2CppMethodInitialized = true;
 	}
 	{
-		// AdsManager.instance.LoadSmallBannerAd();
+		// AdsManager.instance.ShowSmallBanner();
 		AdsManager_tE059594BE435B356831188671B794CDE032FC41B* L_0 = ((AdsManager_tE059594BE435B356831188671B794CDE032FC41B_StaticFields*)il2cpp_codegen_static_fields_for(AdsManager_tE059594BE435B356831188671B794CDE032FC41B_il2cpp_TypeInfo_var))->___instance_17;
 		NullCheck(L_0);
-		AdsManager_LoadSmallBannerAd_mFF27FA57CF7DFCEF392577FD2BD6806DD5D4F5C9(L_0, NULL);
+		AdsManager_ShowSmallBanner_m49CA9EB698BB65E37FD98F04F39524EA89BCA3CB(L_0, NULL);
 		// AudioManager.instance.buttonAudio.Play();
 		AudioManager_t4BE66A4A0E184D85AF74C37BC93BFBEC52953C7B* L_1 = ((AudioManager_t4BE66A4A0E184D85AF74C37BC93BFBEC52953C7B_StaticFields*)il2cpp_codegen_static_fields_for(AudioManager_t4BE66A4A0E184D85AF74C37BC93BFBEC52953C7B_il2cpp_TypeInfo_var))->___instance_4;
 		NullCheck(L_1);
@@ -25555,10 +25549,10 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void BridgeBuilderGUI_LevelComplete_mA1D5C3D4
 		AdsManager_tE059594BE435B356831188671B794CDE032FC41B* L_0 = ((AdsManager_tE059594BE435B356831188671B794CDE032FC41B_StaticFields*)il2cpp_codegen_static_fields_for(AdsManager_tE059594BE435B356831188671B794CDE032FC41B_il2cpp_TypeInfo_var))->___instance_17;
 		NullCheck(L_0);
 		AdsManager_ShowinterAd_m7F76CB02AA84C755DD28FE8EE1705D029B8CF2C2(L_0, NULL);
-		// AdsManager.instance.LoadBigBannerAd();
+		// AdsManager.instance.ShowBigBanner();
 		AdsManager_tE059594BE435B356831188671B794CDE032FC41B* L_1 = ((AdsManager_tE059594BE435B356831188671B794CDE032FC41B_StaticFields*)il2cpp_codegen_static_fields_for(AdsManager_tE059594BE435B356831188671B794CDE032FC41B_il2cpp_TypeInfo_var))->___instance_17;
 		NullCheck(L_1);
-		AdsManager_LoadBigBannerAd_m1E28812CC60A7EB5C64D3A14A227A4AE348E9D08(L_1, NULL);
+		AdsManager_ShowBigBanner_m016586AEAF123193F33A96E01E3B7C885D0447AD(L_1, NULL);
 		// AudioManager.instance.winAudio.Play();
 		AudioManager_t4BE66A4A0E184D85AF74C37BC93BFBEC52953C7B* L_2 = ((AudioManager_t4BE66A4A0E184D85AF74C37BC93BFBEC52953C7B_StaticFields*)il2cpp_codegen_static_fields_for(AudioManager_t4BE66A4A0E184D85AF74C37BC93BFBEC52953C7B_il2cpp_TypeInfo_var))->___instance_4;
 		NullCheck(L_2);
@@ -25691,10 +25685,10 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void BridgeBuilderGUI_LevelFailed_m7FB3B3BA83
 		}
 	}
 	{
-		// AdsManager.instance.LoadBigBannerAd();
+		// AdsManager.instance.ShowBigBanner();
 		AdsManager_tE059594BE435B356831188671B794CDE032FC41B* L_4 = ((AdsManager_tE059594BE435B356831188671B794CDE032FC41B_StaticFields*)il2cpp_codegen_static_fields_for(AdsManager_tE059594BE435B356831188671B794CDE032FC41B_il2cpp_TypeInfo_var))->___instance_17;
 		NullCheck(L_4);
-		AdsManager_LoadBigBannerAd_m1E28812CC60A7EB5C64D3A14A227A4AE348E9D08(L_4, NULL);
+		AdsManager_ShowBigBanner_m016586AEAF123193F33A96E01E3B7C885D0447AD(L_4, NULL);
 		// AudioManager.instance.failAudio.Play();
 		AudioManager_t4BE66A4A0E184D85AF74C37BC93BFBEC52953C7B* L_5 = ((AudioManager_t4BE66A4A0E184D85AF74C37BC93BFBEC52953C7B_StaticFields*)il2cpp_codegen_static_fields_for(AudioManager_t4BE66A4A0E184D85AF74C37BC93BFBEC52953C7B_il2cpp_TypeInfo_var))->___instance_4;
 		NullCheck(L_5);
@@ -26057,10 +26051,10 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void BridgeBuilderGUI_PauseGame_m88ADE7F80AFE
 		AdsManager_tE059594BE435B356831188671B794CDE032FC41B* L_0 = ((AdsManager_tE059594BE435B356831188671B794CDE032FC41B_StaticFields*)il2cpp_codegen_static_fields_for(AdsManager_tE059594BE435B356831188671B794CDE032FC41B_il2cpp_TypeInfo_var))->___instance_17;
 		NullCheck(L_0);
 		AdsManager_ShowinterAd_m7F76CB02AA84C755DD28FE8EE1705D029B8CF2C2(L_0, NULL);
-		// AdsManager.instance.LoadBigBannerAd();
+		// AdsManager.instance.ShowBigBanner();
 		AdsManager_tE059594BE435B356831188671B794CDE032FC41B* L_1 = ((AdsManager_tE059594BE435B356831188671B794CDE032FC41B_StaticFields*)il2cpp_codegen_static_fields_for(AdsManager_tE059594BE435B356831188671B794CDE032FC41B_il2cpp_TypeInfo_var))->___instance_17;
 		NullCheck(L_1);
-		AdsManager_LoadBigBannerAd_m1E28812CC60A7EB5C64D3A14A227A4AE348E9D08(L_1, NULL);
+		AdsManager_ShowBigBanner_m016586AEAF123193F33A96E01E3B7C885D0447AD(L_1, NULL);
 		// AudioManager.instance.buttonAudio.Play();
 		AudioManager_t4BE66A4A0E184D85AF74C37BC93BFBEC52953C7B* L_2 = ((AudioManager_t4BE66A4A0E184D85AF74C37BC93BFBEC52953C7B_StaticFields*)il2cpp_codegen_static_fields_for(AudioManager_t4BE66A4A0E184D85AF74C37BC93BFBEC52953C7B_il2cpp_TypeInfo_var))->___instance_4;
 		NullCheck(L_2);
@@ -26146,10 +26140,10 @@ IL_0030:
 		Time_set_timeScale_mEF84EE4B2376A458387648079B426B267862D331((1.0f), NULL);
 		// gamePaused = false;
 		__this->___gamePaused_53 = (bool)0;
-		// AdsManager.instance.LoadSmallBannerAd();
+		// AdsManager.instance.ShowSmallBanner();
 		AdsManager_tE059594BE435B356831188671B794CDE032FC41B* L_7 = ((AdsManager_tE059594BE435B356831188671B794CDE032FC41B_StaticFields*)il2cpp_codegen_static_fields_for(AdsManager_tE059594BE435B356831188671B794CDE032FC41B_il2cpp_TypeInfo_var))->___instance_17;
 		NullCheck(L_7);
-		AdsManager_LoadSmallBannerAd_mFF27FA57CF7DFCEF392577FD2BD6806DD5D4F5C9(L_7, NULL);
+		AdsManager_ShowSmallBanner_m49CA9EB698BB65E37FD98F04F39524EA89BCA3CB(L_7, NULL);
 		// }
 		return;
 	}
