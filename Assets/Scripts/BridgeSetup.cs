@@ -386,7 +386,7 @@ public class BridgeSetup : MonoBehaviour {
 	{
 		AudioManager.instance.beamDestroy.Play();
 		if (null != snapPoint) {
-			Debug.LogError("n");
+		//	Debug.LogError("n");
 			BridgeBeam bb = snapPoint.GetComponent<BridgeBeam> ();
 			//if (bb.IsRoadBeam) {
 			//	bb.bridgeSetupParent.currentRoadsCount--;

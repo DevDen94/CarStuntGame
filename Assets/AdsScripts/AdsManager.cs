@@ -84,11 +84,6 @@ public class AdsManager : MonoBehaviour, IUnityAdsInitializationListener, IUnity
     {
 
 
-            BannerAd = FBData.Instance.BannerAd ;
-            inter = FBData.Instance.inter;
-            BigBannerAd = FBData.Instance.BigBannerAd;
-            appopen = FBData.Instance.appopen;
-            rewarded = FBData.Instance.rewarded;
         
 
 

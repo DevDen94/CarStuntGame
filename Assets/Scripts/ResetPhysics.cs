@@ -32,21 +32,21 @@ public class ResetPhysics : MonoBehaviour {
 	void OnMouseDown ()
 	{
 
-		//deleteBeam ();
+		
 	}
 
 	public void deleteBeam ()
 	{
-		//AudioManager.instance.beamDestroy.Play();
+		
 		if (gameObject.tag == "road" || gameObject.tag == "beam"||gameObject.tag=="rope") {
 
-			//AudioManager.instance.beamDestroy.Play();
+			
 			if (tapped) {
 				AudioManager.instance.beamDestroy.Play();
 				 b = GetComponentInParent<BridgeBeam> ();
-				//Debug.LogError ("destroy");
+				
 				if (b.bridgeSetupParent.LevelStage == BridgeSetup.eLevelStage.SetupStage) {
-					//b.anchorStart = null;
+					
 					Transform temp = Instantiate (dustParticlePrefab ,transform).transform;
 
 					Vector3 pos = Camera.main.ScreenToWorldPoint (Input.mousePosition);
@@ -56,12 +56,11 @@ public class ResetPhysics : MonoBehaviour {
 					temp.localScale = Vector3.one;
 					b.decreaseCounter (true);
 					b.bridgeSetupParent.SetEndPoints();
-					//int index = b.bridgeSetupParent.allCreatedBeams.IndexOf(b);
-					//b.bridgeSetupParent.allCreatedBeams.RemoveAt(index);
+					
 					b.bridgeSetupParent.gui.updateListCount();
 					b.bridgeSetupParent.allCreatedBeams.Remove(b);
 				b.bridgeSetupParent.DestroyBeam(b.gameObject);
-				//	DestroyImmediate(b.gameObject);
+				
 				}
 			} else {
 				tapped = true;
@@ -81,10 +80,9 @@ public class ResetPhysics : MonoBehaviour {
 	{
 		if(joints.Length> 0) {
 			for (int i = 0; i < joints.Length; i++) {
-				//Debug.LogError (joints [i].currentForce.magnitude,joints[i].gameObject);
-				//Debug.LogError (joints [i].breakForce, joints [i].gameObject);
+			
 				if (joints[i]==null) {
-					Debug.Log ("break");
+				
 					AudioManager.instance.beamDestroy.Play();
 					Transform temp = Instantiate (dustParticlePrefab, transform).transform;
 
@@ -123,33 +121,15 @@ public class ResetPhysics : MonoBehaviour {
 			eulerAngle = new Vector3(Mathf.Round(transform.parent.eulerAngles.x), Mathf.Round (transform.parent.eulerAngles.y), Mathf.Round (transform.parent.eulerAngles.z)).ToString();
 
 
-			Debug.LogError ("zAxis = " + transform.eulerAngles.z);
+		
 
 				OverlappingBeam = new Vector3 (Mathf.Round (other.transform.parent.eulerAngles.x), Mathf.Round (other.transform.parent.eulerAngles.y), Mathf.Round (other.transform.parent.eulerAngles.z)).ToString ();
 
 
-			//	if (gameObject.tag == "road") {
-
-			//	OverlappingBeam = new Vector3 (Mathf.Round (other.transform.parent.GetChild (1).eulerAngles.x), Mathf.Round (other.transform.parent.GetChild (1).eulerAngles.y), Mathf.Round (other.transform.parent.GetChild (1).eulerAngles.z)).ToString ();
-			//} else if (gameObject.tag == "beam") {
-
-
-			//		OverlappingBeam = new Vector3 (Mathf.Round (other.transform.parent.GetChild (0).eulerAngles.x), Mathf.Round (other.transform.parent.GetChild (0).eulerAngles.y), Mathf.Round (other.transform.parent.GetChild (0).eulerAngles.z)).ToString ();
-			//}
-			Debug.LogError(b.gameObject == b.bridgeSetupParent.currentBeam, b.gameObject);
-			Debug.LogError (OverlappingBeam);
-			Debug.LogError (eulerAngle);
-			//Vector3 onSamePlainVector = Vector3.Cross(transform.eulerAngles,other.transform.eulerAngles);
-			//onSamePlainVector.x = Mathf.Abs(onSamePlainVector.x);
-			//onSamePlainVector.y = Mathf.Abs(onSamePlainVector.y);
-			//onSamePlainVector.z = Mathf.Abs(onSamePlainVector.z);
 
 			Vector3 current = transform.parent.eulerAngles;
 			Vector3 collided = Vector3.zero/* = other.transform.eulerAngles.normalized*/;
-			// if (other.gameObject.tag == "road")
-			//   collided = new Vector3(other.transform.parent.GetChild(1).eulerAngles.x, other.transform.parent.GetChild(1).eulerAngles.y, other.transform.parent.GetChild(1).eulerAngles.z);
-			// else if (other.gameObject.tag == "beam")
-			//   collided = new Vector3(other.transform.parent.GetChild(0).eulerAngles.x, other.transform.parent.GetChild(0).eulerAngles.y, other.transform.parent.GetChild(0).eulerAngles.z);
+			
 			collided = other.transform.parent.eulerAngles;
             Vector3 onSamePlainVector = Vector3.Cross(current, collided);
 
@@ -157,14 +137,14 @@ public class ResetPhysics : MonoBehaviour {
 			bool onSamePlain = onSamePlainVector == Vector3.zero;
 
 
-            Debug.LogError(onSamePlainVector,gameObject);
+          
 
 			if (eulerAngle == OverlappingBeam&&!oneTimeCollision ) 
 			{
 				float beamVecMagnitude1 = (b.pointEnd.transform.position - b.pointStart.transform.position).magnitude;
 				float beamVecMagnitude2 = (other.GetComponentInParent<BridgeBeam>().pointEnd.transform.position - other.GetComponentInParent<BridgeBeam>().pointStart.transform.position).magnitude;
 
-				//float totalLength = beamVecMagnitude1 + beamVecMagnitude2;
+			
 
 				float totalLength = (b.pointEnd.transform.position - other.GetComponentInParent<BridgeBeam>().pointEnd.transform.position).magnitude;
 
@@ -181,16 +161,12 @@ public class ResetPhysics : MonoBehaviour {
 				if (isOnOppositeDirection)
 				{
 					oneTimeCollision = true;
-					//	BridgeSetup.destroyUsingTrigger = false;
+				
 					b = GetComponentInParent<BridgeBeam>();
 					if (b.transform.GetSiblingIndex() > other.transform.GetComponentInParent<BridgeBeam>().transform.GetSiblingIndex())
 					{
-						Debug.LogError(other.name, other.gameObject);
-						Debug.LogError(transform.GetSiblingIndex());
-						Debug.LogError(other.transform.GetSiblingIndex());
+					
 						b.decreaseCounter(true);
-						//int index = b.bridgeSetupParent.allCreatedBeams.IndexOf(b);
-						//b.bridgeSetupParent.allCreatedBeams.RemoveAt(index);
 						b.bridgeSetupParent.gui.updateListCount();
 						b.bridgeSetupParent.allCreatedBeams.Remove(b);
 						b.bridgeSetupParent.DestroyBeam(b.gameObject);
@@ -204,8 +180,6 @@ public class ResetPhysics : MonoBehaviour {
 		{
 			b = GetComponentInParent<BridgeBeam>();
 			b.decreaseCounter(true);
-			//int index = b.bridgeSetupParent.allCreatedBeams.IndexOf(b);
-			//b.bridgeSetupParent.allCreatedBeams.RemoveAt(index);
 			b.bridgeSetupParent.gui.updateListCount();
 			b.bridgeSetupParent.allCreatedBeams.Remove(b);
 			b.bridgeSetupParent.DestroyBeam(b.gameObject);

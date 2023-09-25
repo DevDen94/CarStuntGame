@@ -23,9 +23,7 @@ public class CarDismantleHandler : MonoBehaviour
     {
         if (collision.gameObject.name == "finish" /*&& collision.gameObject.tag == "carDrag"*/ && !onetime)
         {
-           // GetComponent<Collider>().enabled = false;
-          //  onetime = true;
-            Debug.LogError("collided with rock");
+         
             Invoke("forcefulLevelFailed", 3);
         }
     }
