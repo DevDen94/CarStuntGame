@@ -11,7 +11,7 @@ public class TrainController : MonoBehaviour {
 	public bool trainWorking = false;
 	public static TrainController instance;
 
-	public GameObject insidewCamera;
+///	public GameObject insidewCamera;
 	private Rigidbody m_Rigidbody;
 	// Use this for initialization
 	void Start () {
@@ -20,17 +20,17 @@ public class TrainController : MonoBehaviour {
 		trainWagon = GetComponentsInChildren<ResetPhysics>();
 		trainHead = GameObject.FindGameObjectWithTag("TrainHead");
 		trainWorking = false;
-		Camera.main.GetComponent<BridgeBuilderGUI> ().InsideCarCamera = insidewCamera;
+	//	Camera.main.GetComponent<BridgeBuilderGUI> ().InsideCarCamera = insidewCamera;
 	}
 	
 	// Update is called once per frame
 	//	void Update () {
 	//	
 	//	}
-	public WheelCollider wheel1;
-	public WheelCollider wheel2;
-	public WheelCollider wheel3;
-	public WheelCollider wheel4;
+	//public WheelCollider wheel1;
+	//public WheelCollider wheel2;
+	//public WheelCollider wheel3;
+	//public WheelCollider wheel4;
 
 	void FixedUpdate() {
 		if (trainWorking) {

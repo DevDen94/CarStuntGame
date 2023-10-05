@@ -1,0 +1,346 @@
+fileFormatVersion: 2
+guid: c639796848503d846b8c10a469a22389
+ModelImporter:
+  serializedVersion: 21300
+  internalIDToNameTable: []
+  externalObjects:
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Bat_DF
+    second: {fileID: 2100000, guid: bf37f7d9f8cb54742bf7fb7ed1b9ec59, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: FoliageMat
+    second: {fileID: 2100000, guid: 3f7a699f47a9ec947aa3f1e8158c7cc1, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Grass1_Material__303
+    second: {fileID: 2100000, guid: f981fb9dbcc87f442832cac785bfdb64, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Grave_DF
+    second: {fileID: 2100000, guid: f4360afd474daab45803f812ef7649b1, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: La_cay_03_
+    second: {fileID: 2100000, guid: ded8de6cf5952a84783949ef91255042, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Leap_02
+    second: {fileID: 2100000, guid: 48681519d1c46574292ce7633d1e9532, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: MAT_MAIN
+    second: {fileID: 2100000, guid: 90290e6a889ad8541b972af5a7a371ab, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Material.001
+    second: {fileID: 2100000, guid: 32b386ddf193d064f97ecc0b880949a0, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: OpaqueMat
+    second: {fileID: 2100000, guid: aa660f3b2d283954690834f7faa95fee, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: PP_Standard_Material
+    second: {fileID: 2100000, guid: 56b1a149deecebe4dba9444217ee08d9, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Pumpkin_01_DF
+    second: {fileID: 2100000, guid: 6e88d0a2c99222b4abe27f4806297268, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Scarecrow_DF
+    second: {fileID: 2100000, guid: f2bd34c27dccb204d9e89a8a3e90ca1d, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: T_Tree
+    second: {fileID: 2100000, guid: d1fdbd321998d9f429e306be92e1a983, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: T_Windmill_Diff
+    second: {fileID: 2100000, guid: 100763f7b0ef645419869726d2b30f16, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: TransparentNoLightMat
+    second: {fileID: 2100000, guid: fee2ec399435995438952e890aa5c785, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Tree02_Opa
+    second: {fileID: 2100000, guid: 59ed6973cffbfdf4b9f3062ab1a980bc, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Tree_05
+    second: {fileID: 2100000, guid: 0aa1d88e50162764d9566a341e8db1bd, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: ZLPC_Plant
+    second: {fileID: 2100000, guid: 1af0de07097f22f479c2b27f79845e98, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: ZLPC_Prop
+    second: {fileID: 2100000, guid: c9c9de53761617d45bd17cf210321b19, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: polySurface304
+    second: {fileID: 2100000, guid: 2744b9b71c3870f4ab21acf61b969c3c, type: 2}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: Bat_DF
+    second: {fileID: 2800000, guid: 099c9d8ea9bc6b248812b4bdc2312481, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: FarTree1
+    second: {fileID: 2800000, guid: ff61e9109f041504eb3f34f898853b63, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: FoliageMat_baseColor
+    second: {fileID: 2800000, guid: 5f63836b745229049ad60c92fd72b57a, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: Grave_DF
+    second: {fileID: 2800000, guid: baadd1cc100add441b308dd7bbba04a1, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: 'La cay 03 '
+    second: {fileID: 2800000, guid: eacf985111e1c5243ac23573b082dfcf, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: Leap_02
+    second: {fileID: 2800000, guid: a32f139c96e90184f9b4153293932687, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: Main
+    second: {fileID: 2800000, guid: e302a687c9bc2034aa1e1bd9591d0677, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: OpaqueMat_baseColor
+    second: {fileID: 2800000, guid: 7a4e4ce990d761d499d58a41ef73ec3f, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: OpaqueMat_emissive
+    second: {fileID: 2800000, guid: 42e6d4625b2f186448f1e972e27b4679, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: OpaqueMat_normal
+    second: {fileID: 2800000, guid: 52629ca4866ea1a4b8ff3d67be3a5e0d, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: PP_Standard_Material_baseColor
+    second: {fileID: 2800000, guid: b11691cb8c365cb48ba17cfe21220ec0, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: Pumpkin_01_DF
+    second: {fileID: 2800000, guid: 39176d521cda7ab4fb2421c75535258d, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: Pumpkin_01_DF_emission
+    second: {fileID: 2800000, guid: e5a2126c1ced1c343a36f55b5662b092, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: Scarecrow_DF
+    second: {fileID: 2800000, guid: 5e8ec5ed5bf42514a8a7bc4169bcea90, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: T_Tree
+    second: {fileID: 2800000, guid: 429e4e5d942884e4aa56d282183aab8f, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: T_Tree_03
+    second: {fileID: 2800000, guid: 0b78fde4e3625e84db883f52d9585df6, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: T_Windmill_Diff
+    second: {fileID: 2800000, guid: 16a7485d7c1b7784b8134479afba02e9, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: Tex_RGB_0
+    second: {fileID: 2800000, guid: d8f4d0efe7cc10547a4d44eaf6d20026, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: Tex_RGB_1
+    second: {fileID: 2800000, guid: 34414c5f6f715484fa6940083f63d2bb, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: TransparentNoLightMat_baseColor
+    second: {fileID: 2800000, guid: 5ce7fabe5ef476b4791f9cd092185c8b, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: TransparentNoLightMat_emissive
+    second: {fileID: 2800000, guid: f220b857b965afe47baf3f74436d8110, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: Tree02_Opa
+    second: {fileID: 2800000, guid: 533b049cc30b9b642a68ed487c21a0fd, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: Tree_05
+    second: {fileID: 2800000, guid: e9de396085fe8a0489105794931ca770, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: WaterWavesNormal
+    second: {fileID: 2800000, guid: 990e1b651f509ed4ab95ba07f4c0195d, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: ZLPC_Plant
+    second: {fileID: 2800000, guid: 6991cffb83d27814189474e6af5f96b7, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: ZLPC_Prop
+    second: {fileID: 2800000, guid: 11905aa53e198af41baf6acae2a85ab2, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: halloween-clip-art-halloween-witch-and-broom-png-clip-art-image-f7b47c9f234749fbf5c6b36f60d0d418
+    second: {fileID: 2800000, guid: 3149336b12c6b8048bb6d34de2bb5671, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: texture
+    second: {fileID: 2800000, guid: 50e4b98c916bbb845af71af707bea04a, type: 3}
+  materials:
+    materialImportMode: 2
+    materialName: 0
+    materialSearch: 1
+    materialLocation: 1
+  animations:
+    legacyGenerateAnimations: 4
+    bakeSimulation: 0
+    resampleCurves: 1
+    optimizeGameObjects: 0
+    removeConstantScaleCurves: 1
+    motionNodeName: 
+    rigImportErrors: 
+    rigImportWarnings: 
+    animationImportErrors: 
+    animationImportWarnings: 
+    animationRetargetingWarnings: 
+    animationDoRetargetingWarnings: 0
+    importAnimatedCustomProperties: 0
+    importConstraints: 0
+    animationCompression: 1
+    animationRotationError: 0.5
+    animationPositionError: 0.5
+    animationScaleError: 0.5
+    animationWrapMode: 0
+    extraExposedTransformPaths: []
+    extraUserProperties: []
+    clipAnimations: []
+    isReadable: 0
+  meshes:
+    lODScreenPercentages: []
+    globalScale: 1
+    meshCompression: 0
+    addColliders: 0
+    useSRGBMaterialColor: 1
+    sortHierarchyByName: 1
+    importVisibility: 1
+    importBlendShapes: 1
+    importCameras: 1
+    importLights: 1
+    nodeNameCollisionStrategy: 1
+    fileIdsGeneration: 2
+    swapUVChannels: 0
+    generateSecondaryUV: 0
+    useFileUnits: 1
+    keepQuads: 0
+    weldVertices: 1
+    bakeAxisConversion: 0
+    preserveHierarchy: 0
+    skinWeightsMode: 0
+    maxBonesPerVertex: 4
+    minBoneWeight: 0.001
+    optimizeBones: 1
+    meshOptimizationFlags: -1
+    indexFormat: 0
+    secondaryUVAngleDistortion: 8
+    secondaryUVAreaDistortion: 15.000001
+    secondaryUVHardAngle: 88
+    secondaryUVMarginMethod: 1
+    secondaryUVMinLightmapResolution: 40
+    secondaryUVMinObjectScale: 1
+    secondaryUVPackMargin: 4
+    useFileScale: 1
+  tangentSpace:
+    normalSmoothAngle: 60
+    normalImportMode: 0
+    tangentImportMode: 3
+    normalCalculationMode: 4
+    legacyComputeAllNormalsFromSmoothingGroupsWhenMeshHasBlendShapes: 0
+    blendShapeNormalImportMode: 1
+    normalSmoothingSource: 0
+  referencedClips: []
+  importAnimation: 1
+  humanDescription:
+    serializedVersion: 3
+    human: []
+    skeleton: []
+    armTwist: 0.5
+    foreArmTwist: 0.5
+    upperLegTwist: 0.5
+    legTwist: 0.5
+    armStretch: 0.05
+    legStretch: 0.05
+    feetSpacing: 0
+    globalScale: 1
+    rootMotionBoneName: 
+    hasTranslationDoF: 0
+    hasExtraRoot: 0
+    skeletonHasParents: 1
+  lastHumanDescriptionAvatarSource: {instanceID: 0}
+  autoGenerateAvatarMappingIfUnspecified: 1
+  animationType: 2
+  humanoidOversampling: 1
+  avatarSetup: 0
+  addHumanoidExtraRootOnlyWhenUsingAvatar: 1
+  remapMaterialsIfMaterialImportModeIsNone: 0
+  additionalBone: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

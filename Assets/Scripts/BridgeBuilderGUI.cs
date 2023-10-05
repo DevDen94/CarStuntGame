@@ -374,6 +374,7 @@ public class BridgeBuilderGUI : MonoBehaviour {
 	{
 		AdsManager.instance.ShowinterAd();
 		AdsManager.instance.ShowBigBanner();
+		AudioManager.instance.wind.Stop();
 		AudioManager.instance.winAudio.Play();
 		LevelCompletePanel.SetActive (true);
 		int currentLevelIndex = int.Parse (HomeManager.selectedLevel.Split('_')[1].ToString ());
@@ -411,6 +412,7 @@ public class BridgeBuilderGUI : MonoBehaviour {
 		if (!gamePaused&&!levelFailedPanel.activeInHierarchy)
 		{
 			AdsManager.instance.ShowBigBanner();
+			AudioManager.instance.wind.Stop();
 			AudioManager.instance.failAudio.Play();
 			gamePaused = true;
 			levelFailedPanel.SetActive(true);

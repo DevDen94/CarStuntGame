@@ -173,9 +173,9 @@ public class HomeManager : MonoBehaviour
 
         if (categoryIndex < (1 - 1))
         {
-            categoryIndex = 3;
+            categoryIndex = 4;
         }
-        else if (categoryIndex > 3)
+        else if (categoryIndex > 4)
             categoryIndex = 0;
         categoryParent.localPosition = new Vector3(-875*categoryIndex, categoryParent.localPosition.y);
 
