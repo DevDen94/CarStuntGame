@@ -153,7 +153,7 @@ public class BridgeBuilderGUI : MonoBehaviour {
 	public ZoomInOut _zoominOut;
 	public void backToDraw ()
 	{
-		AudioManager.instance.buttonAudio.Play();
+		//AudioManager.instance.buttonAudio.Play();
 		AudioManager.instance.carStart.Stop();
 		//Invoke ("setInteractable", 0.1f);
 		StartCoroutine (setInteractable ());
@@ -336,6 +336,7 @@ public class BridgeBuilderGUI : MonoBehaviour {
 	{
 		AdsManager.instance.ShowSmallBanner();
 		AudioManager.instance.buttonAudio.Play();
+		AudioManager.instance.wind.Play();
 		backToDraw ();
 		levelFailedPanel.SetActive (false);
 		pausePanel.SetActive(false);
