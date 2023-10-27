@@ -46,6 +46,11 @@ public class AdsManager : MonoBehaviour, IUnityAdsInitializationListener, IUnity
 
     public static AdsManager instance;
 
+
+    [Space]
+    public int LevelCompleteTrigger;
+    public int LevelfailTrigger;
+
     public bool isAppOpen;
 
     private void Awake()
@@ -73,6 +78,18 @@ public class AdsManager : MonoBehaviour, IUnityAdsInitializationListener, IUnity
         REWARDED_VIDEO_PLACEMENT = "Rewarded_iOS";
 #endif
 
+
+        if (Test)
+        {
+            BigBannerAd = "ca-app-pub-3940256099942544/6300978111";
+            BannerAd = "ca-app-pub-3940256099942544/6300978111";
+            inter = "ca-app-pub-3940256099942544/1033173712";
+            appopen = "ca-app-pub-3940256099942544/3419835294";
+            rewarded = "ca-app-pub-3940256099942544/5224354917";
+        }
+
+
+
         
     }
 
@@ -83,7 +100,8 @@ public class AdsManager : MonoBehaviour, IUnityAdsInitializationListener, IUnity
     public void Start()
     {
 
-
+        LevelCompleteTrigger = 0;
+        LevelfailTrigger = 0;
         
 
 
@@ -109,9 +127,11 @@ public class AdsManager : MonoBehaviour, IUnityAdsInitializationListener, IUnity
         if (!Advertisement.isInitialized && Advertisement.isSupported)
         {
             Advertisement.Initialize(UnityAdsID, Test, this);
+            //Advertisement.AddListener(this);
+            
             InitilizeUnityAds();
         }
-
+        
     }
 
    public void InitilizeUnityAds()
@@ -311,7 +331,17 @@ public class AdsManager : MonoBehaviour, IUnityAdsInitializationListener, IUnity
 
     public void OnUnityAdsShowStart(string _adUnitId) { }
     public void OnUnityAdsShowClick(string _adUnitId) { }
-    public void OnUnityAdsShowComplete(string _adUnitId, UnityAdsShowCompletionState showCompletionState) { }
+    public void OnUnityAdsShowComplete(string _adUnitId, UnityAdsShowCompletionState showCompletionState) {
+        if (PlayerPrefs.GetInt("Ad") == 0)
+        {
+            BridgeBuilderGUI.Instance.showHintBtn();
+        }
+        else if (PlayerPrefs.GetInt("Ad") == 1)
+        {
+            BridgeBuilderGUI.Instance.skipLevel();
+        }
+
+    }
 
 
     public void ShowinterAd()
@@ -561,9 +591,32 @@ public class AdsManager : MonoBehaviour, IUnityAdsInitializationListener, IUnity
             {
                 // TODO: Reward the user.
                 Debug.Log(string.Format(rewardMsg, reward.Type, reward.Amount));
+
+                Debug.Log("Rewarded ad full screen content closed.");
+                if (PlayerPrefs.GetInt("Ad") == 0)
+                {
+                    BridgeBuilderGUI.Instance.showHintBtn();
+                }
+                else if (PlayerPrefs.GetInt("Ad") == 1)
+                {
+                    BridgeBuilderGUI.Instance.skipLevel();
+                }
             });
         }
+        else
+        {
+            Advertisement.Show(REWARDED_VIDEO_PLACEMENT,this);
+        }
+        Advertisement.Load(REWARDED_VIDEO_PLACEMENT, this);
+        LoadRewardedAd();
+
+
+        //Advertisement.Show(REWARDED_VIDEO_PLACEMENT, this);
+
     }
+
+
+  
 
 
     private void RegisterEventHandlers(RewardedAd ad)
@@ -574,6 +627,8 @@ public class AdsManager : MonoBehaviour, IUnityAdsInitializationListener, IUnity
             Debug.Log(string.Format("Rewarded ad paid {0} {1}.",
                 adValue.Value,
                 adValue.CurrencyCode));
+
+            
         };
         // Raised when an impression is recorded for an ad.
         ad.OnAdImpressionRecorded += () =>
@@ -593,7 +648,8 @@ public class AdsManager : MonoBehaviour, IUnityAdsInitializationListener, IUnity
         // Raised when the ad closed full screen content.
         ad.OnAdFullScreenContentClosed += () =>
         {
-            Debug.Log("Rewarded ad full screen content closed.");
+
+           
         };
         // Raised when the ad failed to open full screen content.
         ad.OnAdFullScreenContentFailed += (AdError error) =>
@@ -635,10 +691,11 @@ public class AdsManager : MonoBehaviour, IUnityAdsInitializationListener, IUnity
         Debug.Log($"Error showing Ad Unit {_adUnitId}: {error.ToString()} - {message}");
         // Optionally execute code if the Ad Unit fails to show, such as loading another ad.
     }
+    //------------------------------------------
 
 
-
+   
     
 
-
 }
+

@@ -20,11 +20,11 @@ public class HomeManager : MonoBehaviour
     {
         AdsManager.instance.ShowSmallBanner();
         
-        if (AdsManager.instance.isAppOpen)
-        {
-            AdsManager.instance.ShowAppOpenAd();
-            AdsManager.instance.isAppOpen = false;
-        }
+        //if (AdsManager.instance.isAppOpen)
+        //{
+        //    AdsManager.instance.ShowAppOpenAd();
+        //    AdsManager.instance.isAppOpen = false;
+        //}
 
 
 
@@ -51,15 +51,20 @@ public class HomeManager : MonoBehaviour
 
     public void onPlay()
     {
-        AdsManager.instance.ShowinterAd();
+        //AdsManager.instance.ShowinterAd();
         AudioManager.instance.buttonAudio.Play();
         ModeSelectionPanel.SetActive(true);
+
+        Firebase.Analytics.FirebaseAnalytics.LogEvent("click_on_start");
+
+
     }
     public void opneExitPanel()
     {
-        AdsManager.instance.ShowinterAd();
+        //AdsManager.instance.ShowinterAd();
         AudioManager.instance.Panelopen.Play();
         ExitPanel.SetActive(true);
+        Firebase.Analytics.FirebaseAnalytics.LogEvent("click_on_exit");
     }
     public void YesExit()
     {
@@ -122,14 +127,16 @@ public class HomeManager : MonoBehaviour
         public GameObject LevelSelectionScreen;
     public void ModeSelect(string category)
 	{
-        AdsManager.instance.ShowinterAd();
+       
         AudioManager.instance.buttonAudio.Play();
         if (EventSystem.current.currentSelectedGameObject.GetComponent<CatLock>().IsLocked)
             return;
         _category = category;
         _currentCategory = EventSystem.current.currentSelectedGameObject.transform.GetSiblingIndex();
          LevelSelectionScreen.SetActive (true);
-	}
+        AdsManager.instance.ShowinterAd();
+        Firebase.Analytics.FirebaseAnalytics.LogEvent("click_on_mode","mode_name", category);
+    }
 
         public void selectLevel ()
 	{
@@ -140,8 +147,8 @@ public class HomeManager : MonoBehaviour
         int index = EventSystem.current.currentSelectedGameObject.transform.GetSiblingIndex ();
                 selectedLevel = "level_" + (index + 1);
                 SceneManager.LoadScene (_category);
-
-	}
+        Firebase.Analytics.FirebaseAnalytics.LogEvent("click_on_level_select","levelselect", selectedLevel);
+    }
 
     public void setSound()
 	{

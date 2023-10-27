@@ -373,7 +373,22 @@ public class BridgeBuilderGUI : MonoBehaviour {
 	public GameObject nextLevelButton;
 	public void LevelComplete ()
 	{
-		AdsManager.instance.ShowinterAd();
+		if (AdsManager.instance.LevelCompleteTrigger == 0)
+		{
+			AdsManager.instance.ShowinterAd();
+			AdsManager.instance.LevelCompleteTrigger += 1;
+
+		}
+		else if (AdsManager.instance.LevelCompleteTrigger == 3)
+		{
+			
+			AdsManager.instance.LevelCompleteTrigger = 0;
+
+        }
+        else
+        {
+			AdsManager.instance.LevelCompleteTrigger += 1;
+		}
 		AdsManager.instance.ShowBigBanner();
 		AudioManager.instance.wind.Stop();
 		AudioManager.instance.winAudio.Play();
@@ -395,7 +410,7 @@ public class BridgeBuilderGUI : MonoBehaviour {
 	
 			PlayerPrefs.SetInt("CatLock_" + (HomeManager._currentCategory + 1), 0);
 		}
-		
+		Firebase.Analytics.FirebaseAnalytics.LogEvent("level_complete","level_complete", currentLevelIndex);
 	}
 
 	public GameObject levelFailedPanel;
@@ -405,11 +420,31 @@ public class BridgeBuilderGUI : MonoBehaviour {
 	//	gamePaused = true;
 	//	levelFailedPanel.SetActive (true);
 	//}
+
+	
+
 	public void LevelFailed()
 	{
 
-		//if (levelFailedPanel.activeInHierarchy == false) try kro
-		AdsManager.instance.ShowinterAd();
+        //if (levelFailedPanel.activeInHierarchy == false) try kro
+
+        if (AdsManager.instance.LevelfailTrigger == 0)
+        {
+			AdsManager.instance.ShowinterAd();
+			AdsManager.instance.LevelfailTrigger += 1;
+
+		}
+        else if (AdsManager.instance.LevelfailTrigger == 2)
+		{
+			AdsManager.instance.LevelfailTrigger = 0;
+
+		}
+		else
+		{
+			AdsManager.instance.LevelfailTrigger += 1;
+		}
+
+
 		if (!gamePaused&&!levelFailedPanel.activeInHierarchy)
 		{
 			AdsManager.instance.ShowBigBanner();
@@ -420,6 +455,8 @@ public class BridgeBuilderGUI : MonoBehaviour {
 			
 
 		}
+		Firebase.Analytics.FirebaseAnalytics.LogEvent("level_fail");
+
 	}
 
 	public void loadNextLevel ()
@@ -520,7 +557,7 @@ public GameObject carStopButtom;
 		//pausePanel.SetActive (true);
 		//Time.timeScale = 0;
 		//gamePaused = true;
-		AdsManager.instance.ShowinterAd();
+		//AdsManager.instance.ShowinterAd();
 		AdsManager.instance.ShowBigBanner();
 		AudioManager.instance.buttonAudio.Play();
 		if (AudioManager.instance.sound == 1)
@@ -566,12 +603,14 @@ public GameObject carStopButtom;
     {
 		
 		PlayerPrefs.SetInt("Ad", 0);
+		AdsManager.instance.ShowRewardedAd();
     }
 
 	public void skipLevelFromVideo()
     {
 		
 		PlayerPrefs.SetInt("Ad", 1);
+		AdsManager.instance.ShowRewardedAd();
 	}
 
 
