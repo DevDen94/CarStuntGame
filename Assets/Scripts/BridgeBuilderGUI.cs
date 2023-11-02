@@ -67,6 +67,22 @@ public class BridgeBuilderGUI : MonoBehaviour {
 	public GameObject roadSprtie;
 	public GameObject beamSprtie;
 	public GameObject ropeSprtie;
+
+
+
+
+
+
+
+	public GameObject spriteMover1;
+
+
+
+
+
+
+
+
 	public void changeBeamState (int index)
 	{
 		AudioManager.instance.buttonAudio.Play();
@@ -158,7 +174,7 @@ public class BridgeBuilderGUI : MonoBehaviour {
 
 		
 
-
+		spriteMover1 = GameObject.FindWithTag("f1");
 
 
 
@@ -347,8 +363,26 @@ public class BridgeBuilderGUI : MonoBehaviour {
 			{
 				RoadToBeam();
 			}
-
-
+			if(int.Parse(beamText.text) == 4 && !drawBeam2_)
+            {
+				drawBeam2();
+            }
+			if (int.Parse(beamText.text) == 3 && !drawBeam3_)
+			{
+				drawBeam3();
+			}
+			if (int.Parse(beamText.text) == 2 && !drawBeam4_)
+			{
+				drawBeam4();
+			}
+			if (int.Parse(beamText.text) == 1 && !drawBeam5_)
+			{
+				drawBeam5();
+			}
+			if (int.Parse(beamText.text) == 0 && !TestMode_)
+			{
+				TestMode();
+			}
 		}
 
 
@@ -725,7 +759,7 @@ public GameObject carStopButtom;
 		Grid.GetComponent<MeshRenderer>().material = gridMaterial[gridCounter];
 	}
 
-	/* Tutorial   */
+	/* ----------------------------------------------------------Tutorial-----------------------------------   */
 	public void ZoomToRoadDraw()
     {
 		if (!PlayerPrefs.HasKey("Tutorial"))
@@ -739,14 +773,20 @@ public GameObject carStopButtom;
 	}
 
 	public GameObject FingerDrawRoad1;
-
+	
 
 	public void RoadToDrawRoad()
     {
 		if (!PlayerPrefs.HasKey("Tutorial"))
 		{
 			road.gameObject.transform.GetChild(3).gameObject.SetActive(false);
-			FingerDrawRoad1.SetActive(true);
+			//FingerDrawRoad1.SetActive(true);
+			PlayerPrefs.SetInt("Start", 1);
+
+
+			spriteMover1.transform.GetChild(0).gameObject.SetActive(true);
+			spriteMover1.transform.GetChild(0).gameObject.GetComponent<SpriteMover>().StartMoving();
+
 		}
 	}
 	public GameObject FingerDrawRoad2;
@@ -755,8 +795,9 @@ public GameObject carStopButtom;
     {
 		if (!PlayerPrefs.HasKey("Tutorial"))
 		{
-			FingerDrawRoad1.SetActive(false);
-			FingerDrawRoad2.SetActive(true);
+			spriteMover1.transform.GetChild(0).gameObject.SetActive(false);
+			spriteMover1.transform.GetChild(1).gameObject.SetActive(true);
+			spriteMover1.transform.GetChild(1).gameObject.GetComponent<SpriteMover>().StartMoving();
 			isOnRoad2 = true;
 		}
 	}
@@ -765,18 +806,83 @@ public GameObject carStopButtom;
     {
 		if (!PlayerPrefs.HasKey("Tutorial"))
 		{
-			FingerDrawRoad2.SetActive(false);
+			spriteMover1.transform.GetChild(1).gameObject.SetActive(false);
 			beam.gameObject.SetActive(true);
 			beam.gameObject.transform.GetChild(3).gameObject.SetActive(true);
 			RoadBeam = true;
 		}
 	}
+
+	
+
 	public void BeamToDrawBeam()
 	{
 		if (!PlayerPrefs.HasKey("Tutorial"))
 		{
 			beam.gameObject.transform.GetChild(3).gameObject.SetActive(false);
+			spriteMover1.transform.GetChild(2).gameObject.SetActive(true);
 		}
+	}
+
+	bool drawBeam2_;
+	public void drawBeam2()
+	{
+		if (!PlayerPrefs.HasKey("Tutorial"))
+		{
+
+			spriteMover1.transform.GetChild(2).gameObject.SetActive(false);
+			spriteMover1.transform.GetChild(3).gameObject.SetActive(true);
+			drawBeam2_ = true;
+		}
+	}
+	bool drawBeam3_;
+	public void drawBeam3()
+	{
+		if (!PlayerPrefs.HasKey("Tutorial"))
+		{
+
+			spriteMover1.transform.GetChild(3).gameObject.SetActive(false);
+			spriteMover1.transform.GetChild(4).gameObject.SetActive(true);
+			drawBeam3_ = true;
+		}
+	}
+	bool drawBeam4_;
+	public void drawBeam4()
+	{
+		if (!PlayerPrefs.HasKey("Tutorial"))
+		{
+
+			spriteMover1.transform.GetChild(4).gameObject.SetActive(false);
+			spriteMover1.transform.GetChild(5).gameObject.SetActive(true);
+			drawBeam4_ = true;
+		}
+	}
+	bool drawBeam5_;
+	public void drawBeam5()
+	{
+		if (!PlayerPrefs.HasKey("Tutorial"))
+		{
+
+			spriteMover1.transform.GetChild(5).gameObject.SetActive(false);
+			spriteMover1.transform.GetChild(6).gameObject.SetActive(true);
+			drawBeam5_ = true;
+		}
+	}
+	bool TestMode_;
+	public void TestMode()
+    {
+		spriteMover1.transform.GetChild(6).gameObject.SetActive(false);
+		test.gameObject.SetActive(true);
+		test.transform.GetChild(1).gameObject.SetActive(true);
+    }
+	public void testToDrive()
+    {
+		if (!PlayerPrefs.HasKey("Tutorial"))
+		{
+			//test.transform.GetChild(1).gameObject.SetActive(false);
+			run.transform.GetChild(3).gameObject.SetActive(true);
+		}
+
 	}
 
 }

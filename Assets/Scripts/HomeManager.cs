@@ -42,6 +42,10 @@ public class HomeManager : MonoBehaviour
         if (PlayerPrefs.GetInt("Music", 1) == 0)
             musicImage.color = Color.grey;
 
+
+
+
+
         
        
     }

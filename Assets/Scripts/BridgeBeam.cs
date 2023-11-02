@@ -336,7 +336,7 @@ public class BridgeBeam : MonoBehaviour {
 					Destroy (gameObject);
 
 				}
-
+				Debug.Log("Destroy");
 				bridgeBuilderGUI.roadText.text = (bridgeSetupParent._levelData.roadCounter - bridgeSetupParent.currentRoadsCount).ToString ();
 				bridgeBuilderGUI.beamText.text = (bridgeSetupParent._levelData.beamsCounter - bridgeSetupParent.currentBeamsCount).ToString ();
 				bridgeBuilderGUI.ropeText.text = (bridgeSetupParent._levelData.ropeCounter - bridgeSetupParent.currentRopeCount).ToString ();
