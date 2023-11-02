@@ -37,37 +37,43 @@ public class ResetPhysics : MonoBehaviour {
 
 	public void deleteBeam ()
 	{
-		
-		if (gameObject.tag == "road" || gameObject.tag == "beam"||gameObject.tag=="rope") {
+		if (PlayerPrefs.HasKey("Tutorial"))
+		{
+			if (gameObject.tag == "road" || gameObject.tag == "beam" || gameObject.tag == "rope")
+			{
 
-			
-			if (tapped) {
-				AudioManager.instance.beamDestroy.Play();
-				 b = GetComponentInParent<BridgeBeam> ();
-				
-				if (b.bridgeSetupParent.LevelStage == BridgeSetup.eLevelStage.SetupStage) {
-					
-					Transform temp = Instantiate (dustParticlePrefab ,transform).transform;
 
-					Vector3 pos = Camera.main.ScreenToWorldPoint (Input.mousePosition);
-					pos.z = 0;
-					temp.position = pos;
-					temp.parent = null;
-					temp.localScale = Vector3.one;
-					b.decreaseCounter (true);
-					b.bridgeSetupParent.SetEndPoints();
-					
-					b.bridgeSetupParent.gui.updateListCount();
-					b.bridgeSetupParent.allCreatedBeams.Remove(b);
-				b.bridgeSetupParent.DestroyBeam(b.gameObject);
-				
+				if (tapped)
+				{
+					AudioManager.instance.beamDestroy.Play();
+					b = GetComponentInParent<BridgeBeam>();
+
+					if (b.bridgeSetupParent.LevelStage == BridgeSetup.eLevelStage.SetupStage)
+					{
+
+						Transform temp = Instantiate(dustParticlePrefab, transform).transform;
+
+						Vector3 pos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+						pos.z = 0;
+						temp.position = pos;
+						temp.parent = null;
+						temp.localScale = Vector3.one;
+						b.decreaseCounter(true);
+						b.bridgeSetupParent.SetEndPoints();
+
+						b.bridgeSetupParent.gui.updateListCount();
+						b.bridgeSetupParent.allCreatedBeams.Remove(b);
+						b.bridgeSetupParent.DestroyBeam(b.gameObject);
+
+					}
 				}
-			} else {
-				tapped = true;
-				Invoke ("tapCounter", .5f);
-			}	
+				else
+				{
+					tapped = true;
+					Invoke("tapCounter", .5f);
+				}
+			}
 		}
-		
 	}
 
 
@@ -78,20 +84,26 @@ public class ResetPhysics : MonoBehaviour {
 	HingeJoint[] joints;
 	void Update ()
 	{
-		if(joints.Length> 0) {
-			for (int i = 0; i < joints.Length; i++) {
-			
-				if (joints[i]==null) {
-				
-					AudioManager.instance.beamDestroy.Play();
-					Transform temp = Instantiate (dustParticlePrefab, transform).transform;
+		if (PlayerPrefs.HasKey("Tutorial"))
+		{
+			if (joints.Length > 0)
+			{
+				for (int i = 0; i < joints.Length; i++)
+				{
 
-					Vector3 pos = transform.position;
-					pos.z = 0;
-					temp.position = pos;
-					temp.parent = null;
-					temp.localScale = Vector3.one;
-					assignJoints ();
+					if (joints[i] == null)
+					{
+
+						AudioManager.instance.beamDestroy.Play();
+						Transform temp = Instantiate(dustParticlePrefab, transform).transform;
+
+						Vector3 pos = transform.position;
+						pos.z = 0;
+						temp.position = pos;
+						temp.parent = null;
+						temp.localScale = Vector3.one;
+						assignJoints();
+					}
 				}
 			}
 		}
@@ -113,6 +125,7 @@ public class ResetPhysics : MonoBehaviour {
     {
 		if ((gameObject.tag == "road" || gameObject . tag == "beam") && (other.gameObject.tag == "beam" || other.gameObject.tag == "road")&&b.gameObject==b.bridgeSetupParent.currentBeam)
 		{
+			
 			string eulerAngle = null;
 			string OverlappingBeam = null;
 
@@ -178,6 +191,7 @@ public class ResetPhysics : MonoBehaviour {
 
 		if ((gameObject.tag == "road" || gameObject.tag == "beam") && other.gameObject.tag == "rock"&& BridgeSetup.eLevelStage.SetupStage == b.bridgeSetupParent.LevelStage)
 		{
+			Debug.Log("Get");
 			b = GetComponentInParent<BridgeBeam>();
 			b.decreaseCounter(true);
 			b.bridgeSetupParent.gui.updateListCount();

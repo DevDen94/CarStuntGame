@@ -25,15 +25,17 @@ public class SnapPoint : MonoBehaviour {
 
 
 	void OnMouseOver() {
+		Debug.Log("111");
 		if (isBase && (bridgeSetupParent != null && BridgeSetup.eLevelStage.SetupStage == bridgeSetupParent.LevelStage)
 		     || (bridgeBeamParent != null && bridgeBeamParent.BeamState == BridgeBeam.eBeamState.BuiltMode)) {
 			transform.localScale = originalScale*1.5f;
 			GetComponent<Renderer>().material.color = highlightColor;
 		}
-		Debug.LogError ("OverMouse");
+		
 	}
 
 	void OnMouseExit() {
+		Debug.Log("222");
 		if (isBase) {
 			transform.localScale = originalScale;
 			GetComponent<Renderer>().material.color = originalColor;
@@ -41,8 +43,10 @@ public class SnapPoint : MonoBehaviour {
 	}
 
 	void OnJointBreak(float breakForce) {
+		Debug.Log("333");
 		if (bridgeBeamParent != null) {
 			bridgeBeamParent.Break ();
+			Debug.Log("Break");
 		}
 	}
 }

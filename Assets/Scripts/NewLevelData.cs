@@ -17,24 +17,14 @@ public class NewLevelData : MonoBehaviour
 	public Transform m_Grid;
 	public bool AllowRopeInLevel = false;
 
-	bool start;
 
-    private void Start()
-    {
-        if (!PlayerPrefs.HasKey("Start")&& !PlayerPrefs.HasKey("Tutorial"))
-        {
+	private void Start()
+	{
+		if (!PlayerPrefs.HasKey("Tutorial"))
+		{
 			roadCounter = 0;
 			beamsCounter = 0;
-        }
-    }
-    private void Update()
-    {
-        if (PlayerPrefs.HasKey("Start")&&!PlayerPrefs.HasKey("Tutorial")&& !start)
-        {
-			roadCounter = 2;
-			beamsCounter = 5;
-			start = true;
-			Debug.Log("Hello");
 		}
-    }
+	}
+
 }
