@@ -337,6 +337,21 @@ public class BridgeBuilderGUI : MonoBehaviour {
 			Time.timeScale = 1;
 
 
+        if (!PlayerPrefs.HasKey("Tutorial"))
+        {
+            if (int.Parse(roadText.text) == 1 && !isOnRoad2)
+            {
+				drawRoad2();
+            }
+			if (int.Parse(roadText.text) == 0 && !RoadBeam)
+			{
+				RoadToBeam();
+			}
+
+
+		}
+
+
    //     if (resetPanel.gameObject.activeInHierarchy)
    //     {
 			
@@ -719,13 +734,49 @@ public GameObject carStopButtom;
 			zoom.gameObject.transform.GetChild(1).gameObject.SetActive(false);
 			road.gameObject.SetActive(true);
 			road.gameObject.transform.GetChild(3).gameObject.SetActive(true);
+			roadSprtie.GetComponent<Image>().sprite = deselectedSprite;
 		}
 	}
 
+	public GameObject FingerDrawRoad1;
 
 
-
-
-
+	public void RoadToDrawRoad()
+    {
+		if (!PlayerPrefs.HasKey("Tutorial"))
+		{
+			road.gameObject.transform.GetChild(3).gameObject.SetActive(false);
+			FingerDrawRoad1.SetActive(true);
+		}
+	}
+	public GameObject FingerDrawRoad2;
+	bool isOnRoad2;
+	public void drawRoad2()
+    {
+		if (!PlayerPrefs.HasKey("Tutorial"))
+		{
+			FingerDrawRoad1.SetActive(false);
+			FingerDrawRoad2.SetActive(true);
+			isOnRoad2 = true;
+		}
+	}
+	bool RoadBeam;
+	public void RoadToBeam()
+    {
+		if (!PlayerPrefs.HasKey("Tutorial"))
+		{
+			FingerDrawRoad2.SetActive(false);
+			beam.gameObject.SetActive(true);
+			beam.gameObject.transform.GetChild(3).gameObject.SetActive(true);
+			RoadBeam = true;
+		}
+	}
+	public void BeamToDrawBeam()
+	{
+		if (!PlayerPrefs.HasKey("Tutorial"))
+		{
+			beam.gameObject.transform.GetChild(3).gameObject.SetActive(false);
+		}
+	}
 
 }
