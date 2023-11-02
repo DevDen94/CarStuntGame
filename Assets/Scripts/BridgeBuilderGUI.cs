@@ -119,7 +119,7 @@ public class BridgeBuilderGUI : MonoBehaviour {
 
 	[Space]
 
-	public GameObject pauseBtn, GridBtn, Reset, Undo,hint;
+	public GameObject pauseBtn, GridBtn, Reset, Undo,hint,resetNew;
 	[Space]
 	public Button road, beam, test, run, zoom;
 
@@ -131,6 +131,7 @@ public class BridgeBuilderGUI : MonoBehaviour {
 
         if (!PlayerPrefs.HasKey("Tutorial"))
         {
+			PlayerPrefs.DeleteKey("LetsStart");
 			iTween.MoveTo(EnvirnmentCamera, iTween.Hash("position", envrinmentCamPosition.position, "time", .5f, "easetype", iTween.EaseType.linear));
 			iTween.RotateTo(EnvirnmentCamera, iTween.Hash("rotation", Vector3.zero, "time", .5f, "easetype", iTween.EaseType.linear));
 			GameObject currentLevelPrefab = Resources.Load<GameObject>("Levels/" + "Tutorial/" + "Level1");
@@ -155,6 +156,7 @@ public class BridgeBuilderGUI : MonoBehaviour {
 			run.gameObject.SetActive(false);
 			test.gameObject.SetActive(false);
 			zoom.interactable = true;
+			resetNew.SetActive(true);
 			zoom.gameObject.transform.GetChild(1).gameObject.SetActive(true);
 
 		}
@@ -170,6 +172,7 @@ public class BridgeBuilderGUI : MonoBehaviour {
         Temp_Hint = Instantiate(currentLevelPrefabHint);
 		int currentLevelIndex = int.Parse(HomeManager.selectedLevel.Split('_')[1].ToString());
 		LevelText.text = "Level " + currentLevelIndex;
+			resetNew.SetActive(false);
 		}
 
 		
@@ -359,7 +362,7 @@ public class BridgeBuilderGUI : MonoBehaviour {
             {
 				drawRoad2();
             }
-			if (int.Parse(roadText.text) == 0 && !RoadBeam)
+			if (int.Parse(roadText.text) == 0 && !RoadBeam && isOnRoad2)
 			{
 				RoadToBeam();
 			}
@@ -379,7 +382,7 @@ public class BridgeBuilderGUI : MonoBehaviour {
 			{
 				drawBeam5();
 			}
-			if (int.Parse(beamText.text) == 0 && !TestMode_)
+			if (int.Parse(beamText.text) == 0 && !TestMode_ && drawBeam5_)
 			{
 				TestMode();
 			}
@@ -467,6 +470,7 @@ public class BridgeBuilderGUI : MonoBehaviour {
 	public GameObject nextLevelButton;
 	public void LevelComplete ()
 	{
+		resetNew.SetActive(false);
 		if (AdsManager.instance.LevelCompleteTrigger == 0)
 		{
 			AdsManager.instance.ShowinterAd();
@@ -779,9 +783,11 @@ public GameObject carStopButtom;
     {
 		if (!PlayerPrefs.HasKey("Tutorial"))
 		{
+
+			PlayerPrefs.SetInt("LetsStart", 1);
 			road.gameObject.transform.GetChild(3).gameObject.SetActive(false);
 			//FingerDrawRoad1.SetActive(true);
-			PlayerPrefs.SetInt("Start", 1);
+			//PlayerPrefs.SetInt("Start", 1);
 
 
 			spriteMover1.transform.GetChild(0).gameObject.SetActive(true);
@@ -806,10 +812,13 @@ public GameObject carStopButtom;
     {
 		if (!PlayerPrefs.HasKey("Tutorial"))
 		{
-			spriteMover1.transform.GetChild(1).gameObject.SetActive(false);
-			beam.gameObject.SetActive(true);
-			beam.gameObject.transform.GetChild(3).gameObject.SetActive(true);
-			RoadBeam = true;
+			if (PlayerPrefs.HasKey("LetsStart"))
+			{
+				spriteMover1.transform.GetChild(1).gameObject.SetActive(false);
+				beam.gameObject.SetActive(true);
+				beam.gameObject.transform.GetChild(3).gameObject.SetActive(true);
+				RoadBeam = true;
+			}
 		}
 	}
 
@@ -871,10 +880,12 @@ public GameObject carStopButtom;
 	bool TestMode_;
 	public void TestMode()
     {
+        if (PlayerPrefs.HasKey("LetsStart")) { 
 		spriteMover1.transform.GetChild(6).gameObject.SetActive(false);
 		test.gameObject.SetActive(true);
 		test.transform.GetChild(1).gameObject.SetActive(true);
-    }
+		}
+	}
 	public void testToDrive()
     {
 		if (!PlayerPrefs.HasKey("Tutorial"))

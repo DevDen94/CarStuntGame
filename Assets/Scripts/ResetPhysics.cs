@@ -37,7 +37,14 @@ public class ResetPhysics : MonoBehaviour {
 
 	public void deleteBeam ()
 	{
-		if (PlayerPrefs.HasKey("Tutorial"))
+
+        if (!PlayerPrefs.HasKey("Tutorial"))
+        {
+			Debug.Log("Return");
+			return;
+
+        }
+		else
 		{
 			if (gameObject.tag == "road" || gameObject.tag == "beam" || gameObject.tag == "rope")
 			{
@@ -84,8 +91,7 @@ public class ResetPhysics : MonoBehaviour {
 	HingeJoint[] joints;
 	void Update ()
 	{
-		if (PlayerPrefs.HasKey("Tutorial"))
-		{
+		
 			if (joints.Length > 0)
 			{
 				for (int i = 0; i < joints.Length; i++)
@@ -106,7 +112,7 @@ public class ResetPhysics : MonoBehaviour {
 					}
 				}
 			}
-		}
+		
 	}
 
 	public void assignJoints ()

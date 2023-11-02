@@ -26,5 +26,17 @@ public class NewLevelData : MonoBehaviour
 			beamsCounter = 0;
 		}
 	}
+	bool start;
+    private void Update()
+    {
+		if (!PlayerPrefs.HasKey("Tutorial")&& PlayerPrefs.HasKey("LetsStart")&&!start)
+		{
+			roadCounter = 2;
+			beamsCounter = 5;
+			BridgeBuilderGUI.Instance.roadText.text = roadCounter.ToString();
+			BridgeBuilderGUI.Instance.beamText.text = beamsCounter.ToString();
+			start = true;
+		}
+	}
 
 }
