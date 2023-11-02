@@ -100,11 +100,49 @@ public class BridgeBuilderGUI : MonoBehaviour {
 	GameObject Temp_Hint;
 
 	public GameObject HintAfterAdd;
+
+	[Space]
+
+	public GameObject pauseBtn, GridBtn, Reset, Undo,hint;
+	[Space]
+	public Button road, beam, test, run, zoom;
+
 	void Start()
 	{
 		AdsManager.instance.ShowSmallBanner();
 		AudioManager.instance.musicSource.Stop();
 		AudioManager.instance.wind.Play();
+
+        if (!PlayerPrefs.HasKey("Tutorial"))
+        {
+			iTween.MoveTo(EnvirnmentCamera, iTween.Hash("position", envrinmentCamPosition.position, "time", .5f, "easetype", iTween.EaseType.linear));
+			iTween.RotateTo(EnvirnmentCamera, iTween.Hash("rotation", Vector3.zero, "time", .5f, "easetype", iTween.EaseType.linear));
+			GameObject currentLevelPrefab = Resources.Load<GameObject>("Levels/" + "Tutorial/" + "Level1");
+			GameObject Temp = Instantiate(currentLevelPrefab);
+			bridgeSetup = Temp.GetComponentInChildren<BridgeSetup>();
+			runButton.SetActive(false);
+			//AllowRopeDrawing ();
+			GameObject currentLevelPrefabHint = Resources.Load<GameObject>("Levels_Hint/" + HomeManager._category + "/" + HomeManager.selectedLevel.Replace("_", ""));
+			Temp_Hint = Instantiate(currentLevelPrefabHint);
+			int currentLevelIndex = int.Parse(HomeManager.selectedLevel.Split('_')[1].ToString());
+			LevelText.text = "Level " + currentLevelIndex;
+
+			/* Remove Unnecessary Buttons during tutorials */
+			pauseBtn.SetActive(false);
+			GridBtn.SetActive(false);
+			Reset.SetActive(false);
+			Undo.SetActive(false);
+			hint.SetActive(false);
+
+			road.gameObject.SetActive(false);
+			beam.gameObject.SetActive(false);
+			run.gameObject.SetActive(false);
+			test.gameObject.SetActive(false);
+			zoom.interactable = true;
+			zoom.gameObject.transform.GetChild(1).gameObject.SetActive(true);
+
+		}
+        else { 
 		iTween.MoveTo(EnvirnmentCamera, iTween.Hash("position", envrinmentCamPosition.position, "time", .5f, "easetype", iTween.EaseType.linear));
 		iTween.RotateTo(EnvirnmentCamera, iTween.Hash("rotation", Vector3.zero, "time", .5f, "easetype", iTween.EaseType.linear));
 		GameObject currentLevelPrefab = Resources.Load<GameObject>("Levels/" + HomeManager._category + "/" + HomeManager.selectedLevel.Replace("_", ""));
@@ -116,7 +154,14 @@ public class BridgeBuilderGUI : MonoBehaviour {
         Temp_Hint = Instantiate(currentLevelPrefabHint);
 		int currentLevelIndex = int.Parse(HomeManager.selectedLevel.Split('_')[1].ToString());
 		LevelText.text = "Level " + currentLevelIndex;
+		}
+
 		
+
+
+
+
+
 	}
 	public bool hintBtnActiveStatus = false;
 	public void showHintBtn()
@@ -389,6 +434,13 @@ public class BridgeBuilderGUI : MonoBehaviour {
         {
 			AdsManager.instance.LevelCompleteTrigger += 1;
 		}
+        if (!PlayerPrefs.HasKey("Tutorial"))
+        {
+
+			PlayerPrefs.SetInt("Tutorial", 1);
+        }
+
+
 		AdsManager.instance.ShowBigBanner();
 		AudioManager.instance.wind.Stop();
 		AudioManager.instance.winAudio.Play();
@@ -462,6 +514,10 @@ public class BridgeBuilderGUI : MonoBehaviour {
 	public void loadNextLevel ()
 	{
 		
+
+		
+
+
 		AudioManager.instance.buttonAudio.Play();
 		int currentLevelIndex = int.Parse (HomeManager.selectedLevel.Split('_')[1].ToString ());
 
@@ -653,4 +709,23 @@ public GameObject carStopButtom;
 	{
 		Grid.GetComponent<MeshRenderer>().material = gridMaterial[gridCounter];
 	}
+
+	/* Tutorial   */
+	public void ZoomToRoadDraw()
+    {
+		if (!PlayerPrefs.HasKey("Tutorial"))
+		{
+			//zoom.interactable = false;
+			zoom.gameObject.transform.GetChild(1).gameObject.SetActive(false);
+			road.gameObject.SetActive(true);
+			road.gameObject.transform.GetChild(3).gameObject.SetActive(true);
+		}
+	}
+
+
+
+
+
+
+
 }

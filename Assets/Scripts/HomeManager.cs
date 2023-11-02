@@ -127,15 +127,23 @@ public class HomeManager : MonoBehaviour
         public GameObject LevelSelectionScreen;
     public void ModeSelect(string category)
 	{
+
+
+
+
        
-        AudioManager.instance.buttonAudio.Play();
-        if (EventSystem.current.currentSelectedGameObject.GetComponent<CatLock>().IsLocked)
-            return;
-        _category = category;
-        _currentCategory = EventSystem.current.currentSelectedGameObject.transform.GetSiblingIndex();
-         LevelSelectionScreen.SetActive (true);
-        AdsManager.instance.ShowinterAd();
-        Firebase.Analytics.FirebaseAnalytics.LogEvent("click_on_mode","mode_name", category);
+            AudioManager.instance.buttonAudio.Play();
+            if (EventSystem.current.currentSelectedGameObject.GetComponent<CatLock>().IsLocked)
+                return;
+            _category = category;
+            _currentCategory = EventSystem.current.currentSelectedGameObject.transform.GetSiblingIndex();
+            LevelSelectionScreen.SetActive(true);
+            AdsManager.instance.ShowinterAd();
+            Firebase.Analytics.FirebaseAnalytics.LogEvent("click_on_mode", "mode_name", category);
+        
+            
+        
+
     }
 
         public void selectLevel ()
