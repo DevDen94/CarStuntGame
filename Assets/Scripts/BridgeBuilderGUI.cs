@@ -22,9 +22,11 @@ public class BridgeBuilderGUI : MonoBehaviour {
 
 	public static BridgeBuilderGUI Instance;
 
+	public GameObject ADisLoading;
 
 
-    private void Awake()
+
+	private void Awake()
     {
 		Instance = this;
     }
@@ -469,11 +471,11 @@ public class BridgeBuilderGUI : MonoBehaviour {
 	{
 		if (AdsManager.instance.LevelCompleteTrigger == 0)
 		{
-			AdsManager.instance.ShowinterAd();
+			ADisLoading.SetActive(true);
 			AdsManager.instance.LevelCompleteTrigger += 1;
 
 		}
-		else if (AdsManager.instance.LevelCompleteTrigger == 3)
+		else if (AdsManager.instance.LevelCompleteTrigger == 1)
 		{
 			
 			AdsManager.instance.LevelCompleteTrigger = 0;
@@ -527,15 +529,15 @@ public class BridgeBuilderGUI : MonoBehaviour {
 	public void LevelFailed()
 	{
 
-        //if (levelFailedPanel.activeInHierarchy == false) try kro
-
+		//if (levelFailedPanel.activeInHierarchy == false) try kro
+		
         if (AdsManager.instance.LevelfailTrigger == 0)
         {
-			AdsManager.instance.ShowinterAd();
+			ADisLoading.SetActive(true);
 			AdsManager.instance.LevelfailTrigger += 1;
 
 		}
-        else if (AdsManager.instance.LevelfailTrigger == 2)
+        else if (AdsManager.instance.LevelfailTrigger == 1)
 		{
 			AdsManager.instance.LevelfailTrigger = 0;
 
@@ -559,7 +561,12 @@ public class BridgeBuilderGUI : MonoBehaviour {
 		Firebase.Analytics.FirebaseAnalytics.LogEvent("level_fail");
 
 	}
+	public void PanelOpenAfterAd()
+	{
 
+		ADisLoading.SetActive(false);
+		AdsManager.instance.ShowinterAd();
+	}
 	public void loadNextLevel ()
 	{
 		

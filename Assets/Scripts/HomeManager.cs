@@ -8,13 +8,13 @@ using UnityEngine.UI;
 public class HomeManager : MonoBehaviour
 {
     public GameObject SettingPanel, ExitPanel;
-    public GameObject mainScenePanel, ModeSelectionPanel, StuntModePanel, FullBridgePanel;
+    public GameObject mainScenePanel, ModeSelectionPanel, StuntModePanel, FullBridgePanel,ADisLoading;
 
-
+    public static HomeManager instance;
 
     private void Awake()
     {
-        
+        instance = this;
     }
     private void Start()
     {
@@ -58,11 +58,22 @@ public class HomeManager : MonoBehaviour
         //AdsManager.instance.ShowinterAd();
         AudioManager.instance.buttonAudio.Play();
         ModeSelectionPanel.SetActive(true);
-
+        PlayerPrefs.SetInt("Tutorial", 10);
+        ADisLoading.SetActive(true);
         Firebase.Analytics.FirebaseAnalytics.LogEvent("click_on_start");
 
 
     }
+
+    public void PanelOpenAfterAd()
+    {
+        
+        ADisLoading.SetActive(false);
+        AdsManager.instance.ShowinterAd();
+    }
+
+
+
     public void opneExitPanel()
     {
         //AdsManager.instance.ShowinterAd();
@@ -142,7 +153,7 @@ public class HomeManager : MonoBehaviour
             _category = category;
             _currentCategory = EventSystem.current.currentSelectedGameObject.transform.GetSiblingIndex();
             LevelSelectionScreen.SetActive(true);
-            AdsManager.instance.ShowinterAd();
+           
             Firebase.Analytics.FirebaseAnalytics.LogEvent("click_on_mode", "mode_name", category);
         
             

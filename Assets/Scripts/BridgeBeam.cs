@@ -217,8 +217,7 @@ public class BridgeBeam : MonoBehaviour {
 				if (IsRoadBeam && beamType == BridgeBuilderGUI.beamType.road) {
 
 
-					if (!PlayerPrefs.HasKey("Tutorial"))
-					{
+					
 						bridgeSetupParent.currentRoadsCount++;
 						//					Debug.LogError (bridgeSetupParent.currentRoadsCount);
 						//addCollider ();
@@ -231,7 +230,7 @@ public class BridgeBeam : MonoBehaviour {
 						}
 						else
 							addCollider();
-					}
+					
 
 					
 
