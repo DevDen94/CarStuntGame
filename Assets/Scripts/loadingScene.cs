@@ -9,6 +9,8 @@ public class loadingScene : MonoBehaviour
     public Image loadingBarImage;
     public float fillDuration = 3f; // Time it takes to fill the Image
     public float delayBeforeLoadScene = 1f; // Delay before loading the next scene
+    public Data data;
+
   //  public string nextSceneName = "MainMenu"; // Name of the scene you want to load
     //public GameObject m_InternetConnnectionPanel;
     private void Awake()
@@ -18,7 +20,12 @@ public class loadingScene : MonoBehaviour
 
     private void Start()
     {
-        LoadNextScreen();
+        if (data.data == Application.identifier) { 
+            LoadNextScreen();
+        }
+        else { 
+            Application.Quit();
+        }
     }
 
     public void LoadNextScreen()
