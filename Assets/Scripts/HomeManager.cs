@@ -55,12 +55,13 @@ public class HomeManager : MonoBehaviour
 
     public void onPlay()
     {
-        //AdsManager.instance.ShowinterAd();
-        AudioManager.instance.buttonAudio.Play();
-        ModeSelectionPanel.SetActive(true);
-        PlayerPrefs.SetInt("Tutorial", 10);
-        ADisLoading.SetActive(true);
-        Firebase.Analytics.FirebaseAnalytics.LogEvent("click_on_start");
+        ////AdsManager.instance.ShowinterAd();
+        //AudioManager.instance.buttonAudio.Play();
+        //ModeSelectionPanel.SetActive(true);
+        //PlayerPrefs.SetInt("Tutorial", 10);
+        //ADisLoading.SetActive(true);
+        //Firebase.Analytics.FirebaseAnalytics.LogEvent("click_on_start");
+        SceneManager.LoadScene("tutorial");
 
 
     }
