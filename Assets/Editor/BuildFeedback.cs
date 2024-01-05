@@ -27,13 +27,13 @@ public class BuildFeedback : IPostprocessBuildWithReport
 #if UNITY_ANDROID
         currentPlatform="Android";
 #elif UNITY_IOS
-        currentPlatform="iOS"
+        currentPlatform="iOS";
 #elif UNITY_STANDALONE_WIN
-        currentPlatform="STANDALONE_WIN"
+        currentPlatform = "STANDALONE_WIN";
 #elif UNITY_STANDALONE_OSX
-        currentPlatform="STANDALONE_OSX"
+        currentPlatform="STANDALONE_OSX";
 #elif UNITY_STANDALONE_LINUX
-        currentPlatform="STANDALONE_LINUX"
+        currentPlatform="STANDALONE_LINUX";
 #else
         Debug.Log("The project is being built for an unknown platform.");
 #endif

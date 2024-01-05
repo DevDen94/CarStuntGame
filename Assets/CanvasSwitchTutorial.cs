@@ -11,10 +11,13 @@ public class CanvasSwitchTutorial : MonoBehaviour
     public GameObject zooomCanvas;
     public GameObject mainmenuCanvas;
     public GameObject tutorialCanvas;
+    public GameObject tutorialCanvasongameplay;
+    public GameObject panelgirl, next, skip;
  
     public void CloseTutorialCanvas()
     {
         tutorialCanvas.SetActive(false);
+       skip.SetActive(false);
         GridCanvas.SetActive(true);
     }
     public void CloseGridCanvas()
@@ -40,6 +43,10 @@ public class CanvasSwitchTutorial : MonoBehaviour
     public void ClosezoomCanvas()
     {
         mainmenuCanvas.SetActive(true);
+        panelgirl.SetActive(false);
+        next.SetActive(false);
+        skip.SetActive(false);
         zooomCanvas.SetActive(false);
+        tutorialCanvasongameplay.SetActive(true);
     }
 }

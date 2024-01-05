@@ -7,6 +7,7 @@ public class SnapPoint : MonoBehaviour {
 
 	public bool isBase = false;
 	public bool isBaseTerrain = false;
+	public bool isTutorial = false;
 
 	public BridgeSetup bridgeSetupParent = null;
 	public BridgeBeam bridgeBeamParent = null;

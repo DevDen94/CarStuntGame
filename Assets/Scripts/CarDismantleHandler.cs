@@ -16,7 +16,7 @@ public class CarDismantleHandler : MonoBehaviour
 
     private void Awake()
     {
-        bridgeBuilderGUI = Camera.main.GetComponent<BridgeBuilderGUI>();
+        bridgeBuilderGUI = FindObjectOfType<BridgeBuilderGUI>();
     }
     bool onetime = false;
     private void OnCollisionEnter(Collision collision)

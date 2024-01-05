@@ -7,7 +7,7 @@ public class LevelFailedTrigger : MonoBehaviour
 	BridgeBuilderGUI gui;
 	void Start ()
 	{
-		gui = Camera.main.GetComponent<BridgeBuilderGUI> ();
+		gui = FindObjectOfType<BridgeBuilderGUI> ();
 	}
 	void OnTriggerEnter (Collider other)
 	{

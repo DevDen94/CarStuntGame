@@ -22,7 +22,7 @@ public class BridgeSetup : MonoBehaviour {
 		PlayStage,
 	};
 
-	private eLevelStage levelStage = eLevelStage.SetupStage;
+	public eLevelStage levelStage = eLevelStage.SetupStage;
 
 	public eLevelStage LevelStage {
 		get {
@@ -32,7 +32,7 @@ public class BridgeSetup : MonoBehaviour {
 		set {
 			levelStage = value;
 			if (eLevelStage.SetupStage == levelStage) {
-				Time.timeScale = 0.0f;
+				Time.timeScale = 1f;
 				//SetSnapPointsVisible (true);
 				trainController.SetVisible (false);
 				SetBeamsToSetup ();
@@ -41,7 +41,7 @@ public class BridgeSetup : MonoBehaviour {
 				SetBeamsToPlay ();
 				trainController.SetVisible (true);
 				trainController.ResetTrain ();
-				Time.timeScale = 0.0f;
+				Time.timeScale = 1f;
 
 			}
 		}
@@ -69,16 +69,17 @@ public class BridgeSetup : MonoBehaviour {
 	public GameObject bridgeBeams;
 	public TrainController trainController;
 	public GameObject m_GridPrefab;
-
-	private int bridgeCost = 0;
+	
+	[HideInInspector]
+	public int bridgeCost = 0;
 
 	private Tuple<int, int> snapPositionsDimensions = Tuple<int, int>.Of (40, 30);
 	private Vector3 snapPointSeparations = new Vector3 (1, 1, 0);
 	private Vector3 snapPointOffset = new Vector3 (-0.5f, -0.5f, 1.0f);
 
-	private Vector3 gridOrigin = Vector3.zero;
+	[HideInInspector] public Vector3 gridOrigin = Vector3.zero;
 
-	private float trainGoal;
+	[HideInInspector]public float trainGoal;
 
 	public bool finishedLevel;
 	public List<BridgeBeam> allCreatedBeams;
@@ -121,9 +122,9 @@ public class BridgeSetup : MonoBehaviour {
 		//grid.GetComponent<MeshRenderer> ().material.SetTextureScale ("_MainTex", new Vector2 ((xScale / 2)/*/4*/, (yScale / 2) /*/ 4*/));
 	}
 	public BridgeBuilderGUI gui;
-	void Start ()
+	public virtual void Start ()
 	{
-		gui = Camera.main.GetComponent<BridgeBuilderGUI> ();
+		gui = FindObjectOfType<BridgeBuilderGUI> ();
 		GenerateGrid ();
 		allCreatedBeams = new List<BridgeBeam> ();
 		transform.position = Vector3.zero;
@@ -163,7 +164,7 @@ public class BridgeSetup : MonoBehaviour {
 		gridOrigin.z = snapPointOffset.z;
 
 		trainGoal = gridOrigin.x + dims.x;
-		gui.beamText.text = (_levelData.beamsCounter - currentBeamsCount).ToString ();
+		this.gui.beamText.text = (_levelData.beamsCounter - currentBeamsCount).ToString ();
 		gui.roadText.text = (_levelData.roadCounter - currentRoadsCount).ToString ();
 		gui.ropeText.text = (_levelData.ropeCounter - currentRopeCount).ToString ();
 
@@ -178,14 +179,14 @@ public class BridgeSetup : MonoBehaviour {
 
 	public GameObject currentBeam;
 
-	BridgeBuilderGUI.beamType beamType;
+	[HideInInspector]public BridgeBuilderGUI.beamType beamType;
 	public Dictionary<string, string> beamData = new Dictionary<string, string> ();
 	public List<string> allKeysofDict = new List<string> ();
 	public List<int> beamDataKeysCOunter = new List<int> ();
 	//BridgeBeam
 	public static bool isDrawing = false;
 	public bool DrawBeam = true;
-	void Update ()
+	public virtual void Update ()
 	{
 		if (eLevelStage.SetupStage == levelStage) {
 			if (Input.GetMouseButtonDown (0) && !BridgeBuilderGUI.ClickedOnGUI ()&&!gui.gamePaused) {
@@ -365,7 +366,7 @@ public class BridgeSetup : MonoBehaviour {
 
 	//private
 
-	private BridgeBeam CreateBeam (GameObject snapPoint)
+	public virtual BridgeBeam CreateBeam (GameObject snapPoint)
 	{
 		destroyUsingTrigger = true;
 		AudioManager.instance.beamMake.Play();
@@ -408,24 +409,24 @@ public class BridgeSetup : MonoBehaviour {
 		}
 	}
 
-	private void RecalculateCost ()
+	public void RecalculateCost ()
 	{
 		bridgeCost = bridgeBeams.transform.childCount * 100;
 	}
 
-	private Vector3 SetPointToSnapPoint (Vector3 a, Vector3 b)
+	public Vector3 SetPointToSnapPoint (Vector3 a, Vector3 b)
 	{
 		return FromSnapToSpace (FromSpaceToSnap (b));
 	}
 
-	private Vector3 FromSpaceToSnap (Vector3 a)
+	public Vector3 FromSpaceToSnap (Vector3 a)
 	{
 		return new Vector3 (Mathf.Round ((a.x - gridOrigin.x) / snapPointSeparations.x),
 					   Mathf.Round ((a.y - gridOrigin.y) / snapPointSeparations.y),
 				   a.z);
 	}
 
-	private Vector3 FromSnapToSpace (Vector3 a)
+	public Vector3 FromSnapToSpace (Vector3 a)
 	{
 		return new Vector3 (a.x * snapPointSeparations.x + gridOrigin.x, a.y * snapPointSeparations.y + gridOrigin.y, gridOrigin.z);
 	}
@@ -441,7 +442,7 @@ public class BridgeSetup : MonoBehaviour {
 		}
 	}
 
-	private GameObject GetSnapPointClicked ()
+	public virtual GameObject GetSnapPointClicked ()
 	{
 		Ray r = Camera.main.ScreenPointToRay (Input.mousePosition);
 		RaycastHit rh = new RaycastHit ();

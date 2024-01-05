@@ -29,6 +29,8 @@ public class BridgeBeam : MonoBehaviour {
 	public bool IsBeamCount = false;
 	public eBeamState BeamState = eBeamState.LayoutMode;
 	public eBeamAppereanceState BeamAppereanceState = eBeamAppereanceState.NormalMode;
+	public bool isForceFull = false;
+	public bool isTutorialDefinedPosition = false;
 
 	public GameObject beam;
 	public GameObject road;
@@ -67,7 +69,7 @@ public class BridgeBeam : MonoBehaviour {
     private void Start()
     {
 	
-		bridgeBuilderGUI = Camera.main.GetComponent<BridgeBuilderGUI>();
+		bridgeBuilderGUI = FindObjectOfType<BridgeBuilderGUI>();
 
 		
     }
@@ -125,104 +127,135 @@ public class BridgeBeam : MonoBehaviour {
 	int endIndex = -1;
 
 	// Update is called once per frame
-	void Update ()
+	void Update()
 	{
-
-
-		if (eBeamState.LayoutMode == BeamState) {
+		if (eBeamState.LayoutMode == BeamState)
+		{
 			//Player clicks up and ends positioning beam
-			if (Input.GetMouseButtonUp (0)) {
+			if (Input.GetMouseButtonUp(0))
+			{
 				BeamState = eBeamState.BuiltMode;
-				DestroyIfSamePosition ();
+				DestroyIfSamePosition();
 
-				anchorEnd = bridgeSetupParent.GetOtherEndPoint (pointEnd);
+				anchorEnd = bridgeSetupParent.GetOtherEndPoint(pointEnd);
 				saveAnchors();
 				//	Debug.Log (anchorEnd);
 			}
 
 			//Position beam according to the layout
-			if (Input.GetMouseButton (0)) {
+			if (Input.GetMouseButton(0))
+			{
 
-				
 
-				Ray r = Camera.main.ScreenPointToRay (Input.mousePosition);
-				RaycastHit raycast;
+
+				Ray r = Camera.main.ScreenPointToRay(Input.mousePosition);
 				float distance = 0;
-				beamPlane.Raycast (r, out distance);
-				Vector3 p = r.GetPoint (distance);
-				pointEnd.transform.position = LimitPointDistance (p, pointStart);
-				pointEnd.GetComponent<ResetPhysics> ().UpdatePosition ();
+				beamPlane.Raycast(r, out distance);
+				Vector3 p = r.GetPoint(distance);
+				pointEnd.transform.position = LimitPointDistance(p, pointStart);
+				pointEnd.GetComponent<ResetPhysics>().UpdatePosition();
 				IsRoadBeam = bridgeSetupParent._levelData.roadCounter > bridgeSetupParent.currentRoadsCount;
 				IsBeamCount = bridgeSetupParent._levelData.beamsCounter > bridgeSetupParent.currentBeamsCount;
 				isRope = bridgeSetupParent._levelData.ropeCounter > bridgeSetupParent.currentRopeCount;
 
 				beamType = bridgeBuilderGUI._beamType;
 
-				if (IsRoadBeam && beamType == BridgeBuilderGUI.beamType.road) {
-					road.SetActive (true);
-					rope.SetActive (false);
-					road.GetComponent<ResetPhysics> ().UpdatePosition ();
-					PositionBeam ();
+				if (IsRoadBeam && beamType == BridgeBuilderGUI.beamType.road)
+				{
+					road.SetActive(true);
+					rope.SetActive(false);
+					road.GetComponent<ResetPhysics>().UpdatePosition();
+					PositionBeam();
 					//if (!PlayerPrefs.HasKey("Tutorial"))
 					//{
 					//	if (Physics.Raycast(r, out raycast))
 					//	{
 					//		if (!raycast.collider.CompareTag("road_"))
-     //                       {
-								
+					//                       {
+
 					//			return;
 					//		}
 
 					//    }
 					//}
-					
 
 
-					} else if (IsBeamCount && beamType == BridgeBuilderGUI.beamType.beam) {
-					rope.SetActive (false);
-					beam.SetActive (true);
-					beam.GetComponent<ResetPhysics> ().UpdatePosition ();
-					PositionBeam ();
-				} else if (beamType == BridgeBuilderGUI.beamType.rope && bridgeSetupParent.isRope) {
-					PositionBeam ();
+
+				}
+				else if (IsBeamCount && beamType == BridgeBuilderGUI.beamType.beam)
+				{
+					rope.SetActive(false);
+					beam.SetActive(true);
+					beam.GetComponent<ResetPhysics>().UpdatePosition();
+					PositionBeam();
+				}
+				else if (beamType == BridgeBuilderGUI.beamType.rope && bridgeSetupParent.isRope)
+				{
+					PositionBeam();
 					//rope.SetActive(true);
 					//					Debug.LogError (rope.name);
 					//for (int i = 0; i < 2; i++)
 					//{
 					////	rope.transform.GetChild(i).GetComponent<ResetPhysics>().UpdatePosition();
 					//}
-				} else {
-					rope.SetActive (false);
+				}
+				else
+				{
+					rope.SetActive(false);
 
 				}
-				//				Debug.LogError(bridgeSetupParent._levelData.roadCounter);
-				//				Debug.LogError(bridgeSetupParent.currentRoadsCount);
-				//				Debug.LogError(bridgeSetupParent._levelData.roadCounter > bridgeSetupParent.currentRoadsCount);
-
-				//IsRoadBeam = bridgeSetupParent.IsInRoadLevel(pointStart.transform.position, pointEnd.transform.position);
 
 			}
 
-			if (Input.GetMouseButtonUp (0)) {
+			if (Input.GetMouseButtonUp(0))
+			{
 
 				Vector3 beamVector = pointEnd.transform.position - pointStart.transform.position;
-				//				Debug.LogError (beamVector.magnitude);
-					startVector = new Vector3 (Mathf.Round (pointStart.transform.position.x), Mathf.Round (pointStart.transform.position.y), Mathf.Round (pointStart.transform.position.z)).ToString();
-					endVector = new Vector3 (Mathf.Round (pointEnd.transform.position.x), Mathf.Round (pointEnd.transform.position.y), Mathf.Round (pointEnd.transform.position.z)).ToString();
-
-				//startVector = pointStart.transform.position.ToString();
-				//endVector = pointEnd.transform.position.ToString();
+				startVector = new Vector3(Mathf.Round(pointStart.transform.position.x), Mathf.Round(pointStart.transform.position.y), Mathf.Round(pointStart.transform.position.z)).ToString();
+				endVector = new Vector3(Mathf.Round(pointEnd.transform.position.x), Mathf.Round(pointEnd.transform.position.y), Mathf.Round(pointEnd.transform.position.z)).ToString();
 
 
-				if (IsRoadBeam && beamType == BridgeBuilderGUI.beamType.road) {
+				if (IsRoadBeam && beamType == BridgeBuilderGUI.beamType.road)
+				{
+					bridgeSetupParent.currentRoadsCount++;
+					//					Debug.LogError (bridgeSetupParent.currentRoadsCount);
+					//addCollider ();
+
+					Debug.Log(transform.parent.eulerAngles + "\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\");
+                    if (!isForceFull)
+                    {
+                        if (beamVector.magnitude < 1.5f)
+                        {
+                            decreaseCounter(false);
+                            Destroy(gameObject);
+                        }
+                        else
+                            addCollider();
+                    }
+                    else
+                    {
+                        if (typingScript.instance.isEndPositionSame(pointEnd.transform))
+                        {
+                            addCollider();
+                        }
+                        else
+                        {
+                            decreaseCounter(false);
+                            Destroy(gameObject);
+                        }
+                    }
 
 
-					
-						bridgeSetupParent.currentRoadsCount++;
-						//					Debug.LogError (bridgeSetupParent.currentRoadsCount);
-						//addCollider ();
 
-						Debug.Log(transform.parent.eulerAngles + "\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\");
+
+                }
+				else if (IsBeamCount && beamType == BridgeBuilderGUI.beamType.beam)
+				{
+					bridgeSetupParent.currentBeamsCount++;
+
+					Debug.Log(transform.parent.eulerAngles + "\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\");
+					if (!isForceFull)
+					{
 						if (beamVector.magnitude < 1.5f)
 						{
 							decreaseCounter(false);
@@ -230,46 +263,47 @@ public class BridgeBeam : MonoBehaviour {
 						}
 						else
 							addCollider();
-					
-
-					
-
-
-				}
-				else if (IsBeamCount && beamType == BridgeBuilderGUI.beamType.beam) {
-					bridgeSetupParent.currentBeamsCount++;
-					
-					Debug.Log(transform.parent.eulerAngles + "\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\");
-					if (beamVector.magnitude < 1.5f)
-					{
-						decreaseCounter(false);
-						Destroy(gameObject);
 					}
 					else
-						addCollider();
+					{
+						if (typingScript.instance.isEndPositionSame(pointEnd.transform))
+						{
+                            addCollider();
+                        }
+						else
+						{
+                            decreaseCounter(false);
+                            Destroy(gameObject);
+                        }
+                    }
+					
 
 
 				}
-				else if (isRope && beamType == BridgeBuilderGUI.beamType.rope) {
+				else if (isRope && beamType == BridgeBuilderGUI.beamType.rope)
+				{
 					//SetUpRope ();
 					bridgeSetupParent.currentRopeCount++;
 
-					addCollider ();
+					addCollider();
 					//Debug.LogError (beamVector.magnitude);
-					if (beamVector.magnitude < .1f) {
-						decreaseCounter (false);
+					if (beamVector.magnitude < .1f)
+					{
+						decreaseCounter(false);
 
-						Destroy (gameObject);
+						Destroy(gameObject);
 					}
-				} else {
+				}
+				else
+				{
 					//	Debug.LogError ("___________");
-					Destroy (gameObject);
+					Destroy(gameObject);
 
 				}
 				Debug.Log("Destroy");
-				bridgeBuilderGUI.roadText.text = (bridgeSetupParent._levelData.roadCounter - bridgeSetupParent.currentRoadsCount).ToString ();
-				bridgeBuilderGUI.beamText.text = (bridgeSetupParent._levelData.beamsCounter - bridgeSetupParent.currentBeamsCount).ToString ();
-				bridgeBuilderGUI.ropeText.text = (bridgeSetupParent._levelData.ropeCounter - bridgeSetupParent.currentRopeCount).ToString ();
+				bridgeBuilderGUI.roadText.text = (bridgeSetupParent._levelData.roadCounter - bridgeSetupParent.currentRoadsCount).ToString();
+				bridgeBuilderGUI.beamText.text = (bridgeSetupParent._levelData.beamsCounter - bridgeSetupParent.currentBeamsCount).ToString();
+				bridgeBuilderGUI.ropeText.text = (bridgeSetupParent._levelData.ropeCounter - bridgeSetupParent.currentRopeCount).ToString();
 
 
 
@@ -280,7 +314,7 @@ public class BridgeBeam : MonoBehaviour {
 
 
 
-		ColorBeam ();
+		ColorBeam();
 
 
 
@@ -288,6 +322,8 @@ public class BridgeBeam : MonoBehaviour {
 
 	public void decreaseCounter (bool deleteKey = false)
 	{
+
+
 		if (beamType == BridgeBuilderGUI.beamType.road) {
 			bridgeSetupParent.currentRoadsCount--;
 			bridgeBuilderGUI.roadText.text = (bridgeSetupParent._levelData.roadCounter - bridgeSetupParent.currentRoadsCount).ToString ();
@@ -595,8 +631,10 @@ public class BridgeBeam : MonoBehaviour {
 		return bridgeSetupParent.GetSnapPointFromPosition(mousePos, start.transform.position, beamType == BridgeBuilderGUI.beamType.rope ? 100 : MAX_BEAM_DISTANCE);
 	}
 
-	private void DestroyIfSamePosition() {
-		if (((pointStart.transform.position - pointEnd.transform.position).magnitude <0.1f)||(!bridgeSetupParent._levelData.AllowRopeInLevel&&rope.gameObject.activeInHierarchy)) {
+	private void DestroyIfSamePosition()
+	{
+		if (((pointStart.transform.position - pointEnd.transform.position).magnitude < 0.1f) || (!bridgeSetupParent._levelData.AllowRopeInLevel && rope.gameObject.activeInHierarchy))
+		{
 			Destroy(gameObject);
 		}
 	}

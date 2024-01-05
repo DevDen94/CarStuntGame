@@ -48,6 +48,7 @@ public class ZoomInOut : MonoBehaviour
 
 	public void zooming()
 	{
+		if(AudioManager.instance!=null)
 		AudioManager.instance.buttonAudio.Play();
 		value = value == 1 ? -1 : 1;
 		if (value == 1)

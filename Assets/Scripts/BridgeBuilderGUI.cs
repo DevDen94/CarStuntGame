@@ -26,7 +26,7 @@ public class BridgeBuilderGUI : MonoBehaviour {
 
 
 
-	private void Awake()
+	public virtual void  Awake()
     {
 		Instance = this;
     }
@@ -115,7 +115,7 @@ public class BridgeBuilderGUI : MonoBehaviour {
 	}
 
 	public Text LevelText;
-	GameObject Temp_Hint;
+	public GameObject Temp_Hint;
 
 	public GameObject HintAfterAdd;
 
@@ -125,56 +125,67 @@ public class BridgeBuilderGUI : MonoBehaviour {
 	[Space]
 	public Button road, beam, test, run, zoom;
 
-	void Start()
-	{
-		AdsManager.instance.ShowSmallBanner();
+    public virtual void Start()
+    {
+	//	AdsManager.instance.ShowSmallBanner();
 		AudioManager.instance.musicSource.Stop();
 		AudioManager.instance.wind.Play();
 
-        if (!PlayerPrefs.HasKey("Tutorial"))
-        {
-			iTween.MoveTo(EnvirnmentCamera, iTween.Hash("position", envrinmentCamPosition.position, "time", .5f, "easetype", iTween.EaseType.linear));
-			iTween.RotateTo(EnvirnmentCamera, iTween.Hash("rotation", Vector3.zero, "time", .5f, "easetype", iTween.EaseType.linear));
-			GameObject currentLevelPrefab = Resources.Load<GameObject>("Levels/" + "Tutorial/" + "Level1");
-			GameObject Temp = Instantiate(currentLevelPrefab);
-			bridgeSetup = Temp.GetComponentInChildren<BridgeSetup>();
-			runButton.SetActive(false);
-			//AllowRopeDrawing ();
-			GameObject currentLevelPrefabHint = Resources.Load<GameObject>("Levels_Hint/" + HomeManager._category + "/" + HomeManager.selectedLevel.Replace("_", ""));
-			Temp_Hint = Instantiate(currentLevelPrefabHint);
-			int currentLevelIndex = int.Parse(HomeManager.selectedLevel.Split('_')[1].ToString());
-			LevelText.text = "Level " + currentLevelIndex;
+		//if (!PlayerPrefs.HasKey("Tutorial"))
+		//{
+		//	iTween.MoveTo(EnvirnmentCamera, iTween.Hash("position", envrinmentCamPosition.position, "time", .5f, "easetype", iTween.EaseType.linear));
+		//	iTween.RotateTo(EnvirnmentCamera, iTween.Hash("rotation", Vector3.zero, "time", .5f, "easetype", iTween.EaseType.linear));
+		//	GameObject currentLevelPrefab = Resources.Load<GameObject>("Levels/" + "Tutorial/" + "Level1");
+		//	GameObject Temp = Instantiate(currentLevelPrefab);
+		//	bridgeSetup = Temp.GetComponentInChildren<BridgeSetup>();
+		//	runButton.SetActive(false);
+		//	//AllowRopeDrawing ();
+		//	GameObject currentLevelPrefabHint = Resources.Load<GameObject>("Levels_Hint/" + HomeManager._category + "/" + HomeManager.selectedLevel.Replace("_", ""));
+		//	Temp_Hint = Instantiate(currentLevelPrefabHint);
+		//	int currentLevelIndex = int.Parse(HomeManager.selectedLevel.Split('_')[1].ToString());
+		//	LevelText.text = "Level " + currentLevelIndex;
 
-			/* Remove Unnecessary Buttons during tutorials */
-			pauseBtn.SetActive(false);
-			GridBtn.SetActive(false);
-			Reset.SetActive(false);
-			Undo.SetActive(false);
-			hint.SetActive(false);
+		//	/* Remove Unnecessary Buttons during tutorials */
+		//	pauseBtn.SetActive(false);
+		//	GridBtn.SetActive(false);
+		//	Reset.SetActive(false);
+		//	Undo.SetActive(false);
+		//	hint.SetActive(false);
 
-			road.gameObject.SetActive(false);
-			beam.gameObject.SetActive(false);
-			run.gameObject.SetActive(false);
-			test.gameObject.SetActive(false);
-			zoom.interactable = true;
-			zoom.gameObject.transform.GetChild(1).gameObject.SetActive(true);
+		//	road.gameObject.SetActive(false);
+		//	beam.gameObject.SetActive(false);
+		//	run.gameObject.SetActive(false);
+		//	test.gameObject.SetActive(false);
+		//	zoom.interactable = true;
+		//	zoom.gameObject.transform.GetChild(1).gameObject.SetActive(true);
 
-		}
-        else { 
+		//}
+		//else
+		//{
+		//	iTween.MoveTo(EnvirnmentCamera, iTween.Hash("position", envrinmentCamPosition.position, "time", .5f, "easetype", iTween.EaseType.linear));
+		//	iTween.RotateTo(EnvirnmentCamera, iTween.Hash("rotation", Vector3.zero, "time", .5f, "easetype", iTween.EaseType.linear));
+		//	GameObject currentLevelPrefab = Resources.Load<GameObject>("Levels/" + HomeManager._category + "/" + HomeManager.selectedLevel.Replace("_", ""));
+		//	GameObject Temp = Instantiate(currentLevelPrefab);
+		//	bridgeSetup = Temp.GetComponentInChildren<BridgeSetup>();
+		//	runButton.SetActive(false);
+		//	//AllowRopeDrawing ();
+		//	GameObject currentLevelPrefabHint = Resources.Load<GameObject>("Levels_Hint/" + HomeManager._category + "/" + HomeManager.selectedLevel.Replace("_", ""));
+		//	Temp_Hint = Instantiate(currentLevelPrefabHint);
+		//	int currentLevelIndex = int.Parse(HomeManager.selectedLevel.Split('_')[1].ToString());
+		//	LevelText.text = "Level " + currentLevelIndex;
+		//}
 		iTween.MoveTo(EnvirnmentCamera, iTween.Hash("position", envrinmentCamPosition.position, "time", .5f, "easetype", iTween.EaseType.linear));
 		iTween.RotateTo(EnvirnmentCamera, iTween.Hash("rotation", Vector3.zero, "time", .5f, "easetype", iTween.EaseType.linear));
 		GameObject currentLevelPrefab = Resources.Load<GameObject>("Levels/" + HomeManager._category + "/" + HomeManager.selectedLevel.Replace("_", ""));
 		GameObject Temp = Instantiate(currentLevelPrefab);
 		bridgeSetup = Temp.GetComponentInChildren<BridgeSetup>();
 		runButton.SetActive(false);
-        //AllowRopeDrawing ();
-        GameObject currentLevelPrefabHint = Resources.Load<GameObject>("Levels_Hint/" + HomeManager._category + "/" + HomeManager.selectedLevel.Replace("_", ""));
-        Temp_Hint = Instantiate(currentLevelPrefabHint);
+		//AllowRopeDrawing ();
+		GameObject currentLevelPrefabHint = Resources.Load<GameObject>("Levels_Hint/" + HomeManager._category + "/" + HomeManager.selectedLevel.Replace("_", ""));
+		Temp_Hint = Instantiate(currentLevelPrefabHint);
 		int currentLevelIndex = int.Parse(HomeManager.selectedLevel.Split('_')[1].ToString());
 		LevelText.text = "Level " + currentLevelIndex;
-		}
 
-		
 
 		spriteMover1 = GameObject.FindWithTag("f1");
 
@@ -197,7 +208,7 @@ public class BridgeBuilderGUI : MonoBehaviour {
 
 	public GameObject levelbtn;
 
-	public void AllowRopeDrawing ()
+	public virtual void AllowRopeDrawing ()
 	{
 		if (!bridgeSetup._levelData.AllowRopeInLevel) {
 			ropeText.transform.parent.gameObject.SetActive (false);
@@ -206,7 +217,7 @@ public class BridgeBuilderGUI : MonoBehaviour {
 		}
 	}
 	public GameObject minimap;
-	public void DisplayOverBudgetError ()
+	public virtual void DisplayOverBudgetError ()
 	{
 		displayOverBudgetError = true;
 		//timer = timerToDisplay;
@@ -253,6 +264,7 @@ public class BridgeBuilderGUI : MonoBehaviour {
 
 		} else if (BridgeSetup.eLevelStage.SetupStage == bridgeSetup.LevelStage) {
 			bridgeSetup.LevelStage = BridgeSetup.eLevelStage.PlayStage;
+			//Debug.LogError("zoom Value" + _zoominOut == null);
 			if (_zoominOut._zoomIn)
 			{ 
 				_zoominOut.zooming();
@@ -324,7 +336,7 @@ public class BridgeBuilderGUI : MonoBehaviour {
 
 		}
 	}
-	public void updateListCount()
+	public virtual void updateListCount()
 	{
 		List<BridgeBeam> tempList = new List<BridgeBeam>();
 		for (int i = 0; i < bridgeSetup.allCreatedBeams.Count; i++)
@@ -428,6 +440,11 @@ public class BridgeBuilderGUI : MonoBehaviour {
 		
 	}
 
+	public virtual void setGameState(bool value)
+	{
+		gamePaused = value;
+	}
+
 	public void ResetLevel ()
 	{
 		AdsManager.instance.ShowSmallBanner();
@@ -436,6 +453,7 @@ public class BridgeBuilderGUI : MonoBehaviour {
 		backToDraw ();
 		levelFailedPanel.SetActive (false);
 		pausePanel.SetActive(false);
+
 		gamePaused = false;
 		
 		//SceneManager.LoadScene (SceneManager.GetActiveScene ().name);
@@ -469,6 +487,7 @@ public class BridgeBuilderGUI : MonoBehaviour {
 	public GameObject nextLevelButton;
 	public void LevelComplete ()
 	{
+		typingScriptonGamePlay.instance.handDialoguebox.SetActive (false);
 		if (AdsManager.instance.LevelCompleteTrigger == 0)
 		{
 			ADisLoading.SetActive(true);
@@ -485,11 +504,7 @@ public class BridgeBuilderGUI : MonoBehaviour {
         {
 			AdsManager.instance.LevelCompleteTrigger += 1;
 		}
-        if (!PlayerPrefs.HasKey("Tutorial"))
-        {
-
-			PlayerPrefs.SetInt("Tutorial", 1);
-        }
+      
 
 
 		AdsManager.instance.ShowBigBanner();

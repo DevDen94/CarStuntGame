@@ -20,7 +20,7 @@ public class LoadingLeanTween : MonoBehaviour
     }
     public void showBigBanner()
     {
-        //AdsManager.instance.ShowBigBanner();
+        AdsManager.instance.ShowBigBanner();
     }
     void LevelComplete()
     {

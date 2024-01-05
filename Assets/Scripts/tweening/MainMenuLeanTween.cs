@@ -8,7 +8,7 @@ public class MainMenuLeanTween : MonoBehaviour
     GameObject BridgeTitle,
         ExitBTN, SettingBTN,
         PrivacyBTN, RateUsBTN, MoreGames,
-        PlayBTN;
+        PlayBTN,tutorialbtn;
 
 
     void Start()
@@ -24,7 +24,9 @@ public class MainMenuLeanTween : MonoBehaviour
     {
 
         LeanTween.scale(ExitBTN, new Vector3(1f, 1f, 1f), .3f).setDelay(.03f).setEase(LeanTweenType.easeOutElastic);
+        LeanTween.scale(tutorialbtn, new Vector3(1f, 1f, 1f), .4f)/*.setDelay(.035f)*/.setEase(LeanTweenType.easeOutElastic);
         LeanTween.scale(SettingBTN, new Vector3(1f, 1f, 1f),.4f)/*.setDelay(.035f)*/.setEase(LeanTweenType.easeOutElastic).setOnComplete(lowerBtn);
+        
        
     }
 
