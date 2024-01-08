@@ -52,7 +52,10 @@ public class BridgeBuilderGUI_tutorial : BridgeBuilderGUI
 
     public void _backToDraw()
     {
+        
+
         backToDraw();
+      //  typingScript.instance.testbtn.SetActive(false);
     }
 
     public void _runCar()

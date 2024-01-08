@@ -8,6 +8,6 @@ public class bgSoundChange : MonoBehaviour
 
     private void Start()
     {
-        AudioManager.instance.wind.clip = halloweenBg;
+        AudioManager.instance.wind.clip = AudioManager.instance.wind.clip;
     }
 }

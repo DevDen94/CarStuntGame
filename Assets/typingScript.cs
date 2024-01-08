@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.EventSystems;
 
 public class typingScript : MonoBehaviour
 {
@@ -30,7 +31,7 @@ public class typingScript : MonoBehaviour
     public GameObject beamButton;
     public GameObject roadButton;
     public int roadsCounter = 0;
-    
+    public GameObject testbtn;
 
     public static typingScript instance;
 
@@ -77,7 +78,12 @@ public class typingScript : MonoBehaviour
         string toShow = allDialogues[index];
         audioPlayer.clip = clips[index];
         audioPlayer.Play();
-        for (int i = 0; i < toShow.Length; i++)
+                GameObject b = EventSystem.current.currentSelectedGameObject;
+                if (b != null) {
+                        Button bb = b.GetComponent<Button> ();
+                        bb.interactable = false;
+                }
+                for (int i = 0; i < toShow.Length; i++)
         {
             textContainer.text += toShow[i];
            
@@ -89,12 +95,21 @@ public class typingScript : MonoBehaviour
         if (index >= allDialogues.Count)
             index = 0;
         nextButton.interactable = true;
-    }
+                if (b != null) {
+                        Button bb = b.GetComponent<Button> ();
+                        bb.interactable = true;
+                }
+        }
     IEnumerator typingEffect1()
     {
         string toShow = introallDialogues[index];
         introaudioPlayer.clip = introclips[index];
         introaudioPlayer.Play();
+            GameObject b =    EventSystem.current.currentSelectedGameObject;
+                if (b != null) {
+                        Button bb = b.GetComponent<Button> ();
+                        bb.interactable = false;
+		}
         for (int i = 0; i < toShow.Length; i++)
         {
             introtextContainer.text += toShow[i];
@@ -105,7 +120,11 @@ public class typingScript : MonoBehaviour
         if (index >= introallDialogues.Count)
             index = 0;
         nextButton.interactable = true;
-    }
+                if (b != null) {
+                        Button bb = b.GetComponent<Button> ();
+                        bb.interactable = true;
+                }
+        }
 
     public void playHandAnimationForTutorial()
     {
@@ -126,6 +145,7 @@ public class typingScript : MonoBehaviour
             typingScriptonGamePlay.instance.handDialoguebox.SetActive(true);
             typingScriptonGamePlay.instance.next();
             handAnimationTESTbUTTON.SetActive(true);
+            testbtn.SetActive(true);
 
             /// again panel for  test button start ; 
             /// if done  then  run button  animation start 

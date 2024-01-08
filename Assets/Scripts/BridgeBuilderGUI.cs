@@ -286,8 +286,12 @@ public class BridgeBuilderGUI : MonoBehaviour {
 			HINTbTN.SetActive(false);
 			levelbtn.SetActive(false);
 			HintAfterAdd.SetActive(false);
+			if (typingScript.instance != null) 
+			{
+                typingScript.instance.testbtn.SetActive(false);
 
-		}
+            }
+        }
 	}
 
 	public Camera Cam1;
@@ -487,8 +491,12 @@ public class BridgeBuilderGUI : MonoBehaviour {
 	public GameObject nextLevelButton;
 	public void LevelComplete ()
 	{
-		typingScriptonGamePlay.instance.handDialoguebox.SetActive (false);
-		if (AdsManager.instance.LevelCompleteTrigger == 0)
+		if (typingScriptonGamePlay.instance != null)
+		{
+            typingScriptonGamePlay.instance.handDialoguebox.SetActive(false);
+
+        }
+        if (AdsManager.instance.LevelCompleteTrigger == 0)
 		{
 			ADisLoading.SetActive(true);
 			AdsManager.instance.LevelCompleteTrigger += 1;
@@ -530,8 +538,19 @@ public class BridgeBuilderGUI : MonoBehaviour {
 		}
 		Firebase.Analytics.FirebaseAnalytics.LogEvent("level_complete","level_complete", currentLevelIndex);
 	}
+    public void LevelComplete1()
+    {
+        if (typingScriptonGamePlay.instance != null)
+        {
+            typingScriptonGamePlay.instance.handDialoguebox.SetActive(false);
 
-	public GameObject levelFailedPanel;
+        }
+      
+        LevelCompletePanel.SetActive(true);
+      
+    }
+   
+    public GameObject levelFailedPanel;
 	//public void LevelFailed ()
 	//{
 	//	AudioManager.instance.failAudio.Play();

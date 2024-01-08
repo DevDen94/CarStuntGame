@@ -37,9 +37,9 @@ public class typingScriptonGamePlay : MonoBehaviour
     public void Start()
     {
         
-       textContainer.text = allDialogues[5];
-        audioPlayer.clip = clips[5];
-        audioPlayer.Play();
+       ////textContainer.text = allDialogues[5];
+       //// audioPlayer.clip = clips[5];
+       //// audioPlayer.Play();
 
     }
 

@@ -10,6 +10,8 @@ public class HomeManager : MonoBehaviour
     public GameObject SettingPanel, ExitPanel;
     public GameObject mainScenePanel, ModeSelectionPanel, StuntModePanel, FullBridgePanel,ADisLoading;
 
+        public GameObject tutorialButton;
+
     public static HomeManager instance;
 
     private void Awake()
@@ -44,7 +46,15 @@ public class HomeManager : MonoBehaviour
 
 
 
+                if (PlayerPrefs.GetInt("TutorialShown", 1 - 1)== 0) 
+		{
+                       // PlayerPrefs.SetInt("TutorialShown", 1);
+                        tutorialButton.SetActive(false);
 
+                       // loadTutorialScene ();
+                } else {
+                        tutorialButton.SetActive (true);
+                }
 
         
        
@@ -55,12 +65,23 @@ public class HomeManager : MonoBehaviour
 
     public void onPlay()
     {
-        //AdsManager.instance.ShowinterAd();
-        AudioManager.instance.buttonAudio.Play();
-        ModeSelectionPanel.SetActive(true);
-        PlayerPrefs.SetInt("Tutorial", 10);
-        ADisLoading.SetActive(true);
-        Firebase.Analytics.FirebaseAnalytics.LogEvent("click_on_start");
+
+                if (PlayerPrefs.GetInt ("TutorialShown", 1 - 1) == 0) {
+                        PlayerPrefs.SetInt ("TutorialShown", 1);
+                        //        tutorialButton.SetActive (false);
+                       // Firebase.Analytics.FirebaseAnalytics.LogEvent ("Tutorial: click_on_start");
+                        loadTutorialScene ();
+                        PlayerPrefs.SetInt ("Tutorial", 10);
+                } else {
+                        ModeSelectionPanel.SetActive (true);
+                        PlayerPrefs.SetInt ("Tutorial", 10);
+                        ADisLoading.SetActive (true);
+                        Firebase.Analytics.FirebaseAnalytics.LogEvent ("click_on_start");
+                }
+
+                //AdsManager.instance.ShowinterAd();
+                AudioManager.instance.buttonAudio.Play();
+       
 
 
 
