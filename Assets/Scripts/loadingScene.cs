@@ -19,7 +19,7 @@ public class loadingScene : MonoBehaviour
 
     private void Start()
     {
-
+        PlayerPrefs.SetInt("AdValue", 0);
         if (data.data == Application.identifier)
         {
             LoadNextScreen();
