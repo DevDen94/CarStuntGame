@@ -599,7 +599,7 @@ public class BridgeBuilderGUI : MonoBehaviour {
 	{
 
 		ADisLoading.SetActive(false);
-		InteradPanel.SetActive(true);
+		
 		//AdsManager.instance.ShowinterAd();
 	}
 	public void loadNextLevel ()
@@ -750,14 +750,15 @@ public GameObject carStopButtom;
     {
 		
 		PlayerPrefs.SetInt("Ad", 0);
-		//AdsManager.instance.ShowRewardedAd();
+		yodoManager.Instance.ShowRewarded();
     }
 
 	public void skipLevelFromVideo()
     {
 		
 		PlayerPrefs.SetInt("Ad", 1);
-		//AdsManager.instance.ShowRewardedAd();
+		yodoManager.Instance.ShowRewarded();
+
 	}
 
 

@@ -56,8 +56,8 @@ public class HomeManager : MonoBehaviour
                         tutorialButton.SetActive (true);
                 }
 
-        
-       
+
+        yodoManager.Instance.ShowAppOpen();
     }
 
     
@@ -96,7 +96,7 @@ public class HomeManager : MonoBehaviour
     {
         
         ADisLoading.SetActive(false);
-        ShowAd.SetActive(true);
+        yodoManager.Instance.showInterstatialAd();
     }
 
 
