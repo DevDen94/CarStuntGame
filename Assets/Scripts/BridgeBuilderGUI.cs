@@ -536,6 +536,7 @@ public class BridgeBuilderGUI : MonoBehaviour {
 	
 			PlayerPrefs.SetInt("CatLock_" + (HomeManager._currentCategory + 1), 0);
 		}
+		Implementation.Instance.ShowInterstitial();
 		//Firebase.Analytics.FirebaseAnalytics.LogEvent("level_complete","level_complete", currentLevelIndex);
 	}
     public void LevelComplete1()
@@ -592,6 +593,7 @@ public class BridgeBuilderGUI : MonoBehaviour {
 			
 
 		}
+		Implementation.Instance.ShowInterstitial();
 	//	Firebase.Analytics.FirebaseAnalytics.LogEvent("level_fail");
 
 	}
@@ -750,14 +752,15 @@ public GameObject carStopButtom;
     {
 		
 		PlayerPrefs.SetInt("Ad", 0);
-		yodoManager.Instance.ShowRewarded();
-    }
+		//Yodo1MasExample.Instance.showRewarded();
+
+	}
 
 	public void skipLevelFromVideo()
     {
 		
 		PlayerPrefs.SetInt("Ad", 1);
-		yodoManager.Instance.ShowRewarded();
+		//Yodo1MasExample.Instance.showRewarded();
 
 	}
 

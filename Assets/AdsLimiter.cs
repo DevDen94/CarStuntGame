@@ -9,7 +9,8 @@ public class AdsLimiter : MonoBehaviour
     {
         if (PlayerPrefs.GetInt("AdValue") == 0)
         {
-            yodoManager.Instance.showInterstatialAd();
+           // Yodo1MasExample.Instance.showInterstitial();
+
             PlayerPrefs.SetInt("AdValue", 1);
         }
         else

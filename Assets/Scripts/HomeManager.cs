@@ -20,8 +20,8 @@ public class HomeManager : MonoBehaviour
     }
     private void Start()
     {
-      //  AdsManager.instance.ShowSmallBanner();
-        
+        //  AdsManager.instance.ShowSmallBanner();
+
         //if (AdsManager.instance.isAppOpen)
         //{
         //    AdsManager.instance.ShowAppOpenAd();
@@ -34,7 +34,7 @@ public class HomeManager : MonoBehaviour
         //PlayerPrefs.SetInt("CatLock_" + (HomeManager._currentCategory + 2), 0);
         //PlayerPrefs.SetInt("CatLock_" + (HomeManager._currentCategory + 3), 0);
         //PlayerPrefs.SetInt("CatLock_" + (HomeManager._currentCategory + 4), 0);
-
+        Implementation.Instance.ShawBanner();
 
         Time.timeScale = 1;
         AudioManager.instance.musicSource.Play();
@@ -57,11 +57,9 @@ public class HomeManager : MonoBehaviour
                 }
 
 
-        yodoManager.Instance.ShowAppOpen();
+        //Yodo1MasExample.Instance.showAppOpen();
+
     }
-
-    
-
 
     public void onPlay()
     {
@@ -78,7 +76,7 @@ public class HomeManager : MonoBehaviour
                         ADisLoading.SetActive (true);
                        // Firebase.Analytics.FirebaseAnalytics.LogEvent ("click_on_start");
                 }
-
+                Implementation.Instance.ShowInterstitial();
                 //AdsManager.instance.ShowinterAd();
                 AudioManager.instance.buttonAudio.Play();
        
@@ -96,7 +94,7 @@ public class HomeManager : MonoBehaviour
     {
         
         ADisLoading.SetActive(false);
-        yodoManager.Instance.showInterstatialAd();
+       // Yodo1MasExample.Instance.showInterstitial();
     }
 
 
