@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -17,7 +18,7 @@ public class CatLock : MonoBehaviour
     {
         get
         {
-            return PlayerPrefs.GetInt("AdsToUnlock_" + transform.GetSiblingIndex(), 3);
+            return PlayerPrefs.GetInt("AdsToUnlock_" + transform.GetSiblingIndex(), 1);
         }
         set
         {
@@ -25,34 +26,24 @@ public class CatLock : MonoBehaviour
         }
     }
 
-    public bool IsLocked
+    public bool IsUnlock
     {
         get
         {
-            bool status = (PlayerPrefs.GetInt("CatLock_" + transform.GetSiblingIndex(), 1) == 1) || AdsCounter <= 0;
+         //   Debug.LogError(AdsCounter + "adsCounter");
+            bool status = (PlayerPrefs.GetInt("CatLock_" + transform.GetSiblingIndex(), 0) == 1) || AdsCounter <= 0; 
             return status;
         }
         set
         {
-            var status = value ? 1 : 0;
-            PlayerPrefs.SetInt("CatLock_" + transform.GetSiblingIndex(), status);
+            bool status = value;
+            PlayerPrefs.SetInt("CatLock_" + transform.GetSiblingIndex(), Convert.ToInt32(status));
         }
     }
 
     private void OnEnable()
     {
-        if (transform.GetSiblingIndex() == 0)
-            IsLocked = false;
-        m_LockImage.SetActive(IsLocked);
-        Rad_button.SetActive(IsLocked);
-
-        Rad_Text.text = AdsCounter.ToString();
-
-        if (IsLocked == false)
-        {
-            text.SetActive(false);
-            SelectedBTN.SetActive(true);
-        }
+        setAdValues();
     }
 
     public void setAdsCounter()
@@ -61,7 +52,25 @@ public class CatLock : MonoBehaviour
         {
             AdsCounter--;
         }
-       // IsLocked = false;
+        // IsLocked = false;
+        setAdValues();
+    }
 
+
+    public void setAdValues()
+    {
+        if (transform.GetSiblingIndex() == 0)
+            IsUnlock = true;
+        Debug.LogError(IsUnlock);//test
+        m_LockImage.SetActive(!IsUnlock);
+        Rad_button.SetActive(!IsUnlock);
+
+        Rad_Text.text = AdsCounter.ToString();
+
+        if (IsUnlock == true)
+        {
+            text.SetActive(false);
+            SelectedBTN.SetActive(true);
+        }
     }
 }

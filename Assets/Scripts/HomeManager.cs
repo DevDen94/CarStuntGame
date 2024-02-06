@@ -34,7 +34,7 @@ public class HomeManager : MonoBehaviour
         //PlayerPrefs.SetInt("CatLock_" + (HomeManager._currentCategory + 2), 0);
         //PlayerPrefs.SetInt("CatLock_" + (HomeManager._currentCategory + 3), 0);
         //PlayerPrefs.SetInt("CatLock_" + (HomeManager._currentCategory + 4), 0);
-        Implementation.Instance.ShawBanner();
+//        Implementation.Instance.ShawBanner();
 
         Time.timeScale = 1;
         AudioManager.instance.musicSource.Play();
@@ -76,7 +76,7 @@ public class HomeManager : MonoBehaviour
                         ADisLoading.SetActive (true);
                        // Firebase.Analytics.FirebaseAnalytics.LogEvent ("click_on_start");
                 }
-                Implementation.Instance.ShowInterstitial();
+                //Implementation.Instance.ShowInterstitial();
                 //AdsManager.instance.ShowinterAd();
                 AudioManager.instance.buttonAudio.Play();
        
@@ -158,7 +158,7 @@ public class HomeManager : MonoBehaviour
         }
     }
 
-
+    
   
 
     public static string _category;
@@ -173,10 +173,10 @@ public class HomeManager : MonoBehaviour
 
        
             AudioManager.instance.buttonAudio.Play();
-            if (EventSystem.current.currentSelectedGameObject.GetComponent<CatLock>().IsLocked)
+            if (!EventSystem.current.currentSelectedGameObject.transform.parent.GetComponent<CatLock>().IsUnlock)
                 return;
             _category = category;
-            _currentCategory = EventSystem.current.currentSelectedGameObject.transform.GetSiblingIndex();
+            _currentCategory = EventSystem.current.currentSelectedGameObject.transform.parent.GetSiblingIndex();
             LevelSelectionScreen.SetActive(true);
            
             //Firebase.Analytics.FirebaseAnalytics.LogEvent("click_on_mode", "mode_name", category);
