@@ -54,6 +54,7 @@ public class HomeManager : MonoBehaviour
                        // loadTutorialScene ();
                 } else {
                         tutorialButton.SetActive (true);
+                     //    typingScript.instance.skipCanvas();
                 }
 
 

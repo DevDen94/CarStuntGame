@@ -1,6 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class BridgeBuilderGUI_tutorial : BridgeBuilderGUI
 {
@@ -18,13 +20,25 @@ public class BridgeBuilderGUI_tutorial : BridgeBuilderGUI
         //GameObject currentLevelPrefabHint = Resources.Load<GameObject>("Levels_Hint/" + HomeManager._category + "/" + HomeManager.selectedLevel.Replace("_", ""));
         //Temp_Hint = Instantiate(currentLevelPrefabHint);
         //Debug.LogError(HomeManager.selectedLevel);
-        //int currentLevelIndex = int.Parse(HomeManager.selectedLevel.Split('_')[1].ToString());
+        //int currentLevelIndex = int.Parse(HomeManager.selectedLevel.Split('_')[1].ToString()); tutorial kaha se hota handle?
         //LevelText.text = "Level " + currentLevelIndex;
 
 
         spriteMover1 = GameObject.FindWithTag("f1");
-    }
 
+        ////if (PlayerPrefs.GetInt("TutorialShown", 1 - 1) == 0)
+        ////{
+        ////    // PlayerPrefs.SetInt("TutorialShown", 1);
+        ////    skipcanvas.SetActive(true);
+
+        ////    // loadTutorialScene ();
+        ////}
+        ////else
+        ////{
+        ////    skipcanvas.SetActive(false);
+        ////}
+    }
+   
     // Update is called once per frame
     void Update()
     {
@@ -67,6 +81,8 @@ public class BridgeBuilderGUI_tutorial : BridgeBuilderGUI
     {
         goToMainMenu();
     }
+   
 }
+
 
 

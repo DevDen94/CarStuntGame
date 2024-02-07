@@ -234,7 +234,7 @@ public class BridgeBeam : MonoBehaviour {
                     }
                     else
                     {
-                        if (typingScript.instance.isEndPositionSame(pointEnd.transform))
+                        if (typingScript.instance.isEndPositionSame(pointEnd.transform,pointStart.transform))
                         {
                             addCollider();
                         }
@@ -266,7 +266,7 @@ public class BridgeBeam : MonoBehaviour {
 					}
 					else
 					{
-						if (typingScript.instance.isEndPositionSame(pointEnd.transform))
+						if (typingScript.instance.isEndPositionSame(pointEnd.transform,pointStart.transform))
 						{
                             addCollider();
                         }

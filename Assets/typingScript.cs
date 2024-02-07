@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
+using Unity.VisualScripting;
+using UnityEngine.SceneManagement;
 
 public class typingScript : MonoBehaviour
 {
@@ -162,12 +164,16 @@ public class typingScript : MonoBehaviour
         iTween.MoveTo(hand, iTween.Hash("position", end.position, "easetype", iTween.EaseType.linear, "looptype", iTween.LoopType.pingPong));
     }
 
-    public bool isEndPositionSame(Transform endpoint)
+    public bool isEndPositionSame(Transform endpoint,Transform startpoint)
     {
         Debug.LogError(endpoint.position);
         Debug.LogError(handTutorialPoaitionsEnd[handAnimationCounter].position);
+        Debug.LogError("startPoint"+handTutorialPoaitionsStart[handAnimationCounter].position);
+        Debug.LogError("startpoint"+ startpoint.position);
+
         typingScriptonGamePlay.instance.handDialoguebox.SetActive(false);
-        bool value = handTutorialPoaitionsEnd[handAnimationCounter].position == endpoint.position;
+   //     bool value = handTutorialPoaitionsEnd[handAnimationCounter].position == endpoint.position && (new Vector3(Mathf.Round(start.position.x), Mathf.Round(startPoint.position.z), Mathf.Round(startPoint.position.z)); == handTutorialPoaitionsStart[handAnimationCounter].position);
+        bool value = handTutorialPoaitionsEnd[handAnimationCounter].position == endpoint.position && (new Vector3(Mathf.Round(startpoint.position.x), Mathf.Round(startpoint.position.y), Mathf.Round(startpoint.position.z)) == new Vector3(Mathf.Round(handTutorialPoaitionsStart[handAnimationCounter].position.x), Mathf.Round(handTutorialPoaitionsStart[handAnimationCounter].position.y), Mathf.Round(handTutorialPoaitionsStart[handAnimationCounter].position.z)));
         if (value)
         {
             handAnimationCounter++;
@@ -177,7 +183,7 @@ public class typingScript : MonoBehaviour
                 typingScriptonGamePlay.instance.handDialoguebox.SetActive(true);
                 typingScriptonGamePlay.instance.next();
 
-                // open panel again + audio
+                // open panel again  
                 handAnimationButtonObject.SetActive(true);
                 roadButton.GetComponent<Button>().interactable = false;
                 hand.SetActive(false);
@@ -200,5 +206,13 @@ public class typingScript : MonoBehaviour
     {
         BridgeBuilderGUI.Instance.changeBeamState(index);
     }
-
+    public void SkipTutorial()
+    {
+        SceneManager.LoadScene("MainMenu");
+    }
+    public void skipCanvas()
+    {
+        skipcanvas.SetActive(true);
+    }
+    public GameObject skipcanvas;
 }
