@@ -34,7 +34,7 @@ public class HomeManager : MonoBehaviour
         //PlayerPrefs.SetInt("CatLock_" + (HomeManager._currentCategory + 2), 0);
         //PlayerPrefs.SetInt("CatLock_" + (HomeManager._currentCategory + 3), 0);
         //PlayerPrefs.SetInt("CatLock_" + (HomeManager._currentCategory + 4), 0);
-//        Implementation.Instance.ShawBanner();
+        Implementation.Instance.ShawBanner();
 
         Time.timeScale = 1;
         AudioManager.instance.musicSource.Play();
@@ -74,10 +74,10 @@ public class HomeManager : MonoBehaviour
                 } else {
                         ModeSelectionPanel.SetActive (true);
                         PlayerPrefs.SetInt ("Tutorial", 10);
-                        ADisLoading.SetActive (true);
+                        
                        // Firebase.Analytics.FirebaseAnalytics.LogEvent ("click_on_start");
                 }
-                //Implementation.Instance.ShowInterstitial();
+                Implementation.Instance.ShowInterstitial();
                 //AdsManager.instance.ShowinterAd();
                 AudioManager.instance.buttonAudio.Play();
        
@@ -94,7 +94,7 @@ public class HomeManager : MonoBehaviour
     public void PanelOpenAfterAd()
     {
         
-        ADisLoading.SetActive(false);
+        
        // Yodo1MasExample.Instance.showInterstitial();
     }
 
@@ -249,16 +249,30 @@ public class HomeManager : MonoBehaviour
 
     public void MoreApps()
     {
+        Implementation.Instance.ShowInterstitial();
         Application.OpenURL("https://play.google.com/store/apps/developer?id=Darwin+Games");
     }
    public void PrivacyPolicy()
     {
+        Implementation.Instance.ShowInterstitial();
+
         Application.OpenURL("https://darwingames1.blogspot.com/2023/06/privacy-policy.html");
 
     }
 
     public void RateUs()
     {
+        Implementation.Instance.ShowInterstitial();
+
         Application.OpenURL("https://play.google.com/store/apps/details?id=com.darwingames.bridgebuilder.stunts.car.games");
     }
+
+    public void ModeSelectRewarded()
+    {
+        PlayerPrefs.SetInt("Rewarded", 0);
+        Implementation.Instance.ShowRewardedVideo();
+        //PlayerPrefs.SetString("Mode", modeName);
+    }
+
+
 }

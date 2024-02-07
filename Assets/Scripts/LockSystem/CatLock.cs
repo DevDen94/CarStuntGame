@@ -14,6 +14,14 @@ public class CatLock : MonoBehaviour
     [SerializeField] private GameObject SelectedBTN;
 
 
+    public static CatLock Instance;
+
+
+    private void Awake()
+    {
+        Instance = this;
+    }
+
     public int AdsCounter
     {
         get

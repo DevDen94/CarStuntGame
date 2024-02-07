@@ -51,15 +51,13 @@ public class Implementation : MonoBehaviour
     bool show;
     public void ShowInterstitial()
     {
-        if (show)
-        {
-            Advertisements.Instance.ShowInterstitial();
-            show = false;
-        }
-        else
-        {
-            show = true;
-        }
+       
+            if (Advertisements.Instance.IsInterstitialAvailable())
+            {
+                Advertisements.Instance.ShowInterstitial();
+                show = false;
+            }
+       
             
     }
 
@@ -82,7 +80,17 @@ public class Implementation : MonoBehaviour
 
     private void CompleteMethod(bool completed)
     {
-        Debug.Log("Complete");
-        
+        if (PlayerPrefs.GetInt("Rewarded") == 0)
+        {
+            Debug.Log("Rewrded Play");
+            CatLock.Instance.setAdsCounter();
+        }
+        else if (PlayerPrefs.GetInt("Rewarded") == 1)
+        {
+            BridgeBuilderGUI.Instance.showHintBtn();
+        }else if (PlayerPrefs.GetInt("Rewarded") == 2)
+        {
+            BridgeBuilderGUI.Instance.skipLevel();
+        }
     }
 }

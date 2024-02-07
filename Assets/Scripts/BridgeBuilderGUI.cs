@@ -436,6 +436,7 @@ public class BridgeBuilderGUI : MonoBehaviour {
         }
       
         LevelCompletePanel.SetActive(true);
+		
       
     }
    
@@ -459,14 +460,28 @@ public class BridgeBuilderGUI : MonoBehaviour {
 			
 
 		}
-		Implementation.Instance.ShowInterstitial();
+
+
+        if (adNumber == 0)
+        {
+			Implementation.Instance.ShowInterstitial();
+			adNumber++;
+		}else if(adNumber == 2)
+        {
+			adNumber = 0;
+        }
+
+
+
 
 
 	}
+	int adNumber=0;
+
 	public void PanelOpenAfterAd()
 	{
 
-		ADisLoading.SetActive(false);
+		
 		
 		
 	}
@@ -592,18 +607,20 @@ public GameObject carStopButtom;
 
 	public void HintFromVideo()
     {
-		showHintBtn();
+		
+		PlayerPrefs.SetInt("Rewarded", 1);
 		//PlayerPrefs.SetInt("Ad", 0);
 		//Yodo1MasExample.Instance.showRewarded();
+		Implementation.Instance.ShowRewardedVideo();
 
 	}
 
 	public void skipLevelFromVideo()
     {
-		skipLevel();
-	//	PlayerPrefs.SetInt("Ad", 1);
+		PlayerPrefs.SetInt("Rewarded", 2);
+		//	PlayerPrefs.SetInt("Ad", 1);
 		//Yodo1MasExample.Instance.showRewarded();
-
+		Implementation.Instance.ShowRewardedVideo();
 	}
 
 
