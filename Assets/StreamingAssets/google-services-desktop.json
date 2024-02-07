@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "865884395644",
+    "project_id": "bridge-builder-car-stunt-game",
+    "storage_bucket": "bridge-builder-car-stunt-game.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:865884395644:android:6ad5c496666095582e91f9",
+        "android_client_info": {
+          "package_name": "com.darwingames.bridgebuilder.stunts.car.games"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAVcU63grM9JpWyGpQiVk69wANAZIEa3rU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

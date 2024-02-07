@@ -39,7 +39,7 @@ public class CatLock : MonoBehaviour
         get
         {
          //   Debug.LogError(AdsCounter + "adsCounter");
-            bool status = (PlayerPrefs.GetInt("CatLock_" + transform.GetSiblingIndex(), 0) == 1) || AdsCounter <= 0; 
+            bool status = (PlayerPrefs.GetInt("CatLock_" + transform.GetSiblingIndex(), 0) == 1) || AdsCounter <= 0;  //
             return status;
         }
         set
@@ -61,15 +61,15 @@ public class CatLock : MonoBehaviour
             AdsCounter--;
         }
         // IsLocked = false;
-        setAdValues();
+       // setAdValues();
     }
 
-
+   
     public void setAdValues()
     {
         if (transform.GetSiblingIndex() == 0)
             IsUnlock = true;
-        Debug.LogError(IsUnlock);//test
+        //Debug.LogError(IsUnlock);//test
         m_LockImage.SetActive(!IsUnlock);
         Rad_button.SetActive(!IsUnlock);
 
@@ -82,3 +82,4 @@ public class CatLock : MonoBehaviour
         }
     }
 }
+    /////    Debug.LogError("unlocked" + PlayerPrefs.GetInt("CatLock_" + transform.GetSiblingIndex(), 0) ,gameObject);

@@ -6,24 +6,25 @@ public class LevelCompleteTriggerScript : MonoBehaviour
 {
 	public GameObject m_Particle;
 	BridgeBuilderGUI gui;
-	void Start ()
+	void Start()
 	{
-		gui =FindObjectOfType<BridgeBuilderGUI> ();
+		gui = FindObjectOfType<BridgeBuilderGUI>();
 	}
-	void OnTriggerEnter (Collider other)
+	void OnTriggerEnter(Collider other)
 	{
-		if (other.tag == "TrainHead") {
-		
-			Invoke ("CompletePanel", 1);
-			other.transform.parent.GetComponent<TrainController> ().trainWorking = false;
-			other.transform.parent.GetComponent<TrainController> ().trainDirection = Vector3.zero;
-			gui.StopTrain1 ();
+		if (other.tag == "TrainHead")
+		{
+
+			Invoke("CompletePanel", 1);
+			other.transform.parent.GetComponent<TrainController>().trainWorking = false;
+			other.transform.parent.GetComponent<TrainController>().trainDirection = Vector3.zero;
+			gui.StopTrain1();
 			m_Particle.SetActive(true);
 		}
 	}
 
-	void CompletePanel ()
+	void CompletePanel()
 	{
-		gui.LevelComplete ();
-	}
+		gui.LevelComplete();//
+    }
 }

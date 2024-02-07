@@ -34,7 +34,6 @@ public class HomeManager : MonoBehaviour
         //PlayerPrefs.SetInt("CatLock_" + (HomeManager._currentCategory + 2), 0);
         //PlayerPrefs.SetInt("CatLock_" + (HomeManager._currentCategory + 3), 0);
         //PlayerPrefs.SetInt("CatLock_" + (HomeManager._currentCategory + 4), 0);
-        Implementation.Instance.ShawBanner();
 
         Time.timeScale = 1;
         AudioManager.instance.musicSource.Play();
@@ -59,6 +58,7 @@ public class HomeManager : MonoBehaviour
 
 
         //Yodo1MasExample.Instance.showAppOpen();
+        Implementation.Instance.ShawBanner();
 
     }
 
@@ -180,7 +180,8 @@ public class HomeManager : MonoBehaviour
             _currentCategory = EventSystem.current.currentSelectedGameObject.transform.parent.GetSiblingIndex();
             LevelSelectionScreen.SetActive(true);
            
-            //Firebase.Analytics.FirebaseAnalytics.LogEvent("click_on_mode", "mode_name", category);
+            //Firebase.Analytics.FirebaseAnalytics.LogEvent("click_on_mode", "mode_name", category); pehle unlock kaha sed hota tha 10 levcel k baad? 
+
         
             
         
@@ -267,7 +268,19 @@ public class HomeManager : MonoBehaviour
         Application.OpenURL("https://play.google.com/store/apps/details?id=com.darwingames.bridgebuilder.stunts.car.games");
     }
 
-    public void ModeSelectRewarded()
+    public void ModeSelectRewardedforest()
+    {
+        PlayerPrefs.SetInt("Rewarded", 0);
+        Implementation.Instance.ShowRewardedVideo();
+        //PlayerPrefs.SetString("Mode", modeName);
+    }
+    public void ModeSelectRewardedlava()
+    {
+        PlayerPrefs.SetInt("Rewarded", 0);
+        Implementation.Instance.ShowRewardedVideo();
+        //PlayerPrefs.SetString("Mode", modeName);
+    }
+    public void ModeSelectRewardedsnow()
     {
         PlayerPrefs.SetInt("Rewarded", 0);
         Implementation.Instance.ShowRewardedVideo();

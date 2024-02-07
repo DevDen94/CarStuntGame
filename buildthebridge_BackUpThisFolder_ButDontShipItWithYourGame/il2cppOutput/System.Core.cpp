@@ -340,6 +340,11 @@ struct SymmetricTransform_tDD1D096506ADC83C468EE253DE76D1EB315DAC43  : public Ru
 	RandomNumberGenerator_t4E862666A2F7D55324960670C7A1B4C2D40222F3* ____rng_11;
 };
 
+// System.Threading.Tasks.TaskExtensions
+struct TaskExtensions_t42E5DF414FEA6C24A159498E2923737D73E950EB  : public RuntimeObject
+{
+};
+
 // System.ValueType
 struct ValueType_t6D9B272BD21782F0A9A14F2E41F85A50E97A986F  : public RuntimeObject
 {
@@ -746,6 +751,10 @@ struct String_t_StaticFields
 // Mono.Security.Cryptography.SymmetricTransform
 
 // Mono.Security.Cryptography.SymmetricTransform
+
+// System.Threading.Tasks.TaskExtensions
+
+// System.Threading.Tasks.TaskExtensions
 
 // System.ValueType
 
@@ -6590,6 +6599,14 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR RuntimeObject* U3CRangeIteratorU3Ed__115_Syst
 		return L_0;
 	}
 }
+#ifdef __clang__
+#pragma clang diagnostic pop
+#endif
+#ifdef __clang__
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Winvalid-offsetof"
+#pragma clang diagnostic ignored "-Wunused-variable"
+#endif
 #ifdef __clang__
 #pragma clang diagnostic pop
 #endif

@@ -8,7 +8,7 @@ public class LevelCompleteTriggerScript_tutorial : MonoBehaviour
 	BridgeBuilderGUI gui;
 	void Start ()
 	{
-		gui =FindObjectOfType<BridgeBuilderGUI> ();
+		gui =FindObjectOfType<BridgeBuilderGUI> ();//level complete deekhana
 	}
 	void OnTriggerEnter (Collider other)
 	{

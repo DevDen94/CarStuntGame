@@ -22,7 +22,7 @@ public class LevelLockManager : MonoBehaviour
     {
         for (int i = 0; i < TotalLevels; i++)
         {
-            transform.GetChild(i).GetChild(1).gameObject.SetActive(i >= IsLocked);
+            transform.GetChild(i).GetChild(1).gameObject.SetActive(i >= IsLocked); // ye scrip[t use hoti? han ye her level py hai
         }
     }
 }
