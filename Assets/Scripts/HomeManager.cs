@@ -4,7 +4,6 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
-
 public class HomeManager : MonoBehaviour
 {
     public GameObject SettingPanel, ExitPanel;
@@ -270,20 +269,28 @@ public class HomeManager : MonoBehaviour
 
     public void ModeSelectRewardedforest()
     {
+        EventSystem.current.currentSelectedGameObject.transform.parent.TryGetComponent(out CatLock unlock); 
         PlayerPrefs.SetInt("Rewarded", 0);
-        Implementation.Instance.ShowRewardedVideo();
+        Implementation.Instance.ShowRewardedVideo(unlock);
+
         //PlayerPrefs.SetString("Mode", modeName);
     }
     public void ModeSelectRewardedlava()
     {
+        EventSystem.current.currentSelectedGameObject.transform.parent.TryGetComponent(out CatLock unlock);
+
         PlayerPrefs.SetInt("Rewarded", 0);
-        Implementation.Instance.ShowRewardedVideo();
+        Implementation.Instance.ShowRewardedVideo(unlock);
+
         //PlayerPrefs.SetString("Mode", modeName);
     }
     public void ModeSelectRewardedsnow()
     {
+        EventSystem.current.currentSelectedGameObject.transform.parent.TryGetComponent(out CatLock unlock);
+
         PlayerPrefs.SetInt("Rewarded", 0);
-        Implementation.Instance.ShowRewardedVideo();
+        Implementation.Instance.ShowRewardedVideo(unlock);
+
         //PlayerPrefs.SetString("Mode", modeName);
     }
 

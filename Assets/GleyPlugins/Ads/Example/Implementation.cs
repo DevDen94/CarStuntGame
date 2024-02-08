@@ -60,12 +60,16 @@ public class Implementation : MonoBehaviour
        
             
     }
-
+    CatLock _unlock;
     /// <summary>
     /// Show rewarded video, assigned from inspector
     /// </summary>
-    public void ShowRewardedVideo()
+    public void ShowRewardedVideo(CatLock unlock = null)
     {
+        if (unlock != null)
+        {
+            _unlock = unlock;
+        }
         Advertisements.Instance.ShowRewardedVideo(CompleteMethod);
     }
 
@@ -83,7 +87,11 @@ public class Implementation : MonoBehaviour
         if (PlayerPrefs.GetInt("Rewarded") == 0)
         {
             Debug.Log("Rewrded Play");
-            CatLock.Instance.setAdsCounter();
+            //  CatLock.Instance.setAdsCounter();
+            if (_unlock != null)
+            {
+                _unlock.setAdsCounter();
+            }
         }
         else if (PlayerPrefs.GetInt("Rewarded") == 1)
         {
