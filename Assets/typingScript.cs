@@ -209,6 +209,7 @@ public class typingScript : MonoBehaviour
     public void SkipTutorial()
     {
         SceneManager.LoadScene("MainMenu");
+        Gley.MobileAds.Internal.MobileAdsExample.Instance.ShowInterstitial();
     }
     public void skipCanvas()
     {

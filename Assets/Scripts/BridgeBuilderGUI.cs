@@ -30,6 +30,8 @@ public class BridgeBuilderGUI : MonoBehaviour {
 		Instance = this;
     }
 
+	
+
     public static bool ClickedOnGUI ()
 	{
 		Vector3 mousePos = Input.mousePosition;
@@ -146,7 +148,7 @@ public class BridgeBuilderGUI : MonoBehaviour {
 
 		spriteMover1 = GameObject.FindWithTag("f1");
 
-
+		
 
 	}
 	public bool hintBtnActiveStatus = false;
@@ -426,8 +428,8 @@ public class BridgeBuilderGUI : MonoBehaviour {
 
             PlayerPrefs.SetInt("CatLock_" + (HomeManager._currentCategory + 1), 1); // 
 		}
-		Implementation.Instance.ShowInterstitial();
 		
+			
 	}
     public void LevelComplete1()
     {
@@ -438,9 +440,9 @@ public class BridgeBuilderGUI : MonoBehaviour {
         }
       
         LevelCompletePanel.SetActive(true);
-		
-      
-    }
+		Gley.MobileAds.Internal.MobileAdsExample.Instance.ShowInterstitial();
+
+	}
    
     public GameObject levelFailedPanel;
 	
@@ -459,15 +461,17 @@ public class BridgeBuilderGUI : MonoBehaviour {
 			AudioManager.instance.failAudio.Play();
 			gamePaused = true;
 			levelFailedPanel.SetActive(true);
-            Firebase.Analytics.FirebaseAnalytics.LogEvent("level_fail", HomeManager._category, currentLevelIndex);
+			Gley.MobileAds.Internal.MobileAdsExample.Instance.ShowInterstitial();
+			Firebase.Analytics.FirebaseAnalytics.LogEvent("level_fail", HomeManager._category, currentLevelIndex);
 
 
         }
+		
 
 
-        if (adNumber == 0)
+		if (adNumber == 0)
         {
-			Implementation.Instance.ShowInterstitial();
+			
 			adNumber++;
 		}else if(adNumber == 2)
         {
@@ -614,7 +618,7 @@ public GameObject carStopButtom;
 		PlayerPrefs.SetInt("Rewarded", 1);
 		//PlayerPrefs.SetInt("Ad", 0);
 		//Yodo1MasExample.Instance.showRewarded();
-		Implementation.Instance.ShowRewardedVideo();
+		Gley.MobileAds.Internal.MobileAdsExample.Instance.ShowRewardedVideo();
 
 	}
 
@@ -626,7 +630,7 @@ public GameObject carStopButtom;
 		PlayerPrefs.SetInt("Rewarded", 2);
 		//	PlayerPrefs.SetInt("Ad", 1);
 		//Yodo1MasExample.Instance.showRewarded();
-		Implementation.Instance.ShowRewardedVideo();
+		Gley.MobileAds.Internal.MobileAdsExample.Instance.ShowRewardedVideo();
 	}
 
 

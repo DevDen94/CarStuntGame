@@ -17,8 +17,13 @@ public class InternetChecker : MonoBehaviour
     {
         if (Application.internetReachability == NetworkReachability.NotReachable)
         {
-            Time.timeScale = 0f;
+            
             panel.SetActive(true);
+        }
+        else if(Application.internetReachability != NetworkReachability.NotReachable)
+        {
+            panel.SetActive(false);
+            
         }
     }
 

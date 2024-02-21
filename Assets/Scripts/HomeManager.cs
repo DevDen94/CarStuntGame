@@ -57,7 +57,14 @@ public class HomeManager : MonoBehaviour
 
 
         //Yodo1MasExample.Instance.showAppOpen();
-        Implementation.Instance.ShawBanner();
+        // Implementation.Instance.ShawBanner();
+        Gley.MobileAds.Internal.MobileAdsExample.Instance.ShowBanner();
+
+        if (!Gley.MobileAds.Internal.MobileAdsExample.Instance.isAppOpen)
+        {
+            Gley.MobileAds.Internal.MobileAdsExample.Instance.showAppopen();
+            Gley.MobileAds.Internal.MobileAdsExample.Instance.isAppOpen = true;
+        }
 
     }
 
@@ -67,18 +74,19 @@ public class HomeManager : MonoBehaviour
                 if (PlayerPrefs.GetInt ("TutorialShown", 1 - 1) == 0) {
                         PlayerPrefs.SetInt ("TutorialShown", 1);
                         //        tutorialButton.SetActive (false);
-                       // Firebase.Analytics.FirebaseAnalytics.LogEvent ("Tutorial: click_on_start");
+                        Firebase.Analytics.FirebaseAnalytics.LogEvent ("Tutorial: click_on_start");
                         loadTutorialScene ();
                         PlayerPrefs.SetInt ("Tutorial", 10);
                 } else {
                         ModeSelectionPanel.SetActive (true);
                         PlayerPrefs.SetInt ("Tutorial", 10);
                         
-                       // Firebase.Analytics.FirebaseAnalytics.LogEvent ("click_on_start");
+                      Firebase.Analytics.FirebaseAnalytics.LogEvent ("click_on_start");
                 }
-                Implementation.Instance.ShowInterstitial();
-                //AdsManager.instance.ShowinterAd();
-                AudioManager.instance.buttonAudio.Play();
+        //  Implementation.Instance.ShowInterstitial();
+        Gley.MobileAds.Internal.MobileAdsExample.Instance.ShowInterstitial();
+        //AdsManager.instance.ShowinterAd();
+        AudioManager.instance.buttonAudio.Play();
        
 
 
@@ -104,7 +112,9 @@ public class HomeManager : MonoBehaviour
         //AdsManager.instance.ShowinterAd();
         AudioManager.instance.Panelopen.Play();
         ExitPanel.SetActive(true);
-       // Firebase.Analytics.FirebaseAnalytics.LogEvent("click_on_exit");
+        Gley.MobileAds.Internal.MobileAdsExample.Instance.ShowInterstitial();
+
+         Firebase.Analytics.FirebaseAnalytics.LogEvent("click_on_exit");
     }
     public void YesExit()
     {
@@ -178,16 +188,17 @@ public class HomeManager : MonoBehaviour
             _category = category;
             _currentCategory = EventSystem.current.currentSelectedGameObject.transform.parent.GetSiblingIndex();
             LevelSelectionScreen.SetActive(true);
-           
-            //Firebase.Analytics.FirebaseAnalytics.LogEvent("click_on_mode", "mode_name", category); pehle unlock kaha sed hota tha 10 levcel k baad? 
+            Gley.MobileAds.Internal.MobileAdsExample.Instance.ShowInterstitial();
 
-        
-            
-        
+        Firebase.Analytics.FirebaseAnalytics.LogEvent("click_on_mode", "mode_name", category); 
+
+
+
+
 
     }
 
-        public void selectLevel ()
+    public void selectLevel ()
 	{
         
         AudioManager.instance.buttonAudio.Play();
@@ -196,7 +207,8 @@ public class HomeManager : MonoBehaviour
         int index = EventSystem.current.currentSelectedGameObject.transform.GetSiblingIndex ();
                 selectedLevel = "level_" + (index + 1);
                 SceneManager.LoadScene (_category);
-       // Firebase.Analytics.FirebaseAnalytics.LogEvent("click_on_level_select","levelselect", selectedLevel);
+        Gley.MobileAds.Internal.MobileAdsExample.Instance.ShowInterstitial();
+        Firebase.Analytics.FirebaseAnalytics.LogEvent("click_on_level_select","levelselect", selectedLevel);
     }
 
     public void setSound()
@@ -249,12 +261,13 @@ public class HomeManager : MonoBehaviour
 
     public void MoreApps()
     {
-        Implementation.Instance.ShowInterstitial();
+        Gley.MobileAds.Internal.MobileAdsExample.Instance.ShowInterstitial();
+
         Application.OpenURL("https://play.google.com/store/apps/developer?id=Darwin+Games");
     }
    public void PrivacyPolicy()
     {
-        Implementation.Instance.ShowInterstitial();
+        Gley.MobileAds.Internal.MobileAdsExample.Instance.ShowInterstitial();
 
         Application.OpenURL("https://darwingames1.blogspot.com/2023/06/privacy-policy.html");
 
@@ -262,7 +275,7 @@ public class HomeManager : MonoBehaviour
 
     public void RateUs()
     {
-        Implementation.Instance.ShowInterstitial();
+        Gley.MobileAds.Internal.MobileAdsExample.Instance.ShowInterstitial();
 
         Application.OpenURL("https://play.google.com/store/apps/details?id=com.darwingames.bridgebuilder.stunts.car.games");
     }
@@ -271,7 +284,7 @@ public class HomeManager : MonoBehaviour
     {
         EventSystem.current.currentSelectedGameObject.transform.parent.TryGetComponent(out CatLock unlock); 
         PlayerPrefs.SetInt("Rewarded", 0);
-        Implementation.Instance.ShowRewardedVideo(unlock);
+        Gley.MobileAds.Internal.MobileAdsExample.Instance.ShowRewardedVideo(unlock);
 
         //PlayerPrefs.SetString("Mode", modeName);
     }
@@ -280,7 +293,7 @@ public class HomeManager : MonoBehaviour
         EventSystem.current.currentSelectedGameObject.transform.parent.TryGetComponent(out CatLock unlock);
 
         PlayerPrefs.SetInt("Rewarded", 0);
-        Implementation.Instance.ShowRewardedVideo(unlock);
+        Gley.MobileAds.Internal.MobileAdsExample.Instance.ShowRewardedVideo(unlock);
 
         //PlayerPrefs.SetString("Mode", modeName);
     }
@@ -289,7 +302,7 @@ public class HomeManager : MonoBehaviour
         EventSystem.current.currentSelectedGameObject.transform.parent.TryGetComponent(out CatLock unlock);
 
         PlayerPrefs.SetInt("Rewarded", 0);
-        Implementation.Instance.ShowRewardedVideo(unlock);
+        Gley.MobileAds.Internal.MobileAdsExample.Instance.ShowRewardedVideo(unlock);
 
         //PlayerPrefs.SetString("Mode", modeName);
     }
