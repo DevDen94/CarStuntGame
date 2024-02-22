@@ -66,16 +66,39 @@ namespace Gley.MobileAds.Internal
                 _unlock = unlock;
             }
 
-            if(API.IsRewardedVideoAvailable())
+            if (API.IsRewardedVideoAvailable()) { 
                  Gley.MobileAds.API.ShowRewardedVideo(CompleteMethod);
-            else if (API.IsRewardedInterstitialAvailable())
+            }
+            else if (API.IsRewardedInterstitialAvailable()) { 
                 API.ShowRewardedInterstitial(CompleteMethod);
+            }
+            else if (API.IsInterstitialAvailable())
+            {
+                API.ShowInterstitial();
+                if (PlayerPrefs.GetInt("Rewarded") == 0)
+                {
+                    Debug.Log("Rewrded Play");
+                    //  CatLock.Instance.setAdsCounter();
+                    if (_unlock != null)
+                    {
+                        _unlock.setAdsCounter();
+                    }
+                }
+                else if (PlayerPrefs.GetInt("Rewarded") == 1)
+                {
+                    BridgeBuilderGUI.Instance.showHintBtn();
+                }
+                else if (PlayerPrefs.GetInt("Rewarded") == 2)
+                {
+                    BridgeBuilderGUI.Instance.skipLevel();
+                }
+            }
         }
         public void showAppopen()
         {
             API.ShowAppOpen();
         }
-
+        
        
         
         private void CompleteMethod(bool completed)
@@ -101,5 +124,7 @@ namespace Gley.MobileAds.Internal
 
 
         }
+
+        
     }
 }

@@ -13,6 +13,10 @@ public class HomeManager : MonoBehaviour
 
     public static HomeManager instance;
 
+
+    public Button[] RewardedButtons;
+    public GameObject[] RewardNoText;
+
     private void Awake()
     {
         instance = this;
@@ -65,7 +69,7 @@ public class HomeManager : MonoBehaviour
             Gley.MobileAds.Internal.MobileAdsExample.Instance.showAppopen();
             Gley.MobileAds.Internal.MobileAdsExample.Instance.isAppOpen = true;
         }
-
+        StartCoroutine(waitForCheck());
     }
 
     public void onPlay()
@@ -307,5 +311,22 @@ public class HomeManager : MonoBehaviour
         //PlayerPrefs.SetString("Mode", modeName);
     }
 
+    IEnumerator waitForCheck()
+    {
+        yield return new WaitForSeconds(0.5f);
+        for(int i = 0; i < RewardedButtons.Length; i++)
+        {
+            if(Gley.MobileAds.API.IsRewardedVideoAvailable()|| Gley.MobileAds.API.IsRewardedInterstitialAvailable() || Gley.MobileAds.API.IsInterstitialAvailable())
+            {
+                RewardedButtons[i].interactable = true;
+                RewardNoText[i].SetActive(false);
+            }
+            else
+            {
+                RewardedButtons[i].interactable = false;
+                RewardNoText[i].SetActive(true);
 
+            }
+        }
+    }
 }
