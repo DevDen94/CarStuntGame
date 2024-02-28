@@ -1,0 +1,80 @@
+﻿using UnityEngine;
+using System.Collections;
+using SimpleJSON;
+
+public class TitleScreenGUI : MonoBehaviour {
+
+	//public Texture logoIcon;
+	
+	private static Rect windowRect = new Rect(10, 10, Screen.width - 20, Screen.height - 20);
+	private static Rect levelsRect = new Rect(30, 120, Screen.width - 60, 30); 
+	
+	public static Level[] levels;
+	
+	public static Level currentLevel = null;
+	
+	public static bool levelsLoaded = false;
+	
+	void Start() {
+		if (!levelsLoaded) {
+			levels = new Level[15];
+			levels[0] = LoadLevel ("Level1");
+			levels[1] = LoadLevel ("Level2");
+			levels[2] = LoadLevel ("Level3");
+			levels[3] = LoadLevel ("Level4");
+			levels[4] = LoadLevel ("Level5");
+			levels[5] = LoadLevel ("Level6");
+			levels[6] = LoadLevel ("Level7");
+			levels[7] = LoadLevel ("Level8");
+			levels[8] = LoadLevel ("Level9");
+			levels[9] = LoadLevel ("Level10");
+			levels[10] = LoadLevel ("Level11");
+			levels[11] = LoadLevel ("Level12");
+			levels[12] = LoadLevel ("Level13");
+			levels[13] = LoadLevel ("Level14");
+			levels[14] = LoadLevel ("Level15");
+			
+			levelsLoaded = true;
+		}
+		
+	}
+	
+	private Level LoadLevel(string fileName) {
+
+		TextAsset tx = Resources.Load (fileName) as TextAsset;
+		var N = JSON.Parse(tx.text);
+		
+		Level l = new Level();
+		l.name = N["name"];
+		l.version = N["version"];
+		//l.roadLevel = N["roadLevel"].AsInt;
+		l.anchorPointLocations = new Tuple<int, int>[N["anchorPointLocations"].Count];
+		for (int i = 0; i != l.anchorPointLocations.Length; i++) {
+			var APL = N["anchorPointLocations"][i];
+			l.anchorPointLocations[i] = Tuple<int, int>.Of (APL[0].AsInt, APL[1].AsInt);
+		}
+	//	Debug.LogError (l.anchorPointLocations.Length);
+		l.budget = N["budget"].AsInt;
+		
+		l.heights = new float[N["heights"].Count];
+		for (int i = 0; i != l.heights.Length; i++) {
+			l.heights[i] = N["heights"][i].AsFloat;
+		}
+		return l;
+	}
+	
+	void OnGUI() {
+	//	GUI.Box(windowRect, logoIcon);
+		
+	//	GUI.Label (new Rect(30, 80, Screen.width-60, 20), "Programming by: Ciro Duran. Textures by: Adolfo Roig, Csava Felgevi (chabull). May 2014.");
+		
+		for (int i = 0; i != levels.Length; i++) {
+			Rect r = new Rect(levelsRect);
+			r.y += i*(r.height+10);
+			if (GUI.Button(r, levels[i].name)) {
+				currentLevel = levels[i];
+				Application.LoadLevel ("BridgeBuilder");
+			}
+		}
+	}
+}
