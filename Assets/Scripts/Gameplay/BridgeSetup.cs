@@ -124,6 +124,9 @@ public class BridgeSetup : MonoBehaviour {
 	public BridgeBuilderGUI gui;
 	public virtual void Start ()
 	{
+
+		GameObject CurrentCar = Instantiate(Resources.Load<GameObject>("CarsPrefabs/" + PlayerPrefs.GetString("CurrentCar")),trainController.transform.position ,trainController.transform.rotation,transform);
+		trainController = CurrentCar.GetComponent<TrainController>();
 		gui = FindObjectOfType<BridgeBuilderGUI> ();
 		GenerateGrid ();
 		allCreatedBeams = new List<BridgeBeam> ();

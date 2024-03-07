@@ -7,16 +7,16 @@ using UnityEngine.UI;
 public class HomeManager : MonoBehaviour
 {
     public GameObject SettingPanel, ExitPanel;
-    public GameObject mainScenePanel, ModeSelectionPanel, StuntModePanel, FullBridgePanel,ADisLoading,ShowAd;
+    public GameObject mainScenePanel, ModeSelectionPanel, StuntModePanel, FullBridgePanel, ADisLoading, ShowAd;
 
-        public GameObject tutorialButton;
+    public GameObject tutorialButton;
 
     public static HomeManager instance;
 
 
     public Button[] RewardedButtons;
     public GameObject[] RewardNoText;
-
+    public GameObject CarSelectionPanel, DifficulyPanel;
     private void Awake()
     {
         instance = this;
@@ -48,16 +48,18 @@ public class HomeManager : MonoBehaviour
 
 
 
-                if (PlayerPrefs.GetInt("TutorialShown", 1 - 1)== 0) 
-		{
-                       // PlayerPrefs.SetInt("TutorialShown", 1);
-                        tutorialButton.SetActive(false);
+        if (PlayerPrefs.GetInt("TutorialShown", 1 - 1) == 0)
+        {
+            // PlayerPrefs.SetInt("TutorialShown", 1);
+            tutorialButton.SetActive(false);
 
-                       // loadTutorialScene ();
-                } else {
-                        tutorialButton.SetActive (true);
-                     //    typingScript.instance.skipCanvas();
-                }
+            // loadTutorialScene ();
+        }
+        else
+        {
+            tutorialButton.SetActive(true);
+            //    typingScript.instance.skipCanvas();
+        }
 
 
         //Yodo1MasExample.Instance.showAppOpen();
@@ -75,27 +77,44 @@ public class HomeManager : MonoBehaviour
     public void onPlay()
     {
 
-                if (PlayerPrefs.GetInt ("TutorialShown", 1 - 1) == 0) {
-                        PlayerPrefs.SetInt ("TutorialShown", 1);
-                        //        tutorialButton.SetActive (false);
-                        Firebase.Analytics.FirebaseAnalytics.LogEvent ("Tutorial: click_on_start");
-                        loadTutorialScene ();
-                        PlayerPrefs.SetInt ("Tutorial", 10);
-                } else {
-                        ModeSelectionPanel.SetActive (true);
-                        PlayerPrefs.SetInt ("Tutorial", 10);
-                        
-                      Firebase.Analytics.FirebaseAnalytics.LogEvent ("click_on_start");
-                }
+        if (PlayerPrefs.GetInt("TutorialShown", 1 - 1) == 0)
+        {
+            PlayerPrefs.SetInt("TutorialShown", 1);
+            //        tutorialButton.SetActive (false);
+            Firebase.Analytics.FirebaseAnalytics.LogEvent("Tutorial: click_on_start");
+            loadTutorialScene();
+            PlayerPrefs.SetInt("Tutorial", 10);
+        }
+        else
+        {
+            CarSelectionPanel.SetActive(true);
+            PlayerPrefs.SetInt("Tutorial", 10);
+
+            Firebase.Analytics.FirebaseAnalytics.LogEvent("click_on_start");
+        }
         //  Implementation.Instance.ShowInterstitial();
         Gley.MobileAds.Internal.MobileAdsExample.Instance.ShowInterstitial();
         //AdsManager.instance.ShowinterAd();
         AudioManager.instance.buttonAudio.Play();
-       
+
 
 
 
     }
+    public void  BackBtnCarSelectionPAnel()
+    {
+        mainScenePanel.SetActive(true);
+    }
+
+    public void DifficultyModeOpen()
+    {
+        ModeSelectionPanel.SetActive(true);
+    }
+    public void DifficultyModeOpenBAck()
+    {
+        CarSelectionPanel.SetActive(true);
+    }
+
 
     public void loadTutorialScene()
     {
@@ -104,9 +123,9 @@ public class HomeManager : MonoBehaviour
 
     public void PanelOpenAfterAd()
     {
-        
-        
-       // Yodo1MasExample.Instance.showInterstitial();
+
+
+        // Yodo1MasExample.Instance.showInterstitial();
     }
 
 
@@ -118,7 +137,7 @@ public class HomeManager : MonoBehaviour
         ExitPanel.SetActive(true);
         Gley.MobileAds.Internal.MobileAdsExample.Instance.ShowInterstitial();
 
-         Firebase.Analytics.FirebaseAnalytics.LogEvent("click_on_exit");
+        Firebase.Analytics.FirebaseAnalytics.LogEvent("click_on_exit");
     }
     public void YesExit()
     {
@@ -172,29 +191,25 @@ public class HomeManager : MonoBehaviour
         }
     }
 
-    
-  
+
+
 
     public static string _category;
     public static int _currentCategory = 0;
-        public static string selectedLevel = "level";
-        public GameObject LevelSelectionScreen;
+    public static string selectedLevel = "level";
+    public GameObject LevelSelectionScreen;
     public void ModeSelect(string category)
-	{
+    {
 
+        AudioManager.instance.buttonAudio.Play();
+        if (!EventSystem.current.currentSelectedGameObject.transform.parent.GetComponent<CatLock>().IsUnlock)
+            return;
+        _category = category;
+        _currentCategory = EventSystem.current.currentSelectedGameObject.transform.parent.GetSiblingIndex();
+        LevelSelectionScreen.SetActive(true);
+        Gley.MobileAds.Internal.MobileAdsExample.Instance.ShowInterstitial();
 
-
-
-       
-            AudioManager.instance.buttonAudio.Play();
-            if (!EventSystem.current.currentSelectedGameObject.transform.parent.GetComponent<CatLock>().IsUnlock)
-                return;
-            _category = category;
-            _currentCategory = EventSystem.current.currentSelectedGameObject.transform.parent.GetSiblingIndex();
-            LevelSelectionScreen.SetActive(true);
-            Gley.MobileAds.Internal.MobileAdsExample.Instance.ShowInterstitial();
-
-        Firebase.Analytics.FirebaseAnalytics.LogEvent("click_on_mode", "mode_name", category); 
+        Firebase.Analytics.FirebaseAnalytics.LogEvent("click_on_mode", "mode_name", category);
 
 
 
@@ -202,39 +217,39 @@ public class HomeManager : MonoBehaviour
 
     }
 
-    public void selectLevel ()
-	{
-        
+    public void selectLevel()
+    {
+
         AudioManager.instance.buttonAudio.Play();
         if (EventSystem.current.currentSelectedGameObject.transform.GetChild(1).gameObject.activeInHierarchy)
             return;
-        int index = EventSystem.current.currentSelectedGameObject.transform.GetSiblingIndex ();
-                selectedLevel = "level_" + (index + 1);
-                SceneManager.LoadScene (_category);
+        int index = EventSystem.current.currentSelectedGameObject.transform.GetSiblingIndex();
+        selectedLevel = "level_" + (index + 1);
+        SceneManager.LoadScene(_category);
         Gley.MobileAds.Internal.MobileAdsExample.Instance.ShowInterstitial();
-        Firebase.Analytics.FirebaseAnalytics.LogEvent("click_on_level_select","levelselect", selectedLevel);
+        Firebase.Analytics.FirebaseAnalytics.LogEvent("click_on_level_select", "levelselect", selectedLevel);
     }
 
     public void setSound()
-	{
-                AudioManager.instance.setSound (soundImage);
-	}
+    {
+        AudioManager.instance.setSound(soundImage);
+    }
 
-        public void setMusic ()
-	{
+    public void setMusic()
+    {
 
-                AudioManager.instance.setMusic (musicImage);
-	}
+        AudioManager.instance.setMusic(musicImage);
+    }
 
-        public Image soundImage;
+    public Image soundImage;
 
-        public Image musicImage;
+    public Image musicImage;
 
 
-        public Transform categoryParent;
-        public int categoryIndex = 1 - 1;
+    public Transform categoryParent;
+    public int categoryIndex = 1 - 1;
 
-    
+
 
     [SerializeField] float[] scrollerPosition;
     public void categoryScroller(int value)
@@ -249,7 +264,7 @@ public class HomeManager : MonoBehaviour
         }
         else if (categoryIndex > 3)
             categoryIndex = 0;
-        categoryParent.localPosition = new Vector3(-875*categoryIndex, categoryParent.localPosition.y);
+        categoryParent.localPosition = new Vector3(-875 * categoryIndex, categoryParent.localPosition.y);
 
         //if (value == 1)
         //{
@@ -269,7 +284,7 @@ public class HomeManager : MonoBehaviour
 
         Application.OpenURL("https://play.google.com/store/apps/developer?id=Darwin+Games");
     }
-   public void PrivacyPolicy()
+    public void PrivacyPolicy()
     {
         Gley.MobileAds.Internal.MobileAdsExample.Instance.ShowInterstitial();
 
@@ -286,7 +301,7 @@ public class HomeManager : MonoBehaviour
 
     public void ModeSelectRewardedforest()
     {
-        EventSystem.current.currentSelectedGameObject.transform.parent.TryGetComponent(out CatLock unlock); 
+        EventSystem.current.currentSelectedGameObject.transform.parent.TryGetComponent(out CatLock unlock);
         PlayerPrefs.SetInt("Rewarded", 0);
         Gley.MobileAds.Internal.MobileAdsExample.Instance.ShowRewardedVideo(unlock);
 
@@ -314,9 +329,9 @@ public class HomeManager : MonoBehaviour
     IEnumerator waitForCheck()
     {
         yield return new WaitForSeconds(0.5f);
-        for(int i = 0; i < RewardedButtons.Length; i++)
+        for (int i = 0; i < RewardedButtons.Length; i++)
         {
-            if(Gley.MobileAds.API.IsRewardedVideoAvailable()|| Gley.MobileAds.API.IsRewardedInterstitialAvailable() || Gley.MobileAds.API.IsInterstitialAvailable())
+            if (Gley.MobileAds.API.IsRewardedVideoAvailable() || Gley.MobileAds.API.IsRewardedInterstitialAvailable() || Gley.MobileAds.API.IsInterstitialAvailable())
             {
                 RewardedButtons[i].interactable = true;
                 RewardNoText[i].SetActive(false);
@@ -328,5 +343,17 @@ public class HomeManager : MonoBehaviour
 
             }
         }
+    }
+    public void ModePanel()
+    {
+        ModeSelectionPanel.SetActive(true);
+        DifficulyPanel.SetActive(false);
+    }
+
+
+    public void SelectCar()
+    {
+      //  PlayerPrefs.SetInt("SelectedCar",index);
+        DifficulyPanel.SetActive(true);
     }
 }

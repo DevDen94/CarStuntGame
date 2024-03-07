@@ -400,6 +400,7 @@ public class BridgeBuilderGUI : MonoBehaviour {
 	public GameObject nextLevelButton;
 	public void LevelComplete ()
 	{
+		CoinsManager.instance.addCoins(100);
 		if (typingScriptonGamePlay.instance != null)
 		{
             typingScriptonGamePlay.instance.handDialoguebox.SetActive(false);
