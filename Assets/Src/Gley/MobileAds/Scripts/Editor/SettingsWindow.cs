@@ -446,7 +446,7 @@ namespace Gley.MobileAds.Editor
                     nativePopupText = mobileAdsSettingsData.nativePopupText;
                 }
 
-                GoogleMobileAds.Editor.GleyAdmobPatch.SetAdmobAppID(andoidAppID, iosAppID, nativePopupText);
+               // GoogleMobileAds.Editor.GleyAdmobPatch.SetAdmobAppID(andoidAppID, iosAppID, nativePopupText);
 
                 AssetDatabase.SaveAssets();
             }

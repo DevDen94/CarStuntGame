@@ -4,6 +4,7 @@ using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
 using System.Collections.Generic;
+using UnityEngine.AI;
 public class BridgeBuilderGUI : MonoBehaviour {
 
 
@@ -18,7 +19,8 @@ public class BridgeBuilderGUI : MonoBehaviour {
 	public GameObject UndoButton;
 	public Sprite selectedSprite;
 	public Sprite deselectedSprite;
-
+	public Text RewardText;
+	public GameObject TestLevel;
 	public static BridgeBuilderGUI Instance;
 
 	public GameObject ADisLoading,InteradPanel;
@@ -198,7 +200,8 @@ public class BridgeBuilderGUI : MonoBehaviour {
 			UpdateCamera ((false));
 			runButton.SetActive (false);
 			carStopButtom.SetActive (false);
-			StopTrain();
+            TestLevel.SetActive(true);
+            StopTrain();
 			UndoButton.SetActive(true);
 			zoomBTN.SetActive(true);
 			resetBtn.SetActive(true);
@@ -235,8 +238,9 @@ public class BridgeBuilderGUI : MonoBehaviour {
 			snapPointCamera.SetActive(false);
 		
 			runButton.SetActive (true);
-			carStopButtom.SetActive (true);
-			UndoButton.SetActive(false);
+            carStopButtom.SetActive(true);
+			TestLevel.SetActive(true);
+            UndoButton.SetActive(false);
 			zoomBTN.SetActive(false);
 			resetBtn.SetActive(false);
 			GridBTN.SetActive(false);
@@ -392,7 +396,8 @@ public class BridgeBuilderGUI : MonoBehaviour {
 	{
 		AudioManager.instance.buttonAudio.Play();
 		SceneManager.LoadScene("MainMenu");
-	}
+   
+    }
 
 	
 
@@ -400,8 +405,11 @@ public class BridgeBuilderGUI : MonoBehaviour {
 	public GameObject nextLevelButton;
 	public void LevelComplete ()
 	{
-		CoinsManager.instance.addCoins(100);
-		if (typingScriptonGamePlay.instance != null)
+        //int amount = 50 + currentLevel * 10;
+        //RewardText.text = amount.ToString();
+        //CoinsManager.instance.addCoins(amount);
+		
+        if (typingScriptonGamePlay.instance != null)
 		{
             typingScriptonGamePlay.instance.handDialoguebox.SetActive(false);
 
@@ -413,7 +421,11 @@ public class BridgeBuilderGUI : MonoBehaviour {
 		int currentLevelIndex = int.Parse (HomeManager.selectedLevel.Split('_')[1].ToString ());
 		gamePaused = true;
 
-		if (PlayerPrefs.GetInt("LevelLock_" + HomeManager._category, 1) < currentLevelIndex + 1)
+        int amount = 50 + currentLevelIndex * 10; 
+        RewardText.text = amount.ToString();
+        CoinsManager.instance.addCoins(amount);
+
+        if (PlayerPrefs.GetInt("LevelLock_" + HomeManager._category, 1) < currentLevelIndex + 1)
 			PlayerPrefs.SetInt("LevelLock_" + HomeManager._category, currentLevelIndex + 1);
 
 		if (currentLevelIndex < 11)
@@ -425,8 +437,8 @@ public class BridgeBuilderGUI : MonoBehaviour {
 		if (currentLevelIndex == 11)
 		{
 		//	Debug.Log("Level Completed or not " + currentLevelIndex);
-            Firebase.Analytics.FirebaseAnalytics.LogEvent("level_complete", HomeManager._category , currentLevelIndex );
-
+          //  Firebase.Analytics.FirebaseAnalytics.LogEvent("level_complete", HomeManager._category , currentLevelIndex );
+         
             PlayerPrefs.SetInt("CatLock_" + (HomeManager._currentCategory + 1), 1); // 
 		}
 		
@@ -463,7 +475,7 @@ public class BridgeBuilderGUI : MonoBehaviour {
 			gamePaused = true;
 			levelFailedPanel.SetActive(true);
 			Gley.MobileAds.Internal.MobileAdsExample.Instance.ShowInterstitial();
-			Firebase.Analytics.FirebaseAnalytics.LogEvent("level_fail", HomeManager._category, currentLevelIndex);
+			//Firebase.Analytics.FirebaseAnalytics.LogEvent("level_fail", HomeManager._category, currentLevelIndex);
 
 
         }
@@ -495,12 +507,12 @@ public class BridgeBuilderGUI : MonoBehaviour {
 	}
 	public void loadNextLevel ()
 	{
-		
-
-		
 
 
-		AudioManager.instance.buttonAudio.Play();
+
+
+      
+        AudioManager.instance.buttonAudio.Play();
 		int currentLevelIndex = int.Parse (HomeManager.selectedLevel.Split('_')[1].ToString ());
 
 		
@@ -549,6 +561,8 @@ public class BridgeBuilderGUI : MonoBehaviour {
 			AudioManager.instance.carStart.volume = 1.0f;
 		bridgeSetup.StartTrain();
 		runButton.SetActive(false);
+		TestLevel.SetActive(false);
+		carStopButtom.SetActive(false);
 	}
 
 

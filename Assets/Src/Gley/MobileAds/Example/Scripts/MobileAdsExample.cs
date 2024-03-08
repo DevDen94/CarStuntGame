@@ -92,6 +92,10 @@ namespace Gley.MobileAds.Internal
                 {
                     BridgeBuilderGUI.Instance.skipLevel();
                 }
+                else if (PlayerPrefs.GetInt("Rewarded") == 3)
+                {
+                    CarSelect.instance.unlockWithAd();
+                }
             }
         }
         public void showAppopen()
@@ -120,6 +124,9 @@ namespace Gley.MobileAds.Internal
             else if (PlayerPrefs.GetInt("Rewarded") == 2)
             {
                 BridgeBuilderGUI.Instance.skipLevel();
+            }else if (PlayerPrefs.GetInt("Rewarded") == 3)
+            {
+                CarSelect.instance.unlockWithAd();
             }
 
 

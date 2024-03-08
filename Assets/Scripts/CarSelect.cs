@@ -10,7 +10,14 @@ public class CarSelect : MonoBehaviour
     public int price;
     public bool unlockByDefault = false;
 
-    public  void unlockCar()
+    public static CarSelect instance;
+
+    private void Awake()
+    {
+        instance = this;
+    }
+
+    public void unlockCar()
     {
         for (int i = 0; i < objectsToEnableWhenCarUnlock.Count; i++)
         {
@@ -36,7 +43,7 @@ public class CarSelect : MonoBehaviour
     }
     public void checkCarUnlockStatus()
     {
-        if (PlayerPrefs.GetInt("Unlock" + carName, 0)==1)
+        if (PlayerPrefs.GetInt("Unlock" + carName, 0) == 1)
         {
             unlockCar();
         }
@@ -48,14 +55,17 @@ public class CarSelect : MonoBehaviour
     }
     public void UnlockCarByReward()
     {
-        PlayerPrefs.SetInt("Unlock" + carName, 1);
-        unlockCar();
+        Gley.MobileAds.Internal.MobileAdsExample.Instance.ShowRewardedVideo();
+        PlayerPrefs.SetInt("Rewarded", 3);
+        
     }
 
     public void UnlockCarByCoins()
     {
 
-        if (PlayerPrefs.GetInt("Coins")>= price)
+        Debug.LogError("coins" + CoinsManager.instance.coins);
+        Debug.LogError("price" + price);
+        if (CoinsManager.instance.coins >= price)//
         {
             PlayerPrefs.SetInt("Unlock" + carName, 1);
             unlockCar();
@@ -70,7 +80,7 @@ public class CarSelect : MonoBehaviour
             PlayerPrefs.SetInt("Unlock" + carName, 1);
         }
         checkCarUnlockStatus();
-        
+
     }
 
     public void SelectCar()
@@ -78,4 +88,13 @@ public class CarSelect : MonoBehaviour
         PlayerPrefs.SetString("CurrentCar", carName);
         HomeManager.instance.SelectCar();
     }
+
+    public void unlockWithAd()
+    {
+        PlayerPrefs.SetInt("Unlock" + carName, 1);
+        unlockCar();
+
+    }
+
+
 }

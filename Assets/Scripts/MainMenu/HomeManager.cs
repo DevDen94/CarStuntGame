@@ -23,21 +23,7 @@ public class HomeManager : MonoBehaviour
     }
     private void Start()
     {
-        //  AdsManager.instance.ShowSmallBanner();
-
-        //if (AdsManager.instance.isAppOpen)
-        //{
-        //    AdsManager.instance.ShowAppOpenAd();
-        //    AdsManager.instance.isAppOpen = false;
-        //}
-
-
-
-        //PlayerPrefs.SetInt("CatLock_" + (HomeManager._currentCategory + 1), 0);
-        //PlayerPrefs.SetInt("CatLock_" + (HomeManager._currentCategory + 2), 0);
-        //PlayerPrefs.SetInt("CatLock_" + (HomeManager._currentCategory + 3), 0);
-        //PlayerPrefs.SetInt("CatLock_" + (HomeManager._currentCategory + 4), 0);
-
+      
         Time.timeScale = 1;
         AudioManager.instance.musicSource.Play();
         AudioManager.instance.wind.Stop();
@@ -47,6 +33,7 @@ public class HomeManager : MonoBehaviour
             musicImage.color = Color.grey;
 
 
+     
 
         if (PlayerPrefs.GetInt("TutorialShown", 1 - 1) == 0)
         {
@@ -81,44 +68,59 @@ public class HomeManager : MonoBehaviour
         {
             PlayerPrefs.SetInt("TutorialShown", 1);
             //        tutorialButton.SetActive (false);
-            Firebase.Analytics.FirebaseAnalytics.LogEvent("Tutorial: click_on_start");
+          ///  Firebase.Analytics.FirebaseAnalytics.LogEvent("Tutorial: click_on_start");
             loadTutorialScene();
             PlayerPrefs.SetInt("Tutorial", 10);
         }
         else
         {
             CarSelectionPanel.SetActive(true);
+        
             PlayerPrefs.SetInt("Tutorial", 10);
-
-            Firebase.Analytics.FirebaseAnalytics.LogEvent("click_on_start");
+       
+            Invoke("enableAfterDelayCoins", .15f);
+          //  Firebase.Analytics.FirebaseAnalytics.LogEvent("click_on_start");
         }
         //  Implementation.Instance.ShowInterstitial();
         Gley.MobileAds.Internal.MobileAdsExample.Instance.ShowInterstitial();
         //AdsManager.instance.ShowinterAd();
         AudioManager.instance.buttonAudio.Play();
 
+        Invoke("enableAfterDelayCoins", .15f);
 
 
 
     }
-    public void  BackBtnCarSelectionPAnel()
+
+  
+    public void  BackCarSelectionPAnel()
     {
         mainScenePanel.SetActive(true);
+        CarSelectionPanel.SetActive(false);
+    
     }
 
-    public void DifficultyModeOpen()
-    {
-        ModeSelectionPanel.SetActive(true);
-    }
-    public void DifficultyModeOpenBAck()
+   
+    public void BackDifficultyMode()
     {
         CarSelectionPanel.SetActive(true);
+        DifficulyPanel.SetActive(false);
+       
+
+
+    }
+
+    public void BackModeSelection()
+    {
+        ModeSelectionPanel.SetActive(false);
+        DifficulyPanel.SetActive(true);
     }
 
 
     public void loadTutorialScene()
     {
         SceneManager.LoadScene("tutorial");
+      
     }
 
     public void PanelOpenAfterAd()
@@ -137,7 +139,7 @@ public class HomeManager : MonoBehaviour
         ExitPanel.SetActive(true);
         Gley.MobileAds.Internal.MobileAdsExample.Instance.ShowInterstitial();
 
-        Firebase.Analytics.FirebaseAnalytics.LogEvent("click_on_exit");
+      //  Firebase.Analytics.FirebaseAnalytics.LogEvent("click_on_exit");
     }
     public void YesExit()
     {
@@ -209,7 +211,7 @@ public class HomeManager : MonoBehaviour
         LevelSelectionScreen.SetActive(true);
         Gley.MobileAds.Internal.MobileAdsExample.Instance.ShowInterstitial();
 
-        Firebase.Analytics.FirebaseAnalytics.LogEvent("click_on_mode", "mode_name", category);
+    //    Firebase.Analytics.FirebaseAnalytics.LogEvent("click_on_mode", "mode_name", category);
 
 
 
@@ -227,7 +229,7 @@ public class HomeManager : MonoBehaviour
         selectedLevel = "level_" + (index + 1);
         SceneManager.LoadScene(_category);
         Gley.MobileAds.Internal.MobileAdsExample.Instance.ShowInterstitial();
-        Firebase.Analytics.FirebaseAnalytics.LogEvent("click_on_level_select", "levelselect", selectedLevel);
+       // Firebase.Analytics.FirebaseAnalytics.LogEvent("click_on_level_select", "levelselect", selectedLevel);
     }
 
     public void setSound()
@@ -346,6 +348,9 @@ public class HomeManager : MonoBehaviour
     }
     public void ModePanel()
     {
+        Gley.MobileAds.Internal.MobileAdsExample.Instance.ShowInterstitial();
+
+
         ModeSelectionPanel.SetActive(true);
         DifficulyPanel.SetActive(false);
     }
@@ -355,5 +360,32 @@ public class HomeManager : MonoBehaviour
     {
       //  PlayerPrefs.SetInt("SelectedCar",index);
         DifficulyPanel.SetActive(true);
+     
+    }
+
+
+    public void backLevelSelection()
+    {
+        LevelSelectionScreen.SetActive(false);
+        ModeSelectionPanel.SetActive(true);
+      
+    }
+    public void backMapSelection()
+    {
+        ModeSelectionPanel.SetActive(false);
+        DifficulyPanel.SetActive(true);
+    
+    }
+    public void backDifficulyModeSelection()
+    {
+        DifficulyPanel.SetActive(false);
+        CarSelectionPanel.SetActive(true);
+    
+    }
+    public void backCarSelection()
+    {
+        CarSelectionPanel.SetActive(false);
+        mainScenePanel.SetActive(true);
+   
     }
 }
