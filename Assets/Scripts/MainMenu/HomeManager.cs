@@ -51,13 +51,13 @@ public class HomeManager : MonoBehaviour
 
         //Yodo1MasExample.Instance.showAppOpen();
         // Implementation.Instance.ShawBanner();
-        Gley.MobileAds.Internal.MobileAdsExample.Instance.ShowBanner();
+        Admob.Instance.ShowSmallBanner();
 
-        if (!Gley.MobileAds.Internal.MobileAdsExample.Instance.isAppOpen)
-        {
-            Gley.MobileAds.Internal.MobileAdsExample.Instance.showAppopen();
-            Gley.MobileAds.Internal.MobileAdsExample.Instance.isAppOpen = true;
-        }
+        //if (!Gley.MobileAds.Internal.MobileAdsExample.Instance.isAppOpen)
+        //{
+        //    Gley.MobileAds.Internal.MobileAdsExample.Instance.showAppopen();
+        //    Gley.MobileAds.Internal.MobileAdsExample.Instance.isAppOpen = true;
+        //}
         StartCoroutine(waitForCheck());
     }
 
@@ -82,8 +82,9 @@ public class HomeManager : MonoBehaviour
           //  Firebase.Analytics.FirebaseAnalytics.LogEvent("click_on_start");
         }
         //  Implementation.Instance.ShowInterstitial();
-        Gley.MobileAds.Internal.MobileAdsExample.Instance.ShowInterstitial();
+        //Gley.MobileAds.Internal.MobileAdsExample.Instance.ShowInterstitial();
         //AdsManager.instance.ShowinterAd();
+        Admob.Instance.ShowInterstitialAd();
         AudioManager.instance.buttonAudio.Play();
 
         Invoke("enableAfterDelayCoins", .15f);
@@ -97,7 +98,7 @@ public class HomeManager : MonoBehaviour
     {
         mainScenePanel.SetActive(true);
         CarSelectionPanel.SetActive(false);
-    
+        Admob.Instance.ShowInterstitialAd();
     }
 
    
@@ -105,7 +106,7 @@ public class HomeManager : MonoBehaviour
     {
         CarSelectionPanel.SetActive(true);
         DifficulyPanel.SetActive(false);
-       
+        Admob.Instance.ShowInterstitialAd();
 
 
     }
@@ -114,6 +115,7 @@ public class HomeManager : MonoBehaviour
     {
         ModeSelectionPanel.SetActive(false);
         DifficulyPanel.SetActive(true);
+        Admob.Instance.ShowInterstitialAd();
     }
 
 
@@ -137,9 +139,9 @@ public class HomeManager : MonoBehaviour
         //AdsManager.instance.ShowinterAd();
         AudioManager.instance.Panelopen.Play();
         ExitPanel.SetActive(true);
-        Gley.MobileAds.Internal.MobileAdsExample.Instance.ShowInterstitial();
-
-      //  Firebase.Analytics.FirebaseAnalytics.LogEvent("click_on_exit");
+        
+        Admob.Instance.ShowInterstitialAd();
+        Firebase.Analytics.FirebaseAnalytics.LogEvent("click_on_exit");
     }
     public void YesExit()
     {
@@ -191,6 +193,7 @@ public class HomeManager : MonoBehaviour
             LevelSelectionScreen.SetActive(false);
             ModeSelectionPanel.SetActive(true);
         }
+        Admob.Instance.ShowInterstitialAd();
     }
 
 
@@ -209,9 +212,9 @@ public class HomeManager : MonoBehaviour
         _category = category;
         _currentCategory = EventSystem.current.currentSelectedGameObject.transform.parent.GetSiblingIndex();
         LevelSelectionScreen.SetActive(true);
-        Gley.MobileAds.Internal.MobileAdsExample.Instance.ShowInterstitial();
-
-    //    Firebase.Analytics.FirebaseAnalytics.LogEvent("click_on_mode", "mode_name", category);
+        //Gley.MobileAds.Internal.MobileAdsExample.Instance.ShowInterstitial();
+        Admob.Instance.ShowInterstitialAd();
+        Firebase.Analytics.FirebaseAnalytics.LogEvent("click_on_mode", "mode_name", category);
 
 
 
@@ -228,8 +231,9 @@ public class HomeManager : MonoBehaviour
         int index = EventSystem.current.currentSelectedGameObject.transform.GetSiblingIndex();
         selectedLevel = "level_" + (index + 1);
         SceneManager.LoadScene(_category);
-        Gley.MobileAds.Internal.MobileAdsExample.Instance.ShowInterstitial();
-       // Firebase.Analytics.FirebaseAnalytics.LogEvent("click_on_level_select", "levelselect", selectedLevel);
+        // Gley.MobileAds.Internal.MobileAdsExample.Instance.ShowInterstitial();
+        Admob.Instance.ShowInterstitialAd();
+        Firebase.Analytics.FirebaseAnalytics.LogEvent("click_on_level_select", "levelselect", selectedLevel);
     }
 
     public void setSound()
@@ -282,13 +286,13 @@ public class HomeManager : MonoBehaviour
 
     public void MoreApps()
     {
-        Gley.MobileAds.Internal.MobileAdsExample.Instance.ShowInterstitial();
+        Admob.Instance.ShowInterstitialAd();
 
         Application.OpenURL("https://play.google.com/store/apps/developer?id=Darwin+Games");
     }
     public void PrivacyPolicy()
     {
-        Gley.MobileAds.Internal.MobileAdsExample.Instance.ShowInterstitial();
+        Admob.Instance.ShowInterstitialAd();
 
         Application.OpenURL("https://darwingames1.blogspot.com/2023/06/privacy-policy.html");
 
@@ -296,7 +300,7 @@ public class HomeManager : MonoBehaviour
 
     public void RateUs()
     {
-        Gley.MobileAds.Internal.MobileAdsExample.Instance.ShowInterstitial();
+        Admob.Instance.ShowInterstitialAd();
 
         Application.OpenURL("https://play.google.com/store/apps/details?id=com.darwingames.bridgebuilder.stunts.car.games");
     }
@@ -305,7 +309,7 @@ public class HomeManager : MonoBehaviour
     {
         EventSystem.current.currentSelectedGameObject.transform.parent.TryGetComponent(out CatLock unlock);
         PlayerPrefs.SetInt("Rewarded", 0);
-        Gley.MobileAds.Internal.MobileAdsExample.Instance.ShowRewardedVideo(unlock);
+        Admob.Instance.ShowRewardedAd(unlock);
 
         //PlayerPrefs.SetString("Mode", modeName);
     }
@@ -314,7 +318,7 @@ public class HomeManager : MonoBehaviour
         EventSystem.current.currentSelectedGameObject.transform.parent.TryGetComponent(out CatLock unlock);
 
         PlayerPrefs.SetInt("Rewarded", 0);
-        Gley.MobileAds.Internal.MobileAdsExample.Instance.ShowRewardedVideo(unlock);
+        Admob.Instance.ShowRewardedAd(unlock);
 
         //PlayerPrefs.SetString("Mode", modeName);
     }
@@ -323,7 +327,7 @@ public class HomeManager : MonoBehaviour
         EventSystem.current.currentSelectedGameObject.transform.parent.TryGetComponent(out CatLock unlock);
 
         PlayerPrefs.SetInt("Rewarded", 0);
-        Gley.MobileAds.Internal.MobileAdsExample.Instance.ShowRewardedVideo(unlock);
+        Admob.Instance.ShowRewardedAd(unlock);
 
         //PlayerPrefs.SetString("Mode", modeName);
     }
@@ -348,11 +352,12 @@ public class HomeManager : MonoBehaviour
     }
     public void ModePanel()
     {
-        Gley.MobileAds.Internal.MobileAdsExample.Instance.ShowInterstitial();
+       
 
 
         ModeSelectionPanel.SetActive(true);
         DifficulyPanel.SetActive(false);
+        Admob.Instance.ShowInterstitialAd();
     }
 
 

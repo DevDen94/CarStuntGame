@@ -53,9 +53,12 @@ public class CarSelect : MonoBehaviour
             LockCar();
         }
     }
-    public void UnlockCarByReward()
+    public void UnlockCarByReward(string carName)
     {
-        Gley.MobileAds.Internal.MobileAdsExample.Instance.ShowRewardedVideo();
+
+        PlayerPrefs.SetString("CarNAme", carName);
+        Admob.Instance.ShowRewardedAd();
+
         PlayerPrefs.SetInt("Rewarded", 3);
         
     }
@@ -87,6 +90,7 @@ public class CarSelect : MonoBehaviour
     {
         PlayerPrefs.SetString("CurrentCar", carName);
         HomeManager.instance.SelectCar();
+        Admob.Instance.ShowInterstitialAd();
     }
 
     public void unlockWithAd()

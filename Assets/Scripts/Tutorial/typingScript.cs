@@ -208,7 +208,7 @@ public class typingScript : MonoBehaviour
     }
     public void SkipTutorial()
     {
-        Gley.MobileAds.Internal.MobileAdsExample.Instance.ShowInterstitial();
+        Admob.Instance.ShowInterstitialAd();
         SceneManager.LoadScene("MainMenu");
        
     }
