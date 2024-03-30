@@ -58,6 +58,17 @@ public class HomeManager : MonoBehaviour
         //    Gley.MobileAds.Internal.MobileAdsExample.Instance.showAppopen();
         //    Gley.MobileAds.Internal.MobileAdsExample.Instance.isAppOpen = true;
         //}
+
+        if (Admob.Instance.LoadAds_ == 0)
+        {
+            Admob.Instance.LoadAds_ = 1;
+        }
+        else
+        {
+            Admob.Instance.LoadAds();
+
+        }
+
         StartCoroutine(waitForCheck());
     }
 
@@ -139,7 +150,8 @@ public class HomeManager : MonoBehaviour
         //AdsManager.instance.ShowinterAd();
         AudioManager.instance.Panelopen.Play();
         ExitPanel.SetActive(true);
-        
+        Admob.Instance.ShowBigBanner();
+
         Admob.Instance.ShowInterstitialAd();
         Firebase.Analytics.FirebaseAnalytics.LogEvent("click_on_exit");
     }
@@ -152,6 +164,8 @@ public class HomeManager : MonoBehaviour
     {
         AudioManager.instance.buttonAudio.Play();
         ExitPanel.SetActive(false);
+        Admob.Instance.ShowSmallBanner();
+
     }
     public void closeExitPanel()
     {
@@ -162,11 +176,15 @@ public class HomeManager : MonoBehaviour
     {
         AudioManager.instance.Panelopen.Play();
         SettingPanel.SetActive(true);
+        Admob.Instance.ShowBigBanner();
+
     }
     public void CloseSettingPanel()
     {
         AudioManager.instance.buttonAudio.Play();
         SettingPanel.SetActive(false);
+        Admob.Instance.ShowSmallBanner();
+
     }
     public void Back_ModeSelection()
     {

@@ -40,6 +40,9 @@ public class Admob : MonoBehaviour
 
 
     public static Admob Instance;
+
+    public int LoadAds_=0;
+
     private void Awake()
     {
         if (Instance != null)
@@ -693,7 +696,20 @@ public class Admob : MonoBehaviour
     #endregion
 
 
-    
+    public void LoadAds()
+    {
+        LoadInterstitialAd1();
+        LoadInterstitialAd2();
+        LoadInterstitialAd3();
+
+        LoadRewardedAd1();
+        LoadRewardedAd2();
+        LoadRewardedAd3();
+
+        LoadRewardedInterstitialAd1();
+        LoadRewardedInterstitialAd2();
+        LoadRewardedInterstitialAd3();
+    }
 
 
 }

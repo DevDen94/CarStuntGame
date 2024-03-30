@@ -150,7 +150,7 @@ public class BridgeBuilderGUI : MonoBehaviour {
 
 		spriteMover1 = GameObject.FindWithTag("f1");
 
-		
+		Admob.Instance.LoadAds();
 
 	}
 	public bool hintBtnActiveStatus = false;
@@ -375,8 +375,9 @@ public class BridgeBuilderGUI : MonoBehaviour {
 		pausePanel.SetActive(false);
 
 		gamePaused = false;
-		
-		
+		Admob.Instance.ShowSmallBanner();
+
+
 	}
 
 	public void reloadScene ()
@@ -388,6 +389,7 @@ public class BridgeBuilderGUI : MonoBehaviour {
 			AudioManager.instance.carStart.volume = 0.0f;
 
 		SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+		Admob.Instance.ShowSmallBanner();
 	}
 
 	
@@ -396,10 +398,11 @@ public class BridgeBuilderGUI : MonoBehaviour {
 	{
 		AudioManager.instance.buttonAudio.Play();
 		SceneManager.LoadScene("MainMenu");
-   
-    }
+		Admob.Instance.ShowSmallBanner();
 
-	
+	}
+
+
 
 	public GameObject LevelCompletePanel;
 	public GameObject nextLevelButton;
@@ -437,7 +440,7 @@ public class BridgeBuilderGUI : MonoBehaviour {
 		if (currentLevelIndex == 11)
 		{
 		//	Debug.Log("Level Completed or not " + currentLevelIndex);
-          //  Firebase.Analytics.FirebaseAnalytics.LogEvent("level_complete", HomeManager._category , currentLevelIndex );
+         Firebase.Analytics.FirebaseAnalytics.LogEvent("level_complete", HomeManager._category , currentLevelIndex );
          
             PlayerPrefs.SetInt("CatLock_" + (HomeManager._currentCategory + 1), 1); // 
 		}
@@ -453,8 +456,9 @@ public class BridgeBuilderGUI : MonoBehaviour {
         }
       
         LevelCompletePanel.SetActive(true);
-		Gley.MobileAds.Internal.MobileAdsExample.Instance.ShowInterstitial();
-
+		Admob.Instance.ShowBigBanner();
+		//Gley.MobileAds.Internal.MobileAdsExample.Instance.ShowInterstitial();
+		Admob.Instance.ShowInterstitialAd();
 	}
    
     public GameObject levelFailedPanel;
@@ -474,12 +478,15 @@ public class BridgeBuilderGUI : MonoBehaviour {
 			AudioManager.instance.failAudio.Play();
 			gamePaused = true;
 			levelFailedPanel.SetActive(true);
-			Gley.MobileAds.Internal.MobileAdsExample.Instance.ShowInterstitial();
-			//Firebase.Analytics.FirebaseAnalytics.LogEvent("level_fail", HomeManager._category, currentLevelIndex);
+
+			Admob.Instance.ShowBigBanner();
+			Admob.Instance.ShowInterstitialAd();
+
+			Firebase.Analytics.FirebaseAnalytics.LogEvent("level_fail", HomeManager._category, currentLevelIndex);
 
 
-        }
-		
+		}
+
 
 
 		if (adNumber == 0)
@@ -527,7 +534,8 @@ public class BridgeBuilderGUI : MonoBehaviour {
 			SceneManager.LoadScene("MainMenu");
 			PlayerPrefs.SetInt("CatLock_" + (HomeManager._currentCategory + 1), 0); 
         }
-		
+
+		Admob.Instance.ShowSmallBanner();
 
 	}
 
@@ -606,13 +614,16 @@ public GameObject carStopButtom;
 		pausePanel.SetActive(true);
 		Time.timeScale = 0;
 		gamePaused = true;
-		
+		Admob.Instance.ShowBigBanner();
+
+		Admob.Instance.ShowInterstitialAd();
+
 	}
 
-	
-	
 
-	
+
+
+
 
 	public void closePausePanel ()
 	{
@@ -624,7 +635,8 @@ public GameObject carStopButtom;
 		pausePanel.SetActive(false);
 		Time.timeScale = 1;
 		gamePaused = false;
-	
+		Admob.Instance.ShowSmallBanner();
+
 	}
 
 	public void HintFromVideo()
@@ -633,7 +645,8 @@ public GameObject carStopButtom;
 		PlayerPrefs.SetInt("Rewarded", 1);
 		//PlayerPrefs.SetInt("Ad", 0);
 		//Yodo1MasExample.Instance.showRewarded();
-		Gley.MobileAds.Internal.MobileAdsExample.Instance.ShowRewardedVideo();
+		Admob.Instance.ShowRewardedAd();
+
 
 	}
 
@@ -645,7 +658,7 @@ public GameObject carStopButtom;
 		PlayerPrefs.SetInt("Rewarded", 2);
 		//	PlayerPrefs.SetInt("Ad", 1);
 		//Yodo1MasExample.Instance.showRewarded();
-		Gley.MobileAds.Internal.MobileAdsExample.Instance.ShowRewardedVideo();
+		Admob.Instance.ShowRewardedAd();
 	}
 
 
@@ -667,7 +680,8 @@ public GameObject carStopButtom;
 		{
 			SceneManager.LoadScene("MainMenu");
 			PlayerPrefs.SetInt("CatLock_" + (HomeManager._currentCategory + 1), 0);
-		}	
+		}
+		Admob.Instance.ShowSmallBanner();
 	}
 
 
